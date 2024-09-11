@@ -10,13 +10,13 @@ define ('APP_ROOT', dirname(__DIR__));
 require APP_ROOT . '/vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(APP_ROOT);
-$dotenv->load();
-
+$dotenv->safeLoad();
 
 $app = AppFactory::create();
 
 $app->get('/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write("Hello world!");
+    $output = "Probando si anda bien .dotenv {$_ENV['DB_HOST']} ";
+    $response->getBody()->write($output);
     return $response;
 });
 
