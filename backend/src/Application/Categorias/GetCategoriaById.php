@@ -2,7 +2,6 @@
 
 namespace App\Application\Categorias;
 
-use App\Domain\Categorias\Categoria;
 use App\Domain\Categorias\CategoriasRepository;
 use App\Domain\Common\Presenter;
 

@@ -15,6 +15,17 @@ $dotenv->safeLoad();
 
 $app = AppFactory::create();
 
+$app->addRoutingMiddleware();
+
+/**
+ * Add Error Middleware
+ * Note: This middleware should be added last. It will not handle any exceptions/errors
+ * for middleware added after it.
+ */
+$errorMiddleware = $app->addErrorMiddleware(true, true, true);
+$errorHandler = $errorMiddleware->getDefaultErrorHandler();
+$errorHandler->forceContentType('application/json');
+
 $app->get('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
     $db = new Database(
         $_ENV['DB_HOST'],
