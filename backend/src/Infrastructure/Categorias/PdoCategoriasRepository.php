@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Infrastructure\Categorias;
+
+use App\Domain\Categorias\CategoriasRepository;
+use App\Infrastructure\Common\Database;
+use PDO;
+
+class PdoCategoriasRepository implements CategoriasRepository
+{
+    private $db;
+
+    /**
+     * @param Database $db
+     */
+    public function __construct(Database $db)
+    {
+        $this->db = $db;
+    }
+
+
+    public function create($data)
+    {
+        $method = __METHOD__;
+        throw new \Exception("el metodo {$method} aún no ha sido implementado");
+    }
+
+    public function update($data)
+    {
+        $method = __METHOD__;
+        throw new \Exception("el metodo {$method} aún no ha sido implementado");
+    }
+
+    public function delete($id)
+    {
+        $method = __METHOD__;
+        throw new \Exception("el metodo {$method} aún no ha sido implementado");
+    }
+
+    public function findById($id)
+    {
+        $sql = 'SELECT idCategoria, descripcion FROM categorias WHERE idCategoria = :id';
+        $pdo = $this->db->getConnection();
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getAll()
+    {
+        $pdo = $this->db->getConnection();
+        $stmt = $pdo->query('Select idCategoria, descripcion from categorias');
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}

@@ -2,12 +2,12 @@
 
 namespace App\Application\Categorias;
 
+use App\Domain\Categorias\Categoria;
 use App\Domain\Categorias\CategoriasRepository;
 use App\Domain\Common\Presenter;
 
-class GetCategoriasQueryHandler
+class GetCategoriaById
 {
-
     private CategoriasRepository $repository;
     private ?Presenter $presenter;
 
@@ -22,17 +22,18 @@ class GetCategoriasQueryHandler
         return !is_null($this->presenter);
     }
 
-    public function handle(): array
+    public function handle(int $id): array
     {
         try {
-            $categorias = $this->repository->getAll();
+            $categoria = $this->repository->findById($id);
+            $this->postAssertExistsCategoria($categoria);
             if($this->hasPresenter()) {
-                $categorias = $this->convertDataWithPresenter($categorias);
+                $categoria = $this->presenter->convert($categoria);
             }
             $response = [];
             $response['code'] = 200;
-            $response['data'] = $categorias;
-            $response['message'] = 'Categorias obtenidas con exito!';
+            $response['data'] = $categoria;
+            $response['message'] = 'Categorias obtenida con exito!';
         } catch (\Exception $e) {
             $response['message'] = $e->getMessage();
             $response['code'] = 500;
@@ -40,12 +41,10 @@ class GetCategoriasQueryHandler
         return $response;
     }
 
-    private function convertDataWithPresenter($categorias): array
+    private function postAssertExistsCategoria($categoria)
     {
-        $converted = [];
-        foreach ($categorias as $categoria) {
-            $converted[] = $this->presenter->convert($categoria);
+        if(is_null($categoria) || $categoria === false) {
+            throw new \Exception('La categoria solicitada no existe!');
         }
-        return $converted;
     }
 }
