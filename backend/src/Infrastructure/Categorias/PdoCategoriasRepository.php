@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Categorias;
 
+use App\Domain\Categorias\Categoria;
 use App\Domain\Categorias\CategoriasRepository;
 use App\Infrastructure\Common\Database;
 use PDO;
@@ -21,8 +22,18 @@ class PdoCategoriasRepository implements CategoriasRepository
 
     public function create($data)
     {
-        $method = __METHOD__;
-        throw new \Exception("el metodo {$method} aún no ha sido implementado");
+        /**
+         * @var Categoria $data;
+         */
+        $sql = 'INSERT INTO categorias (descripcion) VALUES (:descripcion)';
+
+        $pdo = $this->db->getConnection();
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':descripcion', $data->getDescripcion(), PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $pdo->lastInsertId();
     }
 
     public function update($data)
