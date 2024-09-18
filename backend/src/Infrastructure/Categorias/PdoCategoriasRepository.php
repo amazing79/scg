@@ -36,10 +36,20 @@ class PdoCategoriasRepository implements CategoriasRepository
         return $pdo->lastInsertId();
     }
 
-    public function update($data)
+    public function update($data): int
     {
-        $method = __METHOD__;
-        throw new \Exception("el metodo {$method} aún no ha sido implementado");
+        /**
+         * @var Categoria $data
+         */
+        $sql = 'UPDATE categorias SET descripcion = :descripcion WHERE idCategoria = :id';
+
+        $pdo = $this->db->getConnection();
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':descripcion', $data->getDescripcion(), PDO::PARAM_STR);
+        $stmt->bindValue(':id', $data->getId(), PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->rowCount();
     }
 
     public function delete($id)

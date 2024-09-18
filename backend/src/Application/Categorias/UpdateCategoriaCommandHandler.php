@@ -5,7 +5,7 @@ namespace App\Application\Categorias;
 use App\Domain\Categorias\Categoria;
 use App\Domain\Categorias\CategoriasRepository;
 
-class CreateCategoriaCommandHandler
+class UpdateCategoriaCommandHandler
 {
     private CategoriasRepository $repository;
 
@@ -19,9 +19,9 @@ class CreateCategoriaCommandHandler
         try {
             $response = [];
             $categoria = Categoria::createFromArray($values);
-            $idCategoria = $this->repository->create($categoria);
-            $response['code'] = 201;
-            $response['message'] = "Se ha añadido la categoría con exito con el siguiente id: {$idCategoria}";
+            $this->repository->update($categoria);
+            $response['code'] = 200;
+            $response['message'] = "la categoría se ha actualizado correctamente";
         } catch (\Exception $e) {
             $response['message'] = $e->getMessage();
             $response['code'] = 500;

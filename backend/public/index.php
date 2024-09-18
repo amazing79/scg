@@ -15,6 +15,9 @@ $dotenv->safeLoad();
 
 $app = AppFactory::create();
 
+// Parse json, form data and xml
+$app->addBodyParsingMiddleware();
+
 $app->addRoutingMiddleware();
 
 /**
@@ -40,7 +43,25 @@ $app->get('/categorias/{id:[0-9]+}', function (Request $request, Response $respo
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
 
     $response->getBody()->write($dataAsJson);
-    return $response->withHeader('Content-Type', 'application/json');
+    return $response->withHeader('Content-Type', 'application/json')->withStatus($result['code']);
+});
+
+$app->patch('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
+    $db = new Database(
+        $_ENV['DB_HOST'],
+        $_ENV['DB_NAME'],
+        $_ENV['DB_USER'],
+        $_ENV['DB_PASS']
+    );
+    $repository = new \App\Infrastructure\Categorias\PdoCategoriasRepository($db);
+    $command = new \App\Application\Categorias\UpdateCategoriaCommandHandler($repository);
+    $values = $request->getParsedBody();
+    $values['id'] = $args['id'];
+    $result = $command->handle($values);
+    $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
+
+    $response->getBody()->write($dataAsJson);
+    return $response->withHeader('Content-Type', 'application/json')->withStatus($result['code']);;
 });
 
 $app->post('/categorias', function (Request $request, Response $response) {
@@ -57,7 +78,7 @@ $app->post('/categorias', function (Request $request, Response $response) {
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
 
     $response->getBody()->write($dataAsJson);
-    return $response->withHeader('Content-Type', 'application/json');
+    return $response->withHeader('Content-Type', 'application/json')->withStatus($result['code']);
 });
 
 $app->get('/categorias', function (Request $request, Response $response) {
