@@ -9,7 +9,7 @@ use PDO;
 
 class PdoCategoriasRepository implements CategoriasRepository
 {
-    private $db;
+    private Database $db;
 
     /**
      * @param Database $db
@@ -29,7 +29,7 @@ class PdoCategoriasRepository implements CategoriasRepository
 
         $pdo = $this->db->getConnection();
         $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':descripcion', $data->getDescripcion(), PDO::PARAM_STR);
+        $stmt->bindValue(':descripcion', $data->getDescripcion());
 
         $stmt->execute();
 
@@ -45,17 +45,24 @@ class PdoCategoriasRepository implements CategoriasRepository
 
         $pdo = $this->db->getConnection();
         $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':descripcion', $data->getDescripcion(), PDO::PARAM_STR);
+        //al ser string se omite el type de parametro, ya que es el valor por defecto PDO::PARAM_STR
+        $stmt->bindValue(':descripcion', $data->getDescripcion() );
         $stmt->bindValue(':id', $data->getId(), PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->rowCount();
     }
 
-    public function delete($id)
+    public function delete($id): int
     {
-        $method = __METHOD__;
-        throw new \Exception("el metodo {$method} aún no ha sido implementado");
+        $sql = 'DELETE FROM categorias WHERE idCategoria = :id';
+
+        $pdo = $this->db->getConnection();
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->rowCount();
     }
 
     public function findById($id)

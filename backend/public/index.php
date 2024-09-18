@@ -64,6 +64,23 @@ $app->patch('/categorias/{id:[0-9]+}', function (Request $request, Response $res
     return $response->withHeader('Content-Type', 'application/json')->withStatus($result['code']);;
 });
 
+$app->delete('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
+    $db = new Database(
+        $_ENV['DB_HOST'],
+        $_ENV['DB_NAME'],
+        $_ENV['DB_USER'],
+        $_ENV['DB_PASS']
+    );
+    $repository = new \App\Infrastructure\Categorias\PdoCategoriasRepository($db);
+    $command = new \App\Application\Categorias\DeleteCategoriaByIdCommandHandler($repository);
+    $id = $args['id'];
+    $result = $command->handle((int) $id);
+    $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
+
+    $response->getBody()->write($dataAsJson);
+    return $response->withHeader('Content-Type', 'application/json')->withStatus($result['code']);;
+});
+
 $app->post('/categorias', function (Request $request, Response $response) {
     $db = new Database(
         $_ENV['DB_HOST'],

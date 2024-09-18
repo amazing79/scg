@@ -35,7 +35,7 @@ class GetCategoriaById
             $response['message'] = 'Categorias obtenida con exito!';
         } catch (\Exception $e) {
             $response['message'] = $e->getMessage();
-            $response['code'] = 500;
+            $response['code'] = 404;
         }
         return $response;
     }
