@@ -3,10 +3,12 @@
 namespace App\Application\Categorias;
 
 use App\Domain\Categorias\CategoriasRepository;
+use App\Domain\Categorias\Exceptions\NotFoundCategoryException;
 use App\Domain\Common\Presenter;
 
 class GetCategoriaById
 {
+    use EnsureExistCategoria;
     private CategoriasRepository $repository;
     private ?Presenter $presenter;
 
@@ -24,26 +26,22 @@ class GetCategoriaById
     public function handle(int $id): array
     {
         try {
+            $this->assertExistCategoria($id, $this->repository);
             $categoria = $this->repository->findById($id);
-            $this->postAssertExistsCategoria($categoria);
             if($this->hasPresenter()) {
                 $categoria = $this->presenter->convert($categoria);
             }
             $response = [];
             $response['code'] = 200;
             $response['data'] = $categoria;
-            $response['message'] = 'Categorias obtenida con exito!';
+            $response['message'] = 'Categoria obtenida con exito!';
+        } catch (NotFoundCategoryException $e) {
+            $response['message'] = $e->getMessage();
+            $response['code'] = $e->getCode();
         } catch (\Exception $e) {
             $response['message'] = $e->getMessage();
-            $response['code'] = 404;
+            $response['code'] = 500;
         }
         return $response;
-    }
-
-    private function postAssertExistsCategoria($categoria)
-    {
-        if(is_null($categoria) || $categoria === false) {
-            throw new \Exception('La categoria solicitada no existe!');
-        }
     }
 }
