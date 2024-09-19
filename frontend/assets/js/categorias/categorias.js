@@ -11,6 +11,24 @@ async function getCategories()
     return await data.json();
 }
 
+async function deleteCategory(id)
+{
+    let request = new URL(actions.PATH + `/${id}` ,config.URL_API);
+    let options = {};
+    options = {
+        method: "DELETE", // *GET, POST, PUT, DELETE, etc.
+        //body:{},
+    }
+    let response = await fetch(request, options);
+    if (response.ok) {
+        console.log(await response.json())
+        // return await response.json();
+    } else {
+        throw new Error('Ocurrio un error al intentar borrar la categoria');
+    }
+}
+
+
 function loadCategories()
 {
     getCategories()
@@ -38,7 +56,14 @@ confirmBtn.addEventListener("click", (event) => {
     event.preventDefault();
     let page = document.getElementById('body');
     const dialog = document.getElementById("dialog_confirm");
-    evt_delete(localStorage.getItem('idRow'));
+    let idCategory = localStorage.getItem('idRow');
+    deleteCategory(idCategory)
+        .then(response => {
+            evt_delete(idCategory);
+        })
+        .catch( error => {
+            console.log(error.message)
+        });
     page.classList.remove('bg__blur');
     dialog.close();
     localStorage.clear();

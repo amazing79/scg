@@ -29,6 +29,19 @@ $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 $errorHandler = $errorMiddleware->getDefaultErrorHandler();
 $errorHandler->forceContentType('application/json');
 
+$app->options('/{routes:.+}', function ($request, $response, $args) {
+    return $response;
+});
+
+$app->add(function ($request, $handler) {
+    $response = $handler->handle($request);
+    return $response
+        ->withHeader('Access-Control-Allow-Origin', 'http://localhost')
+        ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+});
+
+
 $app->get('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
     $db = new Database(
         $_ENV['DB_HOST'],
@@ -78,7 +91,8 @@ $app->delete('/categorias/{id:[0-9]+}', function (Request $request, Response $re
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
 
     $response->getBody()->write($dataAsJson);
-    return $response->withHeader('Content-Type', 'application/json')->withStatus($result['code']);;
+    return $response->withHeader('Content-Type', 'application/json')
+                    ->withStatus($result['code']);
 });
 
 $app->post('/categorias', function (Request $request, Response $response) {
@@ -95,9 +109,7 @@ $app->post('/categorias', function (Request $request, Response $response) {
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
 
     $response->getBody()->write($dataAsJson);
-    return $response->withHeader('Content-Type', 'application/json')
-        ->withHeader('Access-Control-Allow-Origin', '*')
-        ->withStatus($result['code']);
+    return $response->withHeader('Content-Type', 'application/json')->withStatus($result['code']);
 });
 
 $app->get('/categorias', function (Request $request, Response $response) {
@@ -113,8 +125,7 @@ $app->get('/categorias', function (Request $request, Response $response) {
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
 
     $response->getBody()->write($dataAsJson);
-    return $response->withHeader('Content-Type', 'application/json')
-        ->withHeader('Access-Control-Allow-Origin', '*');
+    return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->run();
