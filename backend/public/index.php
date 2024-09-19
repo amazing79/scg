@@ -61,7 +61,7 @@ $app->patch('/categorias/{id:[0-9]+}', function (Request $request, Response $res
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
 
     $response->getBody()->write($dataAsJson);
-    return $response->withHeader('Content-Type', 'application/json')->withStatus($result['code']);;
+    return $response->withHeader('Content-Type', 'application/json')->withStatus($result['code']);
 });
 
 $app->delete('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
@@ -95,7 +95,9 @@ $app->post('/categorias', function (Request $request, Response $response) {
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
 
     $response->getBody()->write($dataAsJson);
-    return $response->withHeader('Content-Type', 'application/json')->withStatus($result['code']);
+    return $response->withHeader('Content-Type', 'application/json')
+        ->withHeader('Access-Control-Allow-Origin', '*')
+        ->withStatus($result['code']);
 });
 
 $app->get('/categorias', function (Request $request, Response $response) {
@@ -111,7 +113,8 @@ $app->get('/categorias', function (Request $request, Response $response) {
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
 
     $response->getBody()->write($dataAsJson);
-    return $response->withHeader('Content-Type', 'application/json');
+    return $response->withHeader('Content-Type', 'application/json')
+        ->withHeader('Access-Control-Allow-Origin', '*');
 });
 
 $app->run();
