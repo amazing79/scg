@@ -5,42 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SCG - Main</title>
     <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="assets/css/lvw.css">
     <script src="assets/js/categorias/categorias.js" type="module" defer></script>
-    <script src="assets/js/categorias/lvw_data.js" defer></script>
 </head>
 <body id="body">
 <div class="container">
-    <div class="table-data">
-        <h1>AMB - Categorias</h1>
-        <form action="#">
-            <div class="lvw-personas">
-                <table>
-                    <thead>
-                    <tr>
-                        <th class="data-key">Key</th>
-                        <th>Descripcion</th>
-                        <th>&nbsp;</th>
-                        <th>&nbsp;</th>
-                    </tr>
-                    </thead>
-                    <tbody id="lvw-data">
-                    </tbody>
-                </table>
-            </div>
-            <div class="button-panel">
-                <a href="#show-frm" class="btn primary">Agregar</a>
-            </div>
-        </form>
+    <div class="table-data" id="lvw-data">
     </div>
 </div>
 <div class="frm-modal" id="show-frm">
     <div class="user-form">
-        <input type="hidden" id="hdnkey" name="hdnkey"  value="0">
+        <input type="hidden" id="hdn_id" name="hdnkey"  value="0">
         <label for="descripcion">Descripcion</label>
         <input type="text" placeholder="Ingrese Descripcion" id="descripcion" name="descripcion">
         <div class="button-frm">
-            <button onclick="evt_process_info();" id="data-proccess" class="btn primary" data-action="save">Guardar</button>
-            <a href="#" onclick="clearInputs(); " class="btn secondary">Cancelar</a>
+            <button id="data-proccess" class="btn primary" data-action="save">Guardar</button>
+            <a href="#" class="btn secondary">Cancelar</a>
         </div>
     </div>
 </div>

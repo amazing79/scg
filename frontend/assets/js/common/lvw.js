@@ -1,0 +1,140 @@
+export class Lvw {
+    constructor(anId, aName, aFields, handleEdit = null, handleDelete = null)
+    {
+        this._id = anId;
+        this._name = aName;
+        this._fields = aFields
+        this._handle_edit = handleEdit ?? function (){ console.log('handler edit no definido');}
+        this._handle_delete = handleDelete ?? function (){ console.log('handler delete no definido');};
+        this._key = 'idCategoria';
+        this._data = [];
+    }
+
+    makeCaption()
+    {
+        let _caption = document.createElement('caption');
+        _caption.innerText = this._name;
+        return _caption;
+
+    }
+
+    makeHeader()
+    {
+        let _tr = document.createElement('tr');
+
+        this._fields.forEach(field => {
+            let _th = document.createElement('th');
+            _th.setAttribute('scope', 'col');
+            _th.innerText = field;
+            _tr.appendChild(_th);
+        });
+        //agrego columna para btns
+        let _th = document.createElement('th');
+        _th.className = 'title_actions'
+        _th.innerText = 'actions';
+        _tr.appendChild(_th);
+        //finalmente creo el encabezado
+        let _thead = document.createElement('thead');
+        _thead.appendChild(_tr);
+        return _thead;
+    }
+
+    makeBody(data)
+    {
+        let _tbody = document.createElement('tbody');
+        data.forEach(item => {
+            _tbody.appendChild(this.insertItemRow(item));
+        })
+        return _tbody;
+    }
+
+    insertItemRow(obj)
+    {
+
+        let _tr = document.createElement('tr');
+        _tr.setAttribute('id', `lvw_row_${obj[this._key]}`);
+        for(let prop in obj) {
+            let _td = document.createElement('td');
+            _td.innerText = obj[prop];
+            _td.setAttribute('data-column', prop);
+            _tr.appendChild(_td);
+        }
+        //agrego botons para interactuar con el elemento
+        let btns = this.makeItemBtns(obj[this._key]);
+        _tr.appendChild(btns)
+        return _tr;
+    }
+
+    updateRow(obj)
+    {
+        let tr  = document.getElementById(`lvw_row_${obj[this._key]}`);
+        for(let i=0; i< tr.children.length; i++){
+            let child = tr.children[i];
+            if (child.dataset.column !== undefined && child.dataset.column !== this._key){
+                child.innerHTML = obj[child.dataset.column];
+            }
+        }
+    }
+
+    makeItemBtns(id = 0)
+    {
+        let _td = document.createElement('td');
+        let _btn_container = document.createElement('div');
+        let _btn_edit = this.createEditButton(id);
+        let _btn_delete = this.createDeleteButton(id);
+        _btn_container.className = 'col_actions'
+        _btn_container.appendChild(_btn_edit)
+        _btn_container.appendChild(_btn_delete)
+        _td.appendChild(_btn_container);
+        return _td;
+    }
+
+    makeMainBtn()
+    {
+        let _div = document.createElement('div');
+        _div.innerHTML = '<a id="addBtn" href="#show-frm" class="btn primary">Agregar</a>';
+        return _div;
+    }
+
+    buildLvw(data)
+    {
+        let container = document.getElementById(this._id);
+        let table = document.createElement('table');
+        table.appendChild(this.makeCaption());
+        table.appendChild(this.makeHeader());
+        table.appendChild(this.makeBody(data));
+        container.appendChild(table);
+        container.appendChild(this.makeMainBtn())
+    }
+
+    createEditButton(id) {
+        let _btn = document.createElement('a');
+        _btn.className = 'btn primary';
+        _btn.setAttribute('id', `edit_${id}`);
+        _btn.setAttribute('data-id', id);
+        _btn.innerText = 'Edit';
+        _btn.addEventListener('click', e => this._handle_edit(e));
+        return _btn;
+    }
+
+    createDeleteButton(id) {
+        let _btn = document.createElement('a');
+        _btn.className = 'btn secondary';
+        _btn.setAttribute('id', `delete_${id}`);
+        _btn.setAttribute('data-id', id);
+        _btn.innerText = 'Delete';
+        _btn.addEventListener('click', e => this._handle_delete(e));
+        return _btn;
+    }
+
+    deleteRow(id)
+    {
+        let row = document.getElementById(`lvw_row_${id}`);
+        if(row) {
+            row.remove();
+        } else {
+            console.log(`No se encontro la fila ${id} que quiere eliminar`);
+        }
+
+    }
+}

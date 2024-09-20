@@ -1,9 +1,9 @@
 const PATH = "categorias";
-const LIST = "get";
-const SHOW = "get";
-const EDIT = "patch";
-const DELETE = "patch";
-const CREATE = 'post';
+const LIST = "GET";
+const SHOW = "GET";
+const EDIT = "PATCH";
+const DELETE = "DELETE";
+const CREATE = 'POST';
 
 export const actions = {
     PATH,

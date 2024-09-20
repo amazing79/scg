@@ -1,48 +1,86 @@
-import {config} from "../config.js";
-import {actions} from "./actions.js";
+import {Lvw} from "../common/lvw.js";
+import {getCategories, showCategory, storeCategory, updateCategory, deleteCategory} from "./categoriasRepository.js"
 
 const closeButton = document.getElementById("cancelBtn");
 const confirmBtn = document.getElementById("confirmBtn");
+const saveBtn = document.getElementById('data-proccess');
 
-async function getCategories()
+let lvw = new Lvw('lvw-data', 'Categorias', ['id', 'descripcion'], editCategory, showConfirmDialog);
+
+function showConfirmDialog(evt)
 {
-    let request = new URL(actions.PATH ,config.URL_API);
-    let data = await fetch(request);
-    return await data.json();
+    const dialog = document.getElementById("dialog_confirm");
+    let page = document.getElementById('body');
+    let btn = evt.target;
+    localStorage.setItem('idRow', btn.dataset.id);
+    page.classList.add('bg__blur');
+    dialog.showModal();
 }
 
-async function deleteCategory(id)
+function editCategory(evt)
 {
-    let request = new URL(actions.PATH + `/${id}` ,config.URL_API);
-    let options = {};
-    options = {
-        method: "DELETE", // *GET, POST, PUT, DELETE, etc.
-        //body:{},
-    }
-    let response = await fetch(request, options);
-    if (response.ok) {
-        console.log(await response.json())
-        // return await response.json();
-    } else {
-        throw new Error('Ocurrio un error al intentar borrar la categoria');
-    }
+    let btn = evt.target;
+    let idCategoria = btn.dataset.id;
+    showCategory(idCategoria)
+        .then(response => {
+           let path = window.location.origin
+           let descripcion = document.getElementById('descripcion');
+           let hdn_id = document.getElementById('hdn_id');
+           descripcion.value = response.data.descripcion ?? '';
+           hdn_id.value = response.data.idCategoria ?? 0;
+           window.location.href = path + '/slim/scg/#show-frm';
+        })
+        .catch(error => {
+            console.log(error.message)
+        })
 }
 
+function evtUpdateCategory()
+{
+    let obj = {idCategoria:0, descripcion:''};
+    let id = document.getElementById('hdn_id');
+    let descripcion = document.getElementById('descripcion');
+    obj.idCategoria = id.value ?? 0;
+    obj.descripcion = descripcion.value.trim() ?? '';
+    updateCategory(obj)
+        .then(response => {
+            console.log(response);
+            lvw.updateRow(obj);
+            window.location.href="#";
+        })
+        .catch(error => {
+            console.log(error.message)
+        })
 
+}
+
+function evtCreateCategory()
+{
+    let obj = {idCategoria:0, descripcion:''};
+    let id = document.getElementById('hdn_id');
+    let descripcion = document.getElementById('descripcion');
+    obj.idCategoria = id.value ?? 0;
+    obj.descripcion = descripcion.value.trim() ?? '';
+    storeCategory(obj)
+        .then(response => {
+            console.log(response);
+            //lvw.addRow(obj)
+            window.location.href="#";
+        })
+        .catch(error => {
+            console.log(error.message)
+        })
+
+}
 function loadCategories()
 {
     getCategories()
         .then(result => {
-           let lvw = document.getElementById('lvw-data');
            let categorias = result.data;
-
-           categorias.forEach((categoria) => {
-               let row = loadDataRow(categoria, 'idCategoria');
-               lvw.appendChild(row);
-           });
+           lvw.buildLvw(categorias);
         })
         .catch( error => {
-            console.log('Error al obtener las categorias')
+            console.log(error.message)
         });
 }
 
@@ -59,7 +97,7 @@ confirmBtn.addEventListener("click", (event) => {
     let idCategory = localStorage.getItem('idRow');
     deleteCategory(idCategory)
         .then(response => {
-            evt_delete(idCategory);
+            lvw.deleteRow(idCategory);
         })
         .catch( error => {
             console.log(error.message)
@@ -68,6 +106,15 @@ confirmBtn.addEventListener("click", (event) => {
     dialog.close();
     localStorage.clear();
 });
+
+saveBtn.addEventListener("click", evt => {
+    let idCategoria =  document.getElementById('hdn_id').value;
+    if(Number.parseInt(idCategoria,10) !== 0 ) {
+        evtUpdateCategory();
+    } else {
+        evtCreateCategory();
+    }
+})
 
 function init()
 {
