@@ -7,6 +7,9 @@
     --table_title_font_color:#FFF;
     --tr_over_bg: #97b2bc;
     --tr_over_font_color: #9f3712;
+    --btn-primary-bg:#28b463;
+    --btn-txt:#FFF;
+    --btn-secondary-bg:#c0392b;
 }
 
 .table-data{
@@ -18,8 +21,6 @@
 table{
     width: 100%;
     color:var(--table_font_color);
-    height: 350px;
-    overflow: auto;
     background-color: var(--table_bg);
 }
 
@@ -86,6 +87,7 @@ tbody > tr:nth-of-type(even) {
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    text-transform: uppercase;
 }
 
 .primary{

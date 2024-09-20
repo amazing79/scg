@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&family=Roboto&display=swap');
+
 *, *:after, *:before{
     margin: 0;
     padding: 0;
@@ -13,6 +15,10 @@
 
 body{
     background-color: var(--bg-main-color);
+    font-family: "Roboto", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
 }
 
 .container{
