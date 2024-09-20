@@ -22,6 +22,7 @@ class CreateCategoriaCommandHandler
             $idCategoria = $this->repository->create($categoria);
             $response['code'] = 201;
             $response['message'] = "Se ha añadido la categoría con exito con el siguiente id: {$idCategoria}";
+            $response['data'] = $idCategoria;
         } catch (\Exception $e) {
             $response['message'] = $e->getMessage();
             $response['code'] = 500;

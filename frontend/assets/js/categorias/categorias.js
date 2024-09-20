@@ -35,42 +35,47 @@ function editCategory(evt)
         })
 }
 
-function evtUpdateCategory()
-{
-    let obj = {idCategoria:0, descripcion:''};
+function loadObjectData() {
+    let obj = {idCategoria: 0, descripcion: ''};
     let id = document.getElementById('hdn_id');
     let descripcion = document.getElementById('descripcion');
     obj.idCategoria = id.value ?? 0;
     obj.descripcion = descripcion.value.trim() ?? '';
+    return {obj, id, descripcion};
+}
+
+function evtUpdateCategory()
+{
+    let {obj, id, descripcion} = loadObjectData();
     updateCategory(obj)
         .then(response => {
             console.log(response);
             lvw.updateRow(obj);
-            window.location.href="#";
         })
         .catch(error => {
             console.log(error.message)
         })
+        .finally( _ => {
+            closeForm(id, descripcion);
+        });
 
 }
 
 function evtCreateCategory()
 {
-    let obj = {idCategoria:0, descripcion:''};
-    let id = document.getElementById('hdn_id');
-    let descripcion = document.getElementById('descripcion');
-    obj.idCategoria = id.value ?? 0;
-    obj.descripcion = descripcion.value.trim() ?? '';
+    let {obj, id, descripcion} = loadObjectData();
     storeCategory(obj)
         .then(response => {
             console.log(response);
-            //lvw.addRow(obj)
-            window.location.href="#";
+            obj.idCategoria = response.data;
+            lvw.addRow(obj)
         })
         .catch(error => {
             console.log(error.message)
         })
-
+        .finally( _ => {
+            closeForm(id, descripcion);
+        });
 }
 function loadCategories()
 {
@@ -82,6 +87,13 @@ function loadCategories()
         .catch( error => {
             console.log(error.message)
         });
+}
+
+function closeForm(id, description)
+{
+    id.value = 0;
+    description.value = '';
+    window.location.href="#";
 }
 
 closeButton.addEventListener("click", () => {
@@ -97,6 +109,7 @@ confirmBtn.addEventListener("click", (event) => {
     let idCategory = localStorage.getItem('idRow');
     deleteCategory(idCategory)
         .then(response => {
+            console.log(response)
             lvw.deleteRow(idCategory);
         })
         .catch( error => {

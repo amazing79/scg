@@ -42,6 +42,7 @@ export class Lvw {
     makeBody(data)
     {
         let _tbody = document.createElement('tbody');
+        _tbody.setAttribute('id', `${this._id}_body`);
         data.forEach(item => {
             _tbody.appendChild(this.insertItemRow(item));
         })
@@ -63,17 +64,6 @@ export class Lvw {
         let btns = this.makeItemBtns(obj[this._key]);
         _tr.appendChild(btns)
         return _tr;
-    }
-
-    updateRow(obj)
-    {
-        let tr  = document.getElementById(`lvw_row_${obj[this._key]}`);
-        for(let i=0; i< tr.children.length; i++){
-            let child = tr.children[i];
-            if (child.dataset.column !== undefined && child.dataset.column !== this._key){
-                child.innerHTML = obj[child.dataset.column];
-            }
-        }
     }
 
     makeItemBtns(id = 0)
@@ -127,6 +117,13 @@ export class Lvw {
         return _btn;
     }
 
+    addRow(obj)
+    {
+        let lvw = document.getElementById(`${this._id}_body`);
+        let row = this.insertItemRow(obj);
+        lvw.appendChild(row);
+    }
+
     deleteRow(id)
     {
         let row = document.getElementById(`lvw_row_${id}`);
@@ -135,6 +132,16 @@ export class Lvw {
         } else {
             console.log(`No se encontro la fila ${id} que quiere eliminar`);
         }
+    }
 
+    updateRow(obj)
+    {
+        let tr  = document.getElementById(`lvw_row_${obj[this._key]}`);
+        for(let i=0; i< tr.children.length; i++){
+            let child = tr.children[i];
+            if (child.dataset.column !== undefined && child.dataset.column !== this._key){
+                child.innerHTML = obj[child.dataset.column];
+            }
+        }
     }
 }
