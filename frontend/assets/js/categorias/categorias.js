@@ -1,9 +1,7 @@
 import {Lvw} from "../common/lvw.js";
 import {getCategories, showCategory, storeCategory, updateCategory, deleteCategory} from "./categoriasRepository.js"
 
-const formCloseButton = document.getElementById("formCancelBtn");
-const dialogConfirmDeleteBtn = document.getElementById("dialogConfirmDeleteBtn");
-const dialogConfirmCancelBtn = document.getElementById("dialogConfirmCancelBtn");
+
 
 let lvw = new Lvw(
     'lvw-data',
@@ -96,6 +94,65 @@ function loadCategories()
         });
 }
 
+function initEvents()
+{
+    const formCloseButton = document.getElementById("formCancelBtn");
+    const dialogConfirmDeleteBtn = document.getElementById("dialogConfirmDeleteBtn");
+    const dialogConfirmCancelBtn = document.getElementById("dialogConfirmCancelBtn");
+    console.log('inicio carga de eventos');
+    formCloseButton.addEventListener("click", () => {
+        let page = document.getElementById('content');
+        const dialog = document.getElementById("itemDialog");
+        page.classList.remove('bg__blur');
+        dialog.close();
+    });
+
+    dialogConfirmDeleteBtn.addEventListener("click", (event) => {
+        let page = document.getElementById('content');
+        const dialog = document.getElementById("confirmDialog");
+        let idCategory = localStorage.getItem('idRow');
+        deleteCategory(idCategory)
+            .then(response => {
+                console.log(response)
+                lvw.deleteRow(idCategory);
+            })
+            .catch( error => {
+                console.log(error.message)
+            });
+        page.classList.remove('bg__blur');
+        dialog.close();
+        localStorage.clear();
+    });
+
+    dialogConfirmCancelBtn.addEventListener("click", (event) => {
+        let page = document.getElementById('content');
+        const dialog = document.getElementById("confirmDialog");
+        page.classList.remove('bg__blur');
+        dialog.close();
+        localStorage.clear();
+    });
+
+    document.getElementById('itemForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        let idCategoria =  document.getElementById('itemId').value;
+        if(Number.parseInt(idCategoria,10) !== 0 ) {
+            evtUpdateCategory();
+        } else {
+            evtCreateCategory();
+        }
+    });
+
+    document.getElementById('itemDialog').addEventListener('close', evt => {
+        closeForm();
+        document.getElementById('content').classList.remove('bg__blur');
+    });
+
+    document.getElementById('confirmDialog').addEventListener('close', evt => {
+        document.getElementById('content').classList.remove('bg__blur');
+    });
+    console.log('finalizo cargo de eventos')
+}
+
 function closeForm()
 {
     let id = document.getElementById('itemId');
@@ -106,60 +163,11 @@ function closeForm()
     dialog.close();
 }
 
-formCloseButton.addEventListener("click", () => {
-    let page = document.getElementById('content');
-    const dialog = document.getElementById("itemDialog");
-    page.classList.remove('bg__blur');
-    dialog.close();
-});
-dialogConfirmDeleteBtn.addEventListener("click", (event) => {
-    let page = document.getElementById('content');
-    const dialog = document.getElementById("confirmDialog");
-    let idCategory = localStorage.getItem('idRow');
-    deleteCategory(idCategory)
-        .then(response => {
-            console.log(response)
-            lvw.deleteRow(idCategory);
-        })
-        .catch( error => {
-            console.log(error.message)
-        });
-    page.classList.remove('bg__blur');
-    dialog.close();
-    localStorage.clear();
-});
-
-dialogConfirmCancelBtn.addEventListener("click", (event) => {
-    let page = document.getElementById('content');
-    const dialog = document.getElementById("confirmDialog");
-    page.classList.remove('bg__blur');
-    dialog.close();
-    localStorage.clear();
-});
-
-
-
-document.getElementById('itemForm').addEventListener('submit', (event) => {
-    event.preventDefault();
-    let idCategoria =  document.getElementById('itemId').value;
-    if(Number.parseInt(idCategoria,10) !== 0 ) {
-        evtUpdateCategory();
-    } else {
-        evtCreateCategory();
-    }
-});
-
-document.getElementById('itemDialog').addEventListener('close', evt => {
-    closeForm();
-    document.getElementById('content').classList.remove('bg__blur');
-});
-
-document.getElementById('confirmDialog').addEventListener('close', evt => {
-    document.getElementById('content').classList.remove('bg__blur');
-});
 function init()
 {
     loadCategories();
+    initEvents();
 }
-
-window["onload"] = init;
+document.addEventListener('DOMContentLoaded', function () {
+    init();
+});

@@ -93,6 +93,7 @@ tbody > tr:nth-of-type(even) {
     justify-content: center;
     align-items: center;
     text-transform: uppercase;
+    cursor: pointer;
 }
 
 .primary{
