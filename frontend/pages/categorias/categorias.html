@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorías - Mi Sitio Web</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="stylesheet" href="../../assets/css/app.css">
+    <link rel="stylesheet" href="../../assets/css/lvw.css">
+    <script src="../../script.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <button class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+    <h1><i class="fas fa-piggy-bank"></i> - SCG</h1>
+</header>
+
+<aside id="sidebar">
+    <nav>
+        <ul>
+            <li><a href="../../index.html" onclick="hideMenu()"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="categorias.html" onclick="hideMenu()"><i class="fas fa-th-list"></i> Categorías</a></li>
+            <li><a href="../personas/personas.html" onclick="hideMenu()"><i class="fas fa-user"></i> Personas</a></li>
+            <li><a href="../gastos/gastos.html" onclick="hideMenu()"><i class="fas fa-dollar-sign"></i> Gastos</a></li>
+        </ul>
+    </nav>
+</aside>
+
+<main id="content"> <!-- Contenedor principal que aplicaremos el blur -->
+    <section id="categorias" style="margin-top: 50px;">
+        <div id="lvw-data">
+        </div>
+    </section>
+
+    <dialog id="itemDialog">
+        <div class="dialog__title">
+            <h3>Sistema SCG</h3>
+        </div>
+        <div class="dialog__body">
+            <form id="itemForm" class="user-form">
+                <input type="hidden" id="itemId" name="itemId" value="0">
+                <label for="descripcion">Descripción:</label>
+                <input type="text" id="descripcion" name="descripcion" required>
+                <button type="submit" class="submit">Aceptar</button>
+                <button type="button" class="cancel" id="cancelButton">Cancelar</button>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="confirmDialog">
+        <div class="dialog__title">
+            <h3>Sistema SCG</h3>
+        </div>
+        <div class="dialog__body">
+            <p>¿Estás seguro de que deseas eliminar este elemento?</p>
+            <button id="confirmBtn" class="submit">Eliminar</button>
+            <button id="cancelBtn" class="cancel">Cancelar</button>
+        </div>
+    </dialog>
+
+    <script type="module" src="../../assets/js/categorias/categorias.js"></script>
+</main>
+</body>
+</html>

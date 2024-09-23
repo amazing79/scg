@@ -3,15 +3,14 @@ import {getCategories, showCategory, storeCategory, updateCategory, deleteCatego
 
 const closeButton = document.getElementById("cancelBtn");
 const confirmBtn = document.getElementById("confirmBtn");
-const saveBtn = document.getElementById('data-proccess');
 
-let lvw = new Lvw('lvw-data', 'Categorias', ['id', 'descripcion'], editCategory, showConfirmDialog);
+let lvw = new Lvw('lvw-data', 'Categorias', ['id', 'descripcion'], editCategory, showConfirmDialog, 'itemDialog');
 
 function showConfirmDialog(evt)
 {
-    const dialog = document.getElementById("dialog_confirm");
-    let page = document.getElementById('body');
-    let btn = evt.target;
+    const dialog = document.getElementById("confirmDialog");
+    let page = document.getElementById('content');
+    let btn = evt.currentTarget;
     localStorage.setItem('idRow', btn.dataset.id);
     page.classList.add('bg__blur');
     dialog.showModal();
@@ -19,16 +18,15 @@ function showConfirmDialog(evt)
 
 function editCategory(evt)
 {
-    let btn = evt.target;
+    let btn = evt.currentTarget;
     let idCategoria = btn.dataset.id;
     showCategory(idCategoria)
         .then(response => {
-           let path = window.location.origin
            let descripcion = document.getElementById('descripcion');
-           let hdn_id = document.getElementById('hdn_id');
+           let hdnId = document.getElementById('itemId');
            descripcion.value = response.data.descripcion ?? '';
-           hdn_id.value = response.data.idCategoria ?? 0;
-           window.location.href = path + '/slim/scg/#show-frm';
+           hdnId.value = response.data.idCategoria ?? 0;
+           lvw.showFormDialog();
         })
         .catch(error => {
             console.log(error.message)
@@ -37,7 +35,7 @@ function editCategory(evt)
 
 function loadObjectData() {
     let obj = {idCategoria: 0, descripcion: ''};
-    let id = document.getElementById('hdn_id');
+    let id = document.getElementById('itemId');
     let descripcion = document.getElementById('descripcion');
     obj.idCategoria = id.value ?? 0;
     obj.descripcion = descripcion.value.trim() ?? '';
@@ -89,23 +87,25 @@ function loadCategories()
         });
 }
 
-function closeForm(id, description)
+function closeForm()
 {
+    let id = document.getElementById('itemId');
+    let description = document.getElementById('descripcion');
     id.value = 0;
     description.value = '';
-    window.location.href="#";
 }
 
 closeButton.addEventListener("click", () => {
-    let page = document.getElementById('body');
-    const dialog = document.getElementById("dialog_confirm");
+    let page = document.getElementById('content');
+    const dialog = document.getElementById("confirmDialog");
     page.classList.remove('bg__blur');
+    console.log('y????');
     dialog.close();
 });
 confirmBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    let page = document.getElementById('body');
-    const dialog = document.getElementById("dialog_confirm");
+    let page = document.getElementById('content');
+    const dialog = document.getElementById("confirmDialog");
     let idCategory = localStorage.getItem('idRow');
     deleteCategory(idCategory)
         .then(response => {
@@ -120,15 +120,25 @@ confirmBtn.addEventListener("click", (event) => {
     localStorage.clear();
 });
 
-saveBtn.addEventListener("click", evt => {
-    let idCategoria =  document.getElementById('hdn_id').value;
+document.getElementById('itemForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    console.log('entre al evente o no?')
+    let idCategoria =  document.getElementById('itemId').value;
     if(Number.parseInt(idCategoria,10) !== 0 ) {
         evtUpdateCategory();
     } else {
         evtCreateCategory();
     }
-})
+});
 
+document.getElementById('itemDialog').addEventListener('close', evt => {
+    closeForm();
+    document.getElementById('content').classList.remove('bg__blur');
+});
+
+document.getElementById('confirmDialog').addEventListener('close', evt => {
+    document.getElementById('content').classList.remove('bg__blur');
+});
 function init()
 {
     loadCategories();

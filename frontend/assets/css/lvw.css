@@ -73,6 +73,17 @@ tbody > tr:nth-of-type(even) {
     background-color: rgb(237 238 242);
 }
 
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.icon {
+    font-size: 18px;
+    padding: 5px;
+}
+
 .btn{
     min-width: 90px;
     height: 35px;

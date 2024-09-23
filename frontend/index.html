@@ -2,40 +2,34 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SCG - Main</title>
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="stylesheet" href="assets/css/lvw.css">
-    <script src="assets/js/categorias/categorias.js" type="module" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Mi Sitio Web</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="script.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
-<body id="body">
-<div class="container">
-    <div class="table-data" id="lvw-data">
-    </div>
-</div>
-<div class="frm-modal" id="show-frm">
-    <div class="user-form">
-        <input type="hidden" id="hdn_id" name="hdnkey"  value="0">
-        <label for="descripcion">Descripcion</label>
-        <input type="text" placeholder="Ingrese Descripcion" id="descripcion" name="descripcion">
-        <div class="button-frm">
-            <button id="data-proccess" class="btn primary" data-action="save">Guardar</button>
-            <a href="#" class="btn secondary">Cancelar</a>
-        </div>
-    </div>
-</div>
-<dialog id="dialog_confirm">
-    <h3 class="dialog__title">SCG - Categor&iacute;as</h3>
-    <div class="dialog__body">
-        <form>
-            <p>¿Est&aacute; seguro que desea eliminar la categor&iacute;a seleccionada?</p>
-            <br />
-            <div class="button-frm">
-                <button id="cancelBtn" class="btn secondary" formmethod="dialog">Cancelar</button>
-                <button id="confirmBtn" class="btn primary" value="default">Confirmar</button>
-            </div>
-        </form>
-    </div>
-</dialog>
+<body>
+    <header>
+        <button class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+        <h1><i class="fas fa-piggy-bank"></i> - SCG</h1>
+    </header>
+
+    <aside id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="index.html" onclick="hideMenu()"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="pages/categorias/categorias.html" onclick="hideMenu()"><i class="fas fa-th-list"></i> Categorías</a></li>
+                <li><a href="pages/personas/personas.html" onclick="hideMenu()"><i class="fas fa-user"></i> Personas</a></li>
+                <li><a href="pages/gastos/gastos.html" onclick="hideMenu()"><i class="fas fa-dollar-sign"></i> Gastos</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main id="content">
+        <section id="home">
+            <h2>Home</h2>
+            <p>Bienvenido a la página principal de Mi Sitio Web.</p>
+        </section>
+    </main>
 </body>
 </html>

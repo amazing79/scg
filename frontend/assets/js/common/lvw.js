@@ -1,5 +1,5 @@
 export class Lvw {
-    constructor(anId, aName, aFields, handleEdit = null, handleDelete = null)
+    constructor(anId, aName, aFields, handleEdit = null, handleDelete = null, formDialog = null)
     {
         this._id = anId;
         this._name = aName;
@@ -7,6 +7,7 @@ export class Lvw {
         this._handle_edit = handleEdit ?? function (){ console.log('handler edit no definido');}
         this._handle_delete = handleDelete ?? function (){ console.log('handler delete no definido');};
         this._key = 'idCategoria';
+        this._formDialog = document.getElementById(formDialog);
         this._data = [];
     }
 
@@ -15,7 +16,6 @@ export class Lvw {
         let _caption = document.createElement('caption');
         _caption.innerText = this._name;
         return _caption;
-
     }
 
     makeHeader()
@@ -51,7 +51,6 @@ export class Lvw {
 
     insertItemRow(obj)
     {
-
         let _tr = document.createElement('tr');
         _tr.setAttribute('id', `lvw_row_${obj[this._key]}`);
         for(let prop in obj) {
@@ -82,7 +81,12 @@ export class Lvw {
     makeMainBtn()
     {
         let _div = document.createElement('div');
-        _div.innerHTML = '<a id="addBtn" href="#show-frm" class="btn primary">Agregar</a>';
+        let _addBtn = document.createElement('btn');
+        _addBtn.className = 'btn primary';
+        _addBtn.setAttribute('id', 'lvw_addBtn');
+        _addBtn.addEventListener('click', e => this.showFormDialog(e));
+        _addBtn.innerText = 'Agregar';
+        _div.appendChild(_addBtn)
         return _div;
     }
 
@@ -98,23 +102,30 @@ export class Lvw {
     }
 
     createEditButton(id) {
-        let _btn = document.createElement('a');
-        _btn.className = 'btn primary';
+        let _btn = document.createElement('btn');
+        _btn.className = 'primary icon';
         _btn.setAttribute('id', `edit_${id}`);
         _btn.setAttribute('data-id', id);
-        _btn.innerText = 'Edit';
+        _btn.innerHTML = '<i class="fas fa-edit"></i>';
         _btn.addEventListener('click', e => this._handle_edit(e));
         return _btn;
     }
 
     createDeleteButton(id) {
-        let _btn = document.createElement('a');
-        _btn.className = 'btn secondary';
+        let _btn = document.createElement('btn');
+        _btn.className = 'secondary icon';
         _btn.setAttribute('id', `delete_${id}`);
         _btn.setAttribute('data-id', id);
-        _btn.innerText = 'Delete';
+        _btn.innerHTML = '<i class="fas fa-trash-alt"></i>';
         _btn.addEventListener('click', e => this._handle_delete(e));
         return _btn;
+    }
+
+    showFormDialog()
+    {
+        let page = document.getElementById('content');
+        page.classList.add('bg__blur');
+        this._formDialog.showModal();
     }
 
     addRow(obj)
