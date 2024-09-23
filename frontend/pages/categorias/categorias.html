@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Categorías - Mi Sitio Web</title>
-    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="stylesheet" href="../../assets/css/all.min.css" >
     <link rel="stylesheet" href="../../assets/css/app.css">
     <link rel="stylesheet" href="../../assets/css/lvw.css">
-    <script src="../../script.js" defer></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="../../assets/js/common/script.js" defer></script>
 </head>
 <body>
 <header>
@@ -30,6 +29,7 @@
 <main id="content"> <!-- Contenedor principal que aplicaremos el blur -->
     <section id="categorias" style="margin-top: 50px;">
         <div id="lvw-data">
+            <!-- Contenedor que contendra la data -->
         </div>
     </section>
 
@@ -42,8 +42,10 @@
                 <input type="hidden" id="itemId" name="itemId" value="0">
                 <label for="descripcion">Descripción:</label>
                 <input type="text" id="descripcion" name="descripcion" required>
-                <button type="submit" class="submit">Aceptar</button>
-                <button type="button" class="cancel" id="cancelButton">Cancelar</button>
+                <div class="button-panel">
+                    <button type="submit" class="submit">Aceptar</button>
+                    <button type="button" class="cancel" id="cancelButton">Cancelar</button>
+                </div>
             </form>
         </div>
     </dialog>
@@ -54,11 +56,12 @@
         </div>
         <div class="dialog__body">
             <p>¿Estás seguro de que deseas eliminar este elemento?</p>
-            <button id="confirmBtn" class="submit">Eliminar</button>
-            <button id="cancelBtn" class="cancel">Cancelar</button>
+            <div class="button-panel">
+                <button id="confirmBtn" class="submit">Eliminar</button>
+                <button id="cancelBtn" class="cancel">Cancelar</button>
+            </div>
         </div>
     </dialog>
-
     <script type="module" src="../../assets/js/categorias/categorias.js"></script>
 </main>
 </body>

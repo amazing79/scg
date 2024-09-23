@@ -79,7 +79,7 @@ button {
     background: none;
 }
 
-.icon {
+.icon i {
     font-size: 18px;
     padding: 5px;
 }
@@ -119,10 +119,6 @@ button {
     background-color: #FD886E;
 }
 
-.data-error{
-    background-color:#D98880 ;
-}
-
 .title_actions{
     text-align: center;
     width: 30%;
@@ -130,4 +126,12 @@ button {
 
 .col_actions{
     text-align: right;
+}
+
+.edit i {
+    color: #007bff;
+}
+
+.delete i {
+    color: #dc3545;
 }

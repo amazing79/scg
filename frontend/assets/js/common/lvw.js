@@ -103,7 +103,7 @@ export class Lvw {
 
     createEditButton(id) {
         let _btn = document.createElement('btn');
-        _btn.className = 'primary icon';
+        _btn.className = 'edit icon';
         _btn.setAttribute('id', `edit_${id}`);
         _btn.setAttribute('data-id', id);
         _btn.innerHTML = '<i class="fas fa-edit"></i>';
@@ -113,7 +113,7 @@ export class Lvw {
 
     createDeleteButton(id) {
         let _btn = document.createElement('btn');
-        _btn.className = 'secondary icon';
+        _btn.className = 'delete icon';
         _btn.setAttribute('id', `delete_${id}`);
         _btn.setAttribute('data-id', id);
         _btn.innerHTML = '<i class="fas fa-trash-alt"></i>';

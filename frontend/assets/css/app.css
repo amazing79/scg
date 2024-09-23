@@ -7,12 +7,90 @@
     --btn-secondary-bg:#E74C3C;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body{
     background-color: var(--bg-main-color);
     font-family: "Roboto", system-ui;
     font-weight: 400;
     font-style: normal;
     font-size: 14px;
+    display: flex;
+    height: 100vh;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #af4c5e;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    z-index: 100;
+}
+
+header h1 {
+    margin-left: 10px;
+    font-size: 24px;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+}
+
+aside {
+    width: 250px;
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    position: fixed;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+aside nav ul {
+    list-style: none;
+}
+
+aside nav ul li {
+    margin: 15px 0;
+}
+
+aside nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+aside nav ul li a i {
+    margin-right: 10px;
+}
+
+main {
+    margin-left: 250px;
+    padding: 20px;
+    width: calc(100% - 250px);
+    background-color: #f4f4f4;
+    overflow-y: auto;
+}
+
+h1, h2 {
+    margin-bottom: 10px;
 }
 
 .container{
@@ -54,18 +132,17 @@ button.cancel {
 .user-form{
     display: flex;
     flex-direction: column;
-    width: 50%;
-    margin: 20px auto;
+    width: 100%;
+    margin: 10px auto;
     background-color:#EAECEE;
-    padding: 20px;
+    padding: 10px;
     border-radius: 5px;
 }
-
 
 dialog{
     width: 90%;
     max-width: 640px;
-    margin: 20% auto;
+    margin: 10% auto;
     border-radius: 8px;
     border: none;
 }
@@ -91,4 +168,45 @@ dialog{
     filter: blur(5px);
     pointer-events: none; /* Evita que los elementos de fondo sean clickeables */
     transition: filter 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 800px) {
+    aside {
+        transform: translateX(-100%);
+        width: 95%;
+        height: 100%;
+        z-index: 200;
+        position: fixed;
+        top: 0;
+        left: 0;
+        transition: transform 0.3s ease;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    #sidebar.show {
+        transform: translateX(0);
+    }
+}
+
+@media screen and (min-width: 801px) {
+    aside {
+        transform: translateX(0); /* Siempre visible en pantallas grandes */
+    }
+
+    .menu-toggle {
+        display: none;
+    }
+
+    main {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+    }
 }

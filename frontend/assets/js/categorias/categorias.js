@@ -54,7 +54,7 @@ function evtUpdateCategory()
             console.log(error.message)
         })
         .finally( _ => {
-            closeForm(id, descripcion);
+            closeForm();
         });
 
 }
@@ -72,7 +72,7 @@ function evtCreateCategory()
             console.log(error.message)
         })
         .finally( _ => {
-            closeForm(id, descripcion);
+            closeForm();
         });
 }
 function loadCategories()
@@ -91,13 +91,15 @@ function closeForm()
 {
     let id = document.getElementById('itemId');
     let description = document.getElementById('descripcion');
+    const dialog = document.getElementById("itemDialog");
     id.value = 0;
     description.value = '';
+    dialog.close();
 }
 
 closeButton.addEventListener("click", () => {
     let page = document.getElementById('content');
-    const dialog = document.getElementById("confirmDialog");
+    const dialog = document.getElementById("itemDialog");
     page.classList.remove('bg__blur');
     console.log('y????');
     dialog.close();
