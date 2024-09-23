@@ -27,7 +27,7 @@
 </aside>
 
 <main id="content"> <!-- Contenedor principal que aplicaremos el blur -->
-    <section id="categorias" style="margin-top: 50px;">
+    <section id="categorias">
         <div id="lvw-data">
             <!-- Contenedor que contendra la data -->
         </div>
@@ -38,13 +38,13 @@
             <h3>Sistema SCG</h3>
         </div>
         <div class="dialog__body">
-            <form id="itemForm" class="user-form">
+            <form id="itemForm" class="user-form" method="dialog">
                 <input type="hidden" id="itemId" name="itemId" value="0">
                 <label for="descripcion">Descripción:</label>
                 <input type="text" id="descripcion" name="descripcion" required>
                 <div class="button-panel">
-                    <button type="submit" class="submit">Aceptar</button>
-                    <button type="button" class="cancel" id="cancelButton">Cancelar</button>
+                    <button type="submit" class="btn submit">Aceptar</button>
+                    <button type="button" class="btn cancel" id="formCancelBtn">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -56,9 +56,10 @@
         </div>
         <div class="dialog__body">
             <p>¿Estás seguro de que deseas eliminar este elemento?</p>
+            <br />
             <div class="button-panel">
-                <button id="confirmBtn" class="submit">Eliminar</button>
-                <button id="cancelBtn" class="cancel">Cancelar</button>
+                <button id="dialogConfirmDeleteBtn" class="btn submit">Eliminar</button>
+                <button id="dialogConfirmCancelBtn" class="btn cancel">Cancelar</button>
             </div>
         </div>
     </dialog>

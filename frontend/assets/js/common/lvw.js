@@ -1,12 +1,12 @@
 export class Lvw {
-    constructor(anId, aName, aFields, handleEdit = null, handleDelete = null, formDialog = null)
+    constructor(anId, aKey, aName, aFields, handleEdit = null, handleDelete = null, formDialog = null)
     {
         this._id = anId;
+        this._key = aKey;
         this._name = aName;
         this._fields = aFields
         this._handle_edit = handleEdit ?? function (){ console.log('handler edit no definido');}
         this._handle_delete = handleDelete ?? function (){ console.log('handler delete no definido');};
-        this._key = 'idCategoria';
         this._formDialog = document.getElementById(formDialog);
         this._data = [];
     }

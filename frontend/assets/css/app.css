@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&family=Roboto&display=swap');
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 :root{
     --bg-main-color:#295F98;
     --btn-primary-bg:#2980B9;
     --btn-txt:#FFF;
     --btn-secondary-bg:#E74C3C;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
 body{
@@ -40,6 +40,7 @@ header {
 header h1 {
     margin-left: 10px;
     font-size: 24px;
+    line-height: 1rem;
 }
 
 .menu-toggle {
@@ -87,6 +88,7 @@ main {
     width: calc(100% - 250px);
     background-color: #f4f4f4;
     overflow-y: auto;
+    margin-top: 50px;
 }
 
 h1, h2 {

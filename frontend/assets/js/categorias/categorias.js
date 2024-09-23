@@ -1,10 +1,19 @@
 import {Lvw} from "../common/lvw.js";
 import {getCategories, showCategory, storeCategory, updateCategory, deleteCategory} from "./categoriasRepository.js"
 
-const closeButton = document.getElementById("cancelBtn");
-const confirmBtn = document.getElementById("confirmBtn");
+const formCloseButton = document.getElementById("formCancelBtn");
+const dialogConfirmDeleteBtn = document.getElementById("dialogConfirmDeleteBtn");
+const dialogConfirmCancelBtn = document.getElementById("dialogConfirmCancelBtn");
 
-let lvw = new Lvw('lvw-data', 'Categorias', ['id', 'descripcion'], editCategory, showConfirmDialog, 'itemDialog');
+let lvw = new Lvw(
+    'lvw-data',
+    'idCategoria',
+    'Categorias',
+    ['id', 'descripcion'],
+    editCategory,
+    showConfirmDialog,
+    'itemDialog'
+);
 
 function showConfirmDialog(evt)
 {
@@ -97,15 +106,13 @@ function closeForm()
     dialog.close();
 }
 
-closeButton.addEventListener("click", () => {
+formCloseButton.addEventListener("click", () => {
     let page = document.getElementById('content');
     const dialog = document.getElementById("itemDialog");
     page.classList.remove('bg__blur');
-    console.log('y????');
     dialog.close();
 });
-confirmBtn.addEventListener("click", (event) => {
-    event.preventDefault();
+dialogConfirmDeleteBtn.addEventListener("click", (event) => {
     let page = document.getElementById('content');
     const dialog = document.getElementById("confirmDialog");
     let idCategory = localStorage.getItem('idRow');
@@ -122,9 +129,18 @@ confirmBtn.addEventListener("click", (event) => {
     localStorage.clear();
 });
 
+dialogConfirmCancelBtn.addEventListener("click", (event) => {
+    let page = document.getElementById('content');
+    const dialog = document.getElementById("confirmDialog");
+    page.classList.remove('bg__blur');
+    dialog.close();
+    localStorage.clear();
+});
+
+
+
 document.getElementById('itemForm').addEventListener('submit', (event) => {
     event.preventDefault();
-    console.log('entre al evente o no?')
     let idCategoria =  document.getElementById('itemId').value;
     if(Number.parseInt(idCategoria,10) !== 0 ) {
         evtUpdateCategory();
