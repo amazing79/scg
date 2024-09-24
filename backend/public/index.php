@@ -36,11 +36,13 @@ $app->options('/{routes:.+}', function ($request, $response, $args) {
 $app->add(function ($request, $handler) {
     $response = $handler->handle($request);
     return $response
-        ->withHeader('Access-Control-Allow-Origin', 'http://localhost')
+        ->withHeader('Access-Control-Allow-Origin', $_ENV['ORIGIN'] ?? '*')
+        ->withHeader('Vary', 'Origin')
         ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
         ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
 });
 
+$app->setBasePath($_ENV['APP_PATH']);
 
 $app->get('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
     $db = new Database(
