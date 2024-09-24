@@ -135,10 +135,8 @@ button.cancel {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin: 10px auto;
-    background-color:#EAECEE;
+    margin: 0;
     padding: 10px;
-    border-radius: 5px;
 }
 
 dialog{
@@ -168,6 +166,7 @@ dialog{
 
 .bg__blur{
     filter: blur(5px);
+    pointer-events: none;
     transition: filter 0.3s ease-in-out;
 }
 

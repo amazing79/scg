@@ -99,7 +99,6 @@ function initEvents()
     const formCloseButton = document.getElementById("formCancelBtn");
     const dialogConfirmDeleteBtn = document.getElementById("dialogConfirmDeleteBtn");
     const dialogConfirmCancelBtn = document.getElementById("dialogConfirmCancelBtn");
-    console.log('inicio carga de eventos');
     formCloseButton.addEventListener("click", () => {
         let page = document.getElementById('content');
         const dialog = document.getElementById("itemDialog");
@@ -150,7 +149,6 @@ function initEvents()
     document.getElementById('confirmDialog').addEventListener('close', evt => {
         document.getElementById('content').classList.remove('bg__blur');
     });
-    console.log('finalizo cargo de eventos')
 }
 
 function closeForm()

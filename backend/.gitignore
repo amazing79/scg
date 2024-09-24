@@ -2,3 +2,5 @@
 vendor
 .env
 ../.idea/
+.htaccess
+public/.htaccess
