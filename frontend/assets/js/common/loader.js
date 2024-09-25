@@ -3,7 +3,8 @@ export class Loader {
     {
         this._container = document.getElementById(anId);
         let template = document.getElementById(aTemplate);
-        this._loading = template.content.cloneNode(true);
+        let clone = template.content.cloneNode(true);
+        this._loading = clone.querySelector('.loader__container');
     }
     showLoading()
     {
@@ -11,6 +12,9 @@ export class Loader {
     }
     removeLoading()
     {
-        this._container.innerHTML = '';
+        if(this._loading) {
+            this._loading.parentNode.removeChild(this._loading);
+        }
+
     }
 }
