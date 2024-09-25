@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../assets/css/all.min.css" >
     <link rel="stylesheet" href="../../assets/css/app.css">
     <link rel="stylesheet" href="../../assets/css/lvw.css">
+    <link rel="stylesheet" href="../../assets/css/loader.css">
     <script src="../../assets/js/common/script.js" defer></script>
 </head>
 <body>
@@ -25,8 +26,12 @@
         </ul>
     </nav>
 </aside>
-
 <main id="content"> <!-- Contenedor principal que aplicaremos el blur -->
+    <template id="loading">
+        <div class="loader__container">
+            <div class="loader"></div>
+        </div>
+    </template>
     <section id="categorias">
         <h2>Categor&iacute;as</h2>
         <div id="lvw-data">

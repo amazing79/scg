@@ -1,7 +1,6 @@
 import {Lvw} from "../common/lvw.js";
+import {Loader} from "../common/loader.js";
 import {getCategories, showCategory, storeCategory, updateCategory, deleteCategory} from "./categoriasRepository.js"
-
-
 
 let lvw = new Lvw(
     'lvw-data',
@@ -12,6 +11,8 @@ let lvw = new Lvw(
     showConfirmDialog,
     'itemDialog'
 );
+
+let loader = new Loader('lvw-data','loading');
 
 function showConfirmDialog(evt)
 {
@@ -84,10 +85,12 @@ function evtCreateCategory()
 }
 function loadCategories()
 {
+    loader.showLoading();
     getCategories()
         .then(result => {
-           let categorias = result.data;
-           lvw.buildLvw(categorias);
+            loader.removeLoading();
+            let categorias = result.data;
+            lvw.buildLvw(categorias);
         })
         .catch( error => {
             console.log(error.message)
@@ -160,6 +163,8 @@ function closeForm()
     description.value = '';
     dialog.close();
 }
+
+
 
 function init()
 {
