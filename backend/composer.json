@@ -4,12 +4,11 @@
     "description": "Sistema de control de gastos.",
     "keywords": ["framework", "Slim", "gastos", "backend", "api"],
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^8.0",
         "slim/slim": "4.*",
         "slim/psr7": "^1.7",
         "vlucas/phpdotenv": "^5.6",
-        "ext-pdo": "*",
-      "ext-json": "*"
+        "ext-pdo": "*"
     },
     "autoload":{
         "psr-4":{
