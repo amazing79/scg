@@ -1,6 +1,10 @@
 import {actions} from "./actions.js";
 import {config} from "../config.js";
 
+let categoria = {
+    idCategoria:0,
+    descripcion:''
+}
 async function getCategories()
 {
     let request = new URL(actions.PATH ,config.URL_API);
@@ -74,4 +78,4 @@ async function deleteCategory(id)
     throw new Error('Ocurrio un error al intentar borrar la categoria');
 }
 
-export {getCategories, showCategory, storeCategory, updateCategory, deleteCategory}
+export {getCategories, showCategory, storeCategory, updateCategory, deleteCategory, categoria}

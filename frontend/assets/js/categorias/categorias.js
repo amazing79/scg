@@ -1,6 +1,6 @@
 import {Lvw} from "../common/lvw.js";
 import {Loader} from "../common/loader.js";
-import {getCategories, showCategory, storeCategory, updateCategory, deleteCategory} from "./categoriasRepository.js"
+import {getCategories, showCategory, storeCategory, updateCategory, deleteCategory, categoria} from "./categoriasRepository.js"
 
 let lvw = new Lvw(
     'lvw-data',
@@ -42,17 +42,17 @@ function editCategory(evt)
 }
 
 function loadObjectData() {
-    let obj = {idCategoria: 0, descripcion: ''};
+    let obj = Object.assign({}, categoria);
     let id = document.getElementById('itemId');
     let descripcion = document.getElementById('descripcion');
     obj.idCategoria = id.value ?? 0;
     obj.descripcion = descripcion.value.trim() ?? '';
-    return {obj, id, descripcion};
+    return obj;
 }
 
 function evtUpdateCategory()
 {
-    let {obj, id, descripcion} = loadObjectData();
+    let obj = loadObjectData();
     updateCategory(obj)
         .then(response => {
             console.log(response);
@@ -69,7 +69,7 @@ function evtUpdateCategory()
 
 function evtCreateCategory()
 {
-    let {obj, id, descripcion} = loadObjectData();
+    let obj = loadObjectData();
     storeCategory(obj)
         .then(response => {
             console.log(response);
