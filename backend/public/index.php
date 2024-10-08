@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-use App\Infrastructure\Common\Database;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
@@ -16,7 +15,9 @@ $dotenv->safeLoad();
 
 $builder = new ContainerBuilder();
 
-$container = $builder->addDefinitions(APP_ROOT . '/config/definitions.php')
+$container = $builder
+            ->addDefinitions(APP_ROOT . '/config/database.php')
+            ->addDefinitions(APP_ROOT . '/config/definitions.php')
             ->build();
 
 AppFactory::setContainer($container);
@@ -53,14 +54,7 @@ $app->add(function ($request, $handler) {
 $app->setBasePath($_ENV['APP_PATH']);
 
 $app->get('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
-    $db = new Database(
-        $_ENV['DB_HOST'],
-        $_ENV['DB_NAME'],
-        $_ENV['DB_USER'],
-        $_ENV['DB_PASS']
-    );
-    $repository = new \App\Infrastructure\Categorias\PdoCategoriasRepository($db);
-    $query = new \App\Application\Categorias\GetCategoriaById($repository);
+    $query = $this->get(\App\Application\Categorias\GetCategoriaById::class);
     $id = $args['id'];
     $result = $query->handle((int) $id);
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
@@ -70,13 +64,7 @@ $app->get('/categorias/{id:[0-9]+}', function (Request $request, Response $respo
 });
 
 $app->patch('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
-    $db = new Database(
-        $_ENV['DB_HOST'],
-        $_ENV['DB_NAME'],
-        $_ENV['DB_USER'],
-        $_ENV['DB_PASS']
-    );
-    $repository = new \App\Infrastructure\Categorias\PdoCategoriasRepository($db);
+    $repository = $this->get(\App\Infrastructure\Categorias\PdoCategoriasRepository::class);
     $command = new \App\Application\Categorias\UpdateCategoriaCommandHandler($repository);
     $values = $request->getParsedBody();
     $values['id'] = $args['id'];
@@ -88,13 +76,7 @@ $app->patch('/categorias/{id:[0-9]+}', function (Request $request, Response $res
 });
 
 $app->delete('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
-    $db = new Database(
-        $_ENV['DB_HOST'],
-        $_ENV['DB_NAME'],
-        $_ENV['DB_USER'],
-        $_ENV['DB_PASS']
-    );
-    $repository = new \App\Infrastructure\Categorias\PdoCategoriasRepository($db);
+    $repository = $this->get(\App\Infrastructure\Categorias\PdoCategoriasRepository::class);
     $command = new \App\Application\Categorias\DeleteCategoriaByIdCommandHandler($repository);
     $id = $args['id'];
     $result = $command->handle((int) $id);
@@ -106,13 +88,7 @@ $app->delete('/categorias/{id:[0-9]+}', function (Request $request, Response $re
 });
 
 $app->post('/categorias', function (Request $request, Response $response) {
-    $db = new Database(
-        $_ENV['DB_HOST'],
-        $_ENV['DB_NAME'],
-        $_ENV['DB_USER'],
-        $_ENV['DB_PASS']
-    );
-    $repository = new \App\Infrastructure\Categorias\PdoCategoriasRepository($db);
+    $repository = $this->get(\App\Infrastructure\Categorias\PdoCategoriasRepository::class);
     $command = new \App\Application\Categorias\CreateCategoriaCommandHandler($repository);
     $values = $request->getParsedBody();
     $result = $command->handle($values);
