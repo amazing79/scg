@@ -64,8 +64,7 @@ $app->get('/categorias/{id:[0-9]+}', function (Request $request, Response $respo
 });
 
 $app->patch('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
-    $repository = $this->get(\App\Infrastructure\Categorias\PdoCategoriasRepository::class);
-    $command = new \App\Application\Categorias\UpdateCategoriaCommandHandler($repository);
+    $command = $this->get(\App\Application\Categorias\UpdateCategoriaCommandHandler::class);
     $values = $request->getParsedBody();
     $values['id'] = $args['id'];
     $result = $command->handle($values);
@@ -76,8 +75,7 @@ $app->patch('/categorias/{id:[0-9]+}', function (Request $request, Response $res
 });
 
 $app->delete('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
-    $repository = $this->get(\App\Infrastructure\Categorias\PdoCategoriasRepository::class);
-    $command = new \App\Application\Categorias\DeleteCategoriaByIdCommandHandler($repository);
+    $command = $this->get(\App\Application\Categorias\DeleteCategoriaByIdCommandHandler::class);
     $id = $args['id'];
     $result = $command->handle((int) $id);
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
@@ -88,8 +86,7 @@ $app->delete('/categorias/{id:[0-9]+}', function (Request $request, Response $re
 });
 
 $app->post('/categorias', function (Request $request, Response $response) {
-    $repository = $this->get(\App\Infrastructure\Categorias\PdoCategoriasRepository::class);
-    $command = new \App\Application\Categorias\CreateCategoriaCommandHandler($repository);
+    $command = $this->get(\App\Application\Categorias\CreateCategoriaCommandHandler::class);
     $values = $request->getParsedBody();
     $result = $command->handle($values);
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
