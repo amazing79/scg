@@ -11,13 +11,16 @@ class Database
     private string $password;
 
     public function __construct(
-
+        string $host,
+        string $db,
+        string $user,
+        string $password
     )
     {
-        $this->host = empty($host) ? $_ENV['DB_HOST'] : $host;
-        $this->db = empty($db) ? $_ENV['DB_NAME'] : $db ;
-        $this->user = empty($user) ? $_ENV['DB_USER'] : $user;
-        $this->password = empty($password) ? $_ENV['DB_PASS'] : $password;
+        $this->host =  $host;
+        $this->db =  $db ;
+        $this->user = $user;
+        $this->password = $password;
     }
 
     public function getConnection():PDO
