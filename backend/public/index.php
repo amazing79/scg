@@ -5,6 +5,7 @@ use App\Infrastructure\Common\Database;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
+use DI\Container;
 
 define ('APP_ROOT', dirname(__DIR__));
 
@@ -12,6 +13,10 @@ require APP_ROOT . '/vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(APP_ROOT);
 $dotenv->safeLoad();
+
+$container = new Container();
+
+AppFactory::setContainer($container);
 
 $app = AppFactory::create();
 
@@ -115,13 +120,8 @@ $app->post('/categorias', function (Request $request, Response $response) {
 });
 
 $app->get('/categorias', function (Request $request, Response $response) {
-    $db = new Database(
-        $_ENV['DB_HOST'],
-        $_ENV['DB_NAME'],
-        $_ENV['DB_USER'],
-        $_ENV['DB_PASS']
-    );
-    $repository = new \App\Infrastructure\Categorias\PdoCategoriasRepository($db);
+    //$db = $this->get(Database::class);
+    $repository = $this->get(\App\Infrastructure\Categorias\PdoCategoriasRepository::class);
     $query = new \App\Application\Categorias\GetCategoriasQueryHandler($repository);
     $result = $query->handle();
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
