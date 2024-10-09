@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Infrastructure\Slim\Middleware\AddJsonResponseHeadeer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
@@ -51,6 +52,8 @@ $app->add(function ($request, $handler) {
         ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
 });
 
+$app->add(new AddJsonResponseHeadeer());
+
 $app->setBasePath($_ENV['APP_PATH']);
 
 $app->get('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
@@ -60,7 +63,7 @@ $app->get('/categorias/{id:[0-9]+}', function (Request $request, Response $respo
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
 
     $response->getBody()->write($dataAsJson);
-    return $response->withHeader('Content-Type', 'application/json')->withStatus($result['code']);
+    return $response->withStatus($result['code']);
 });
 
 $app->patch('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
@@ -71,7 +74,7 @@ $app->patch('/categorias/{id:[0-9]+}', function (Request $request, Response $res
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
 
     $response->getBody()->write($dataAsJson);
-    return $response->withHeader('Content-Type', 'application/json')->withStatus($result['code']);
+    return $response->withStatus($result['code']);
 });
 
 $app->delete('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
@@ -81,8 +84,7 @@ $app->delete('/categorias/{id:[0-9]+}', function (Request $request, Response $re
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
 
     $response->getBody()->write($dataAsJson);
-    return $response->withHeader('Content-Type', 'application/json')
-                    ->withStatus($result['code']);
+    return $response->withStatus($result['code']);
 });
 
 $app->post('/categorias', function (Request $request, Response $response) {
@@ -92,7 +94,7 @@ $app->post('/categorias', function (Request $request, Response $response) {
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
 
     $response->getBody()->write($dataAsJson);
-    return $response->withHeader('Content-Type', 'application/json')->withStatus($result['code']);
+    return $response->withStatus($result['code']);
 });
 
 $app->get('/categorias', function (Request $request, Response $response) {
@@ -101,7 +103,7 @@ $app->get('/categorias', function (Request $request, Response $response) {
     $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
 
     $response->getBody()->write($dataAsJson);
-    return $response->withHeader('Content-Type', 'application/json');
+    return $response->withStatus($result['code']);
 });
 
 $app->run();
