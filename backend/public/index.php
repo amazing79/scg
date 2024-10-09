@@ -91,13 +91,6 @@ $app->post('/categorias', function (Request $request, Response $response) {
     return $response->withStatus($result['code']);
 });
 
-$app->get('/categorias', function (Request $request, Response $response) {
-    $query = $this->get(\App\Application\Categorias\GetCategoriasQueryHandler::class);
-    $result = $query->handle();
-    $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
-
-    $response->getBody()->write($dataAsJson);
-    return $response->withStatus($result['code']);
-});
+$app->get('/categorias', \App\Infrastructure\Slim\Actions\Categories\GetCategoriesAction::class);
 
 $app->run();
