@@ -8,10 +8,9 @@ use App\Infrastructure\Slim\Actions\Categories\ShowCategoryAction;
 use App\Infrastructure\Slim\Actions\Categories\UpdateCategorieAction;
 use App\Infrastructure\Slim\Middleware\AddJsonResponseHeader;
 use App\Infrastructure\Slim\Middleware\EnableCorsSupport;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 use DI\ContainerBuilder;
+use Slim\Routing\RouteCollectorProxy;
 
 define ('APP_ROOT', dirname(__DIR__));
 
@@ -33,7 +32,6 @@ $app = AppFactory::create();
 
 // Parse json, form data and xml
 $app->addBodyParsingMiddleware();
-
 $app->addRoutingMiddleware();
 
 /**
@@ -45,7 +43,7 @@ $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 $errorHandler = $errorMiddleware->getDefaultErrorHandler();
 $errorHandler->forceContentType('application/json');
 
-$app->options('/{routes:.+}', function ($request, $response, $args) {
+$app->options('/{routes:.+}', function ($request, $response) {
     return $response;
 });
 //Agrego soporte para cors
@@ -55,14 +53,12 @@ $app->add(new AddJsonResponseHeader());
 
 $app->setBasePath($_ENV['APP_PATH']);
 
-$app->get('/categorias/{id:[0-9]+}', ShowCategoryAction::class);
-
-$app->patch('/categorias/{id:[0-9]+}', UpdateCategorieAction::class);
-
-$app->delete('/categorias/{id:[0-9]+}', DeleteCategoryAction::class);
-
-$app->post('/categorias', CreateCategoryAction::class);
-
-$app->get('/categorias', GetCategoriesAction::class);
+$app->group('/v1', function (RouteCollectorProxy $group) {
+    $group->get('/categorias/{id:[0-9]+}', ShowCategoryAction::class);
+    $group->patch('/categorias/{id:[0-9]+}', UpdateCategorieAction::class);
+    $group->delete('/categorias/{id:[0-9]+}', DeleteCategoryAction::class);
+    $group->post('/categorias', CreateCategoryAction::class);
+    $group->get('/categorias', GetCategoriesAction::class);
+});
 
 $app->run();
