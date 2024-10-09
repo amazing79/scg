@@ -1,6 +1,11 @@
 <?php
 declare(strict_types=1);
 
+use App\Infrastructure\Slim\Actions\Categories\CreateCategoryAction;
+use App\Infrastructure\Slim\Actions\Categories\DeleteCategoryAction;
+use App\Infrastructure\Slim\Actions\Categories\GetCategoriesAction;
+use App\Infrastructure\Slim\Actions\Categories\ShowCategoryAction;
+use App\Infrastructure\Slim\Actions\Categories\UpdateCategorieAction;
 use App\Infrastructure\Slim\Middleware\AddJsonResponseHeader;
 use App\Infrastructure\Slim\Middleware\EnableCorsSupport;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -50,47 +55,14 @@ $app->add(new AddJsonResponseHeader());
 
 $app->setBasePath($_ENV['APP_PATH']);
 
-$app->get('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
-    $query = $this->get(\App\Application\Categorias\GetCategoriaById::class);
-    $id = $args['id'];
-    $result = $query->handle((int) $id);
-    $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
+$app->get('/categorias/{id:[0-9]+}', ShowCategoryAction::class);
 
-    $response->getBody()->write($dataAsJson);
-    return $response->withStatus($result['code']);
-});
+$app->patch('/categorias/{id:[0-9]+}', UpdateCategorieAction::class);
 
-$app->patch('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
-    $command = $this->get(\App\Application\Categorias\UpdateCategoriaCommandHandler::class);
-    $values = $request->getParsedBody();
-    $values['id'] = $args['id'];
-    $result = $command->handle($values);
-    $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
+$app->delete('/categorias/{id:[0-9]+}', DeleteCategoryAction::class);
 
-    $response->getBody()->write($dataAsJson);
-    return $response->withStatus($result['code']);
-});
+$app->post('/categorias', CreateCategoryAction::class);
 
-$app->delete('/categorias/{id:[0-9]+}', function (Request $request, Response $response, $args) {
-    $command = $this->get(\App\Application\Categorias\DeleteCategoriaByIdCommandHandler::class);
-    $id = $args['id'];
-    $result = $command->handle((int) $id);
-    $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
-
-    $response->getBody()->write($dataAsJson);
-    return $response->withStatus($result['code']);
-});
-
-$app->post('/categorias', function (Request $request, Response $response) {
-    $command = $this->get(\App\Application\Categorias\CreateCategoriaCommandHandler::class);
-    $values = $request->getParsedBody();
-    $result = $command->handle($values);
-    $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
-
-    $response->getBody()->write($dataAsJson);
-    return $response->withStatus($result['code']);
-});
-
-$app->get('/categorias', \App\Infrastructure\Slim\Actions\Categories\GetCategoriesAction::class);
+$app->get('/categorias', GetCategoriesAction::class);
 
 $app->run();
