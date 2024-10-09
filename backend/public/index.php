@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use App\Infrastructure\Slim\Middleware\AddJsonResponseHeadeer;
+use App\Infrastructure\Slim\Middleware\EnableCorsSupport;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
@@ -42,15 +43,8 @@ $errorHandler->forceContentType('application/json');
 $app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
 });
-
-$app->add(function ($request, $handler) {
-    $response = $handler->handle($request);
-    return $response
-        ->withHeader('Access-Control-Allow-Origin', $_ENV['ORIGIN'] ?? '*')
-        ->withHeader('Vary', 'Origin')
-        ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
-        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-});
+//Agrego soporte para cors
+$app->add(new EnableCorsSupport());
 
 $app->add(new AddJsonResponseHeadeer());
 
