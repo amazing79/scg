@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use App\Infrastructure\Slim\Middleware\AddJsonResponseHeadeer;
+use App\Infrastructure\Slim\Middleware\AddJsonResponseHeader;
 use App\Infrastructure\Slim\Middleware\EnableCorsSupport;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -46,7 +46,7 @@ $app->options('/{routes:.+}', function ($request, $response, $args) {
 //Agrego soporte para cors
 $app->add(new EnableCorsSupport());
 
-$app->add(new AddJsonResponseHeadeer());
+$app->add(new AddJsonResponseHeader());
 
 $app->setBasePath($_ENV['APP_PATH']);
 
