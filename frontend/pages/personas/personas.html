@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personas - Mi Sitio Web</title>
-    <link href="../../assets/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/all.min.css" >
+    <link rel="stylesheet" href="../../assets/css/lvw.css">
+    <link rel="stylesheet" href="../../assets/css/loader.css">
     <link rel="stylesheet" href="../../assets/css/app.css">
     <script src="../../assets/js/common/script.js" defer></script>
-
 </head>
 <body>
     <header>
@@ -25,11 +26,53 @@
         </nav>
     </aside>
 
-    <main id="content">
+    <<main id="content"> <!-- Contenedor principal que aplicaremos el blur -->
+        <template id="loading">
+            <div class="loader__container">
+                <div class="loader"></div>
+            </div>
+        </template>
         <section id="personas">
             <h2>Personas</h2>
-            <p>Aquí puedes ver la información sobre las personas.</p>
+            <div id="lvw-data">
+                <!-- Contenedor que contendra la data -->
+            </div>
         </section>
     </main>
+    <dialog id="itemDialog">
+        <div class="dialog__title">
+            <h3>Sistema SCG</h3>
+        </div>
+        <div class="dialog__body">
+            <form id="itemForm" class="user-form" method="dialog">
+                <input type="hidden" id="itemId" name="itemId" value="0">
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" name="apellido" required>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+                <label for="apodo">Apodo (Opcional):</label>
+                <input type="text" id="apodo" name="apodo">
+                <div class="button-panel">
+                    <button type="submit" class="btn submit">Aceptar</button>
+                    <button type="button" class="btn cancel" id="formCancelBtn">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="confirmDialog">
+        <div class="dialog__title">
+            <h3>Sistema SCG</h3>
+        </div>
+        <div class="dialog__body">
+            <p>¿Estás seguro de que deseas eliminar este elemento?</p>
+            <br />
+            <div class="button-panel">
+                <button id="dialogConfirmDeleteBtn" class="btn submit">Eliminar</button>
+                <button id="dialogConfirmCancelBtn" class="btn cancel">Cancelar</button>
+            </div>
+        </div>
+    </dialog>
+    <script type="module" src="../../assets/js/personas/personas.js"></script>
 </body>
 </html>
