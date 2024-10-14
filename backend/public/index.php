@@ -6,6 +6,11 @@ use App\Infrastructure\Slim\Actions\Categories\DeleteCategoryAction;
 use App\Infrastructure\Slim\Actions\Categories\GetCategoriesAction;
 use App\Infrastructure\Slim\Actions\Categories\ShowCategoryAction;
 use App\Infrastructure\Slim\Actions\Categories\UpdateCategorieAction;
+use App\Infrastructure\Slim\Actions\Personas\CreatePersonAction;
+use App\Infrastructure\Slim\Actions\Personas\DeletePersonAction;
+use App\Infrastructure\Slim\Actions\Personas\GetPersonsAction;
+use App\Infrastructure\Slim\Actions\Personas\ShowPersonAction;
+use App\Infrastructure\Slim\Actions\Personas\UpdatePersonAction;
 use App\Infrastructure\Slim\Middleware\AddJsonResponseHeader;
 use App\Infrastructure\Slim\Middleware\EnableCorsSupport;
 use Slim\Factory\AppFactory;
@@ -24,6 +29,7 @@ $builder = new ContainerBuilder();
 $container = $builder
             ->addDefinitions(APP_ROOT . '/config/database.php')
             ->addDefinitions(APP_ROOT . '/config/definitions.php')
+            ->addDefinitions(APP_ROOT . '/config/persons_definitions.php')
             ->build();
 
 AppFactory::setContainer($container);
@@ -59,6 +65,12 @@ $app->group('/v1', function (RouteCollectorProxy $group) {
     $group->delete('/categorias/{id:[0-9]+}', DeleteCategoryAction::class);
     $group->post('/categorias', CreateCategoryAction::class);
     $group->get('/categorias', GetCategoriesAction::class);
+    //ABM Personas
+    $group->get('/personas/{id:[0-9]+}', ShowPersonAction::class);
+    $group->patch('/personas/{id:[0-9]+}', UpdatePersonAction::class);
+    $group->delete('/personas/{id:[0-9]+}', DeletePersonAction::class);
+    $group->post('/personas', CreatePersonAction::class);
+    $group->get('/personas', GetPersonsAction::class);
 });
 
 $app->run();
