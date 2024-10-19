@@ -29,9 +29,9 @@ class Gastos
         return $this->descripcion;
     }
 
-    public function getFecha(): \DateTimeImmutable
+    public function getFecha(): string
     {
-        return $this->fecha;
+        return $this->fecha->format('Y-m-d');
     }
 
     public function getMonto(): float
@@ -56,9 +56,11 @@ class Gastos
 
     public static function fromArray(array $array): Gastos
     {
-        $idPago = $array['idPago'] ?? 0;
+        $idPago = $array['id'] ?? 0;
         $descripcion = $array['descripcion'] ?? '';
-        $fecha = $array['fecha'] ?? new DateTimeImmutable('now');
+        $fecha = isset($array['fecha'])
+            ? new DateTimeImmutable($array['fecha'])
+            : new DateTimeImmutable('now');
         $monto = $array['monto'] ?? 0.0;
         $categoria = $array['categoria'] ?? 0;
         $persona = $array['persona'] ?? 0;

@@ -22,7 +22,7 @@ class CreateGastoCommandHandler
             $idGasto = $this->repository->create($gasto);
             $response['data'] = $idGasto;
             $response['code'] = 201;
-            $response['message'] = 'Gasto registrado correctamente';
+            $response['message'] = "Gasto registrado correctamente con el id {$idGasto}";
         } catch (\Exception $e) {
             $response['code'] = 500;
             $response['message'] = "Code error: {$e->getCode()} - descripcion: {$e->getMessage()}";

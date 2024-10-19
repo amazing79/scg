@@ -6,6 +6,11 @@ use App\Infrastructure\Slim\Actions\Categories\DeleteCategoryAction;
 use App\Infrastructure\Slim\Actions\Categories\GetCategoriesAction;
 use App\Infrastructure\Slim\Actions\Categories\ShowCategoryAction;
 use App\Infrastructure\Slim\Actions\Categories\UpdateCategorieAction;
+use App\Infrastructure\Slim\Actions\Gastos\CreateBillAction;
+use App\Infrastructure\Slim\Actions\Gastos\DeleteBillAction;
+use App\Infrastructure\Slim\Actions\Gastos\GetBillsAction;
+use App\Infrastructure\Slim\Actions\Gastos\ShowBillAction;
+use App\Infrastructure\Slim\Actions\Gastos\UpdateBillAction;
 use App\Infrastructure\Slim\Actions\Personas\CreatePersonAction;
 use App\Infrastructure\Slim\Actions\Personas\DeletePersonAction;
 use App\Infrastructure\Slim\Actions\Personas\GetPersonsAction;
@@ -30,6 +35,7 @@ $container = $builder
             ->addDefinitions(APP_ROOT . '/config/database.php')
             ->addDefinitions(APP_ROOT . '/config/definitions.php')
             ->addDefinitions(APP_ROOT . '/config/persons_definitions.php')
+            ->addDefinitions(APP_ROOT . '/config/bills_definitions.php')
             ->build();
 
 AppFactory::setContainer($container);
@@ -72,11 +78,11 @@ $app->group('/v1', function (RouteCollectorProxy $group) {
     $group->post('/personas', CreatePersonAction::class);
     $group->get('/personas', GetPersonsAction::class);
     //AMB Gastos
-    $group->get('/gastos/{id:[0-9]+}', ShowPersonAction::class);
-    $group->patch('/gastos/{id:[0-9]+}', UpdatePersonAction::class);
-    $group->delete('/gastos/{id:[0-9]+}', DeletePersonAction::class);
-    $group->post('/gastos', \App\Infrastructure\Slim\Actions\Gastos\CreateBillAction::class);
-    $group->get('/gastos', \App\Infrastructure\Slim\Actions\Gastos\GetBillsAction::class);
+    $group->get('/gastos/{id:[0-9]+}', ShowBillAction::class);
+    $group->patch('/gastos/{id:[0-9]+}', UpdateBillAction::class);
+    $group->delete('/gastos/{id:[0-9]+}', DeleteBillAction::class);
+    $group->post('/gastos', CreateBillAction::class);
+    $group->get('/gastos', GetBillsAction::class);
 });
 
 $app->run();

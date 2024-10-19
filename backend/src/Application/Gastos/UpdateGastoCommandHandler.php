@@ -15,7 +15,6 @@ class UpdateGastoCommandHandler
         private GastosRepository $repository
     )
     {
-
     }
 
     public function handle($values): array
