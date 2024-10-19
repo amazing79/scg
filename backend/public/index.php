@@ -71,6 +71,12 @@ $app->group('/v1', function (RouteCollectorProxy $group) {
     $group->delete('/personas/{id:[0-9]+}', DeletePersonAction::class);
     $group->post('/personas', CreatePersonAction::class);
     $group->get('/personas', GetPersonsAction::class);
+    //AMB Gastos
+    $group->get('/gastos/{id:[0-9]+}', ShowPersonAction::class);
+    $group->patch('/gastos/{id:[0-9]+}', UpdatePersonAction::class);
+    $group->delete('/gastos/{id:[0-9]+}', DeletePersonAction::class);
+    $group->post('/gastos', \App\Infrastructure\Slim\Actions\Gastos\CreateBillAction::class);
+    $group->get('/gastos', \App\Infrastructure\Slim\Actions\Gastos\GetBillsAction::class);
 });
 
 $app->run();
