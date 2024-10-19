@@ -29,7 +29,7 @@ class DeleteGastoCommandHandler
             $response['code'] = 200;
             $response['message'] = 'Gasto eliminado correctamente';
         } catch (GastoNotFoundExceptions $e) {
-            $response['code'] = $e->getMessage();
+            $response['code'] = $e->getCode();
             $response['message'] = $e->getMessage();
         } catch (\Exception $e) {
             $response['code'] = 500;

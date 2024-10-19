@@ -66,7 +66,14 @@ class PdoGastosRepository implements GastosRepository
 
     public function delete($id)
     {
-        throw new \Exception('Metodo no implementado');
+        $sql = 'DELETE FROM gastos WHERE idGasto = :id';
+
+        $pdo = $this->db->getConnection();
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->rowCount();
     }
 
     public function findById($id)
