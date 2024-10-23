@@ -2,8 +2,10 @@
 
 namespace App\Infrastructure\Gastos;
 
+use App\Domain\Gastos\GastoDetalle;
 use App\Domain\Gastos\Gastos;
 use App\Domain\Gastos\GastosRepository;
+use App\Domain\Personas\Persona;
 use App\Infrastructure\Common\Database;
 use PDO;
 
@@ -56,7 +58,7 @@ class PdoGastosRepository implements GastosRepository
         $stmt->bindValue(':categoria', $data->getCategoria(), PDO::PARAM_INT);
         $stmt->bindValue(':persona', $data->getPersona(), PDO::PARAM_INT);
         $stmt->bindValue(':observaciones', $data->getObservaciones());
-        $stmt->bindValue(':id', $data->getIdPago(), PDO::PARAM_INT);
+        $stmt->bindValue(':id', $data->getIdGasto(), PDO::PARAM_INT);
 
 
         $stmt->execute();
@@ -87,18 +89,35 @@ class PdoGastosRepository implements GastosRepository
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($data) {
+            $fecha = new \DateTimeImmutable($data['fecha_gasto']);
+            $data['fecha_gasto'] = $fecha->format('Y-m-d');
+        }
+
+        return $data;
     }
 
     public function getAll(): bool|array
     {
+        $result = [];
        $pdo = $this->db->getConnection();
        $stmt = $pdo->query("
                 SELECT 
-                    idGasto, fecha_gasto, descripcion, monto, categoria, persona, observaciones
+                    idGasto as id, fecha_gasto as fecha, descripcion, monto, categoria, persona, observaciones,
+                    per.idPersona, per.apellido, per.nombre, per.apodo
                 FROM 
-                gastos"
+                gastos gt
+                INNER JOIN persona per ON per.idPersona = gt.persona
+                "
        );
-       return $stmt->fetchAll(PDO::FETCH_ASSOC);
+       $dbData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+       foreach ($dbData as $gasto) {
+           $persona = Persona::createFromArray($gasto);
+           $gasto = Gastos::fromArray($gasto);
+           $gastoDetalle = new GastoDetalle($gasto, $persona);
+           $result[] = $gastoDetalle;
+       }
+       return $result;
     }
 }

@@ -8,7 +8,7 @@ class Gastos
 {
 
     public function __construct(
-        private int $idPago,
+        private int $idGasto,
         private string $descripcion,
         private \DateTimeImmutable $fecha,
         private float $monto,
@@ -19,9 +19,9 @@ class Gastos
     {
     }
 
-    public function getIdPago(): int
+    public function getIdGasto(): int
     {
-        return $this->idPago;
+        return $this->idGasto;
     }
 
     public function getDescripcion(): string
@@ -29,9 +29,9 @@ class Gastos
         return $this->descripcion;
     }
 
-    public function getFecha(): string
+    public function getFecha($format = 'Y-m-d'): string
     {
-        return $this->fecha->format('Y-m-d');
+        return $this->fecha->format($format);
     }
 
     public function getMonto(): float

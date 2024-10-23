@@ -1,5 +1,5 @@
 export class Lvw {
-    constructor(anId, aKey, aName, aFields, handleEdit = null, handleDelete = null, formDialog = null)
+    constructor(anId, aKey, aName, aFields, handleEdit = null, handleDelete = null, formDialog = null, config = null)
     {
         this._id = anId;
         this._key = aKey;
@@ -8,7 +8,7 @@ export class Lvw {
         this._handle_edit = handleEdit ?? function (){ console.log('handler edit no definido');}
         this._handle_delete = handleDelete ?? function (){ console.log('handler delete no definido');};
         this._formDialog = document.getElementById(formDialog);
-        this._data = [];
+        this._data = config;
     }
 
     makeCaption()
@@ -53,7 +53,10 @@ export class Lvw {
     {
         let _tr = document.createElement('tr');
         _tr.setAttribute('id', `lvw_row_${obj[this._key]}`);
-        for(let prop in obj) {
+
+        let columns = this._data ?? obj;
+
+        for(let prop in columns) {
             let _td = document.createElement('td');
             _td.innerText = obj[prop];
             _td.setAttribute('data-column', prop);

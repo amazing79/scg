@@ -4,6 +4,16 @@ import {getPersons} from "../personas/personasRepository.js"
 import {getCategories} from "../categorias/categoriasRepository.js";
 import {gasto, getBills, showBill, storeBill, updateBill, deleteBill} from "./gastosRepository.js";
 
+let visibleData = {
+    idGasto: 0,
+    fecha:0,
+    descripcion: '',
+    monto: 0,
+    categoria: 0,
+    datosPersona:'',
+    observaciones:''
+}
+
 let lvw = new Lvw(
     'lvw-data',
     'idGasto',
@@ -11,7 +21,8 @@ let lvw = new Lvw(
     ['ID', 'Fecha Gasto', 'Descripcion', 'Monto', 'Categoria', 'Persona', 'Observaciones'],
     editBill,
     showConfirmDialog,
-    'itemDialog'
+    'itemDialog',
+    visibleData
 );
 
 let loader = new Loader('lvw-data','loading');

@@ -5,6 +5,7 @@ use App\Application\Gastos\DeleteGastoCommandHandler;
 use App\Application\Gastos\GetGastoByIdQueryHandler;
 use App\Application\Gastos\GetGastosQueryHandler;
 use App\Application\Gastos\UpdateGastoCommandHandler;
+use App\Domain\Gastos\GastosPresenter;
 use App\Infrastructure\Common\Database;
 use App\Infrastructure\Gastos\PdoGastosRepository;
 use DI\Container;
@@ -16,7 +17,7 @@ return [
     GetGastosQueryHandler::class =>  function (Container $container) {
         return new GetGastosQueryHandler(
             $container->get(PdoGastosRepository::class),
-            null
+            new GastosPresenter()
         );
     },
     GetGastoByIdQueryHandler::class => function (Container $container) {
