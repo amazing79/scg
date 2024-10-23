@@ -1,12 +1,13 @@
-import {Lvw} from "../common/lvw.js";
+import {config, Lvw} from "../common/lvw.js";
 import {Loader} from "../common/loader.js";
 import {getCategories, showCategory, storeCategory, updateCategory, deleteCategory, categoria} from "./categoriasRepository.js"
 
+config.id = 'lvw-data';
+config.key = 'idCategoria';
+config.name = 'Categorias';
+config.fields = ['id', 'descripcion'];
 let lvw = new Lvw(
-    'lvw-data',
-    'idCategoria',
-    'Categorias',
-    ['id', 'descripcion'],
+    config,
     editCategory,
     showConfirmDialog,
     'itemDialog'

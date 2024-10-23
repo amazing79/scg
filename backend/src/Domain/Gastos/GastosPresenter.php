@@ -3,7 +3,6 @@
 namespace App\Domain\Gastos;
 
 use App\Domain\Common\Presenter;
-use App\Domain\Personas\Persona;
 
 class GastosPresenter implements Presenter
 {

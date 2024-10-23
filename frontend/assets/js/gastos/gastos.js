@@ -1,4 +1,4 @@
-import {Lvw} from "../common/lvw.js";
+import {config, Lvw} from "../common/lvw.js";
 import {Loader} from "../common/loader.js";
 import {getPersons} from "../personas/personasRepository.js"
 import {getCategories} from "../categorias/categoriasRepository.js";
@@ -13,16 +13,16 @@ let visibleData = {
     datosPersona:'',
     observaciones:''
 }
-
+config.id = 'lvw-data';
+config.key = 'idGasto';
+config.name = 'Gastos';
+config.fields = ['ID', 'Fecha Gasto', 'Descripcion', 'Monto', 'Categoria', 'Persona', 'Observaciones'];
+config.showFields = visibleData;
 let lvw = new Lvw(
-    'lvw-data',
-    'idGasto',
-    'Gastos',
-    ['ID', 'Fecha Gasto', 'Descripcion', 'Monto', 'Categoria', 'Persona', 'Observaciones'],
+    config,
     editBill,
     showConfirmDialog,
     'itemDialog',
-    visibleData
 );
 
 let loader = new Loader('lvw-data','loading');
@@ -82,6 +82,7 @@ function loadObjectData() {
     obj.categoria = categoria[categoria.selectedIndex].value ?? 0;
     obj.persona = persona[persona.selectedIndex].value ?? 0;
     obj.observaciones = observaciones.value.trim() ?? '';
+    obj.datosPersona = persona[persona.selectedIndex].innerHTML;
     return obj;
 }
 
