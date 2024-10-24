@@ -9,7 +9,7 @@ let visibleData = {
     fecha:0,
     descripcion: '',
     monto: 0,
-    categoria: 0,
+    datosCategoria: '',
     datosPersona:'',
     observaciones:''
 }
@@ -80,9 +80,11 @@ function loadObjectData() {
     obj.descripcion = descripcion.value.trim() ?? '';
     obj.monto = monto.value.trim() ?? 0.0;
     obj.categoria = categoria[categoria.selectedIndex].value ?? 0;
+    obj.datosCategoria = categoria[categoria.selectedIndex].innerHTML ?? '';
     obj.persona = persona[persona.selectedIndex].value ?? 0;
     obj.observaciones = observaciones.value.trim() ?? '';
-    obj.datosPersona = persona[persona.selectedIndex].innerHTML;
+    obj.datosPersona = persona[persona.selectedIndex].innerHTML ?? '';
+
     return obj;
 }
 

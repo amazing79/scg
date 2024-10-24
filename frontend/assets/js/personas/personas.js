@@ -10,7 +10,6 @@ config.fields = ['id', 'apellido', 'nombre', 'apodo'];
 
 let lvw = new Lvw(
     config,
-    ['id', 'apellido', 'nombre', 'apodo'],
     editPerson,
     showConfirmDialog,
     'itemDialog'

@@ -17,6 +17,8 @@ class CreateGastoCommandHandler
     public function handle($values): array
     {
         $response = [];
+        $response['code'] = 500;
+        $response['message'] = 'Error inesperado, por favor intente de nuevo';
         try{
             $gasto = Gastos::fromArray($values);
             $idGasto = $this->repository->create($gasto);
@@ -24,7 +26,7 @@ class CreateGastoCommandHandler
             $response['code'] = 201;
             $response['message'] = "Gasto registrado correctamente con el id {$idGasto}";
         } catch (\Exception $e) {
-            $response['code'] = 500;
+
             $response['message'] = "Code error: {$e->getCode()} - descripcion: {$e->getMessage()}";
         } finally {
             return $response;

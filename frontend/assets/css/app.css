@@ -99,15 +99,15 @@ h1, h2 {
     margin: 20px auto;
 }
 
-input{
+input, select{
     height: 30px;
-    margin-bottom: 20px;
-    padding-left: 10px;
-    margin-left: 20px;
+    margin-bottom: 15px;
+    padding-left: 5px;
+    margin-left: 10px;
 }
 
 label{
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .button-panel{

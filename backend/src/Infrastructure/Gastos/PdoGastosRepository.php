@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Gastos;
 
+use App\Domain\Categorias\Categoria;
 use App\Domain\Gastos\GastoDetalle;
 use App\Domain\Gastos\Gastos;
 use App\Domain\Gastos\GastosRepository;
@@ -101,21 +102,26 @@ class PdoGastosRepository implements GastosRepository
     public function getAll(): bool|array
     {
         $result = [];
-       $pdo = $this->db->getConnection();
-       $stmt = $pdo->query("
+        $pdo = $this->db->getConnection();
+        $stmt = $pdo->query("
                 SELECT 
-                    idGasto as id, fecha_gasto as fecha, descripcion, monto, categoria, persona, observaciones,
-                    per.idPersona, per.apellido, per.nombre, per.apodo
+                    idGasto as id, fecha_gasto as fecha, gt.descripcion, monto, categoria, persona, observaciones
+                    , per.idPersona, per.apellido, per.nombre, per.apodo
+                    , cat.idCategoria, cat.descripcion as descripcionCategoria
                 FROM 
                 gastos gt
                 INNER JOIN persona per ON per.idPersona = gt.persona
+                INNER JOIN categorias cat on cat.idCategoria = gt.categoria
+                ORDER BY 
+                    per.apellido, per.nombre, fecha_gasto
                 "
        );
        $dbData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-       foreach ($dbData as $gasto) {
-           $persona = Persona::createFromArray($gasto);
-           $gasto = Gastos::fromArray($gasto);
-           $gastoDetalle = new GastoDetalle($gasto, $persona);
+       foreach ($dbData as $unGasto) {
+           $persona = Persona::createFromArray($unGasto);
+           $gasto = Gastos::fromArray($unGasto);
+           $categoria = Categoria::createFromArray($unGasto);
+           $gastoDetalle = new GastoDetalle($gasto, $persona, $categoria);
            $result[] = $gastoDetalle;
        }
        return $result;

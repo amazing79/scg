@@ -22,6 +22,8 @@ class GetGastosQueryHandler
     public function handle(): array
     {
         $response = [];
+        $response['code'] = 500;
+        $response['message'] = '';
         try {
             $gastos = $this->repository->getAll();
             if ($this->hasPresenter()) {
@@ -31,7 +33,6 @@ class GetGastosQueryHandler
             $response['data'] = $gastos;
             $response['message'] = 'Gastos obtenidos correctamente';
         } catch (\Exception $e) {
-            $response['code'] = 500;
             $response['message'] = "Code error: {$e->getCode()} - descripcion: {$e->getMessage()}";
         } finally {
             return $response;
