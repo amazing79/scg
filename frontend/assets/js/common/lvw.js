@@ -104,11 +104,14 @@ class Lvw {
     buildLvw(data)
     {
         let container = document.getElementById(this._id);
+        let tableContainer = document.createElement('div');
         let table = document.createElement('table');
         table.appendChild(this.makeCaption());
         table.appendChild(this.makeHeader());
         table.appendChild(this.makeBody(data));
-        container.appendChild(table);
+        tableContainer.setAttribute("id", "lvw-table-container");
+        tableContainer.appendChild(table);
+        container.appendChild(tableContainer);
         container.appendChild(this.makeMainBtn())
     }
 

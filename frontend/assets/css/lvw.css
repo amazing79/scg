@@ -130,3 +130,11 @@ tbody > tr:nth-of-type(even) {
 .delete i {
     color: #dc3545;
 }
+
+@media screen and (max-width: 800px) {
+
+    #lvw-table-container {
+        width: calc(100% - 5px);
+        overflow-x: scroll;
+    }
+}
