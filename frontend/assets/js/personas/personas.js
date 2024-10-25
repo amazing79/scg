@@ -1,12 +1,15 @@
-import {Lvw} from "../common/lvw.js";
+import {config, Lvw} from "../common/lvw.js";
 import {Loader} from "../common/loader.js";
 import {persona, getPersons, showPerson, storePerson, updatePerson, deletePerson} from "./personasRepository.js"
 
+
+config.id = 'lvw-data';
+config.key = 'idPersona';
+config.name = 'Personas';
+config.fields = ['id', 'apellido', 'nombre', 'apodo'];
+
 let lvw = new Lvw(
-    'lvw-data',
-    'idPersona',
-    'Personas',
-    ['id', 'apellido', 'nombre', 'apodo'],
+    config,
     editPerson,
     showConfirmDialog,
     'itemDialog'

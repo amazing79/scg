@@ -36,15 +36,15 @@ class Categoria
 
     public static function createFromArray($values): Categoria
     {
-        $id = $values['id'] ?? 0;
-        $descripcion = $values['descripcion'] ?? '';
+        $id = $values['idCategoria'] ?? $values['id'] ?? 0;
+        $descripcion = $values['descripcionCategoria'] ?? $values['descripcion'] ?? '';
         return new self(
             $id,
             $descripcion
         );
     }
 
-    private function assertValidDescription($descripcion)
+    private function assertValidDescription($descripcion): void
     {
         if (!is_string($descripcion) || !strlen(trim($descripcion))) {
             throw new \InvalidArgumentException('Debe ingresar una descripción.');

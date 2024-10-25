@@ -1,14 +1,22 @@
-export class Lvw {
-    constructor(anId, aKey, aName, aFields, handleEdit = null, handleDelete = null, formDialog = null)
+let config = {
+    id:'',
+    key:'',
+    name:'',
+    fields: [],
+    showFields: null
+}
+
+class Lvw {
+    constructor(config, handleEdit = null, handleDelete = null, formDialog = null)
     {
-        this._id = anId;
-        this._key = aKey;
-        this._name = aName;
-        this._fields = aFields
+        this._id = config.id;
+        this._key = config.key;
+        this._name = config.name;
+        this._fields = config.fields
+        this._visible_fields = config.showFields;
         this._handle_edit = handleEdit ?? function (){ console.log('handler edit no definido');}
         this._handle_delete = handleDelete ?? function (){ console.log('handler delete no definido');};
         this._formDialog = document.getElementById(formDialog);
-        this._data = [];
     }
 
     makeCaption()
@@ -53,7 +61,10 @@ export class Lvw {
     {
         let _tr = document.createElement('tr');
         _tr.setAttribute('id', `lvw_row_${obj[this._key]}`);
-        for(let prop in obj) {
+
+        let columns = this._visible_fields ?? obj;
+
+        for(let prop in columns) {
             let _td = document.createElement('td');
             _td.innerText = obj[prop];
             _td.setAttribute('data-column', prop);
@@ -93,11 +104,14 @@ export class Lvw {
     buildLvw(data)
     {
         let container = document.getElementById(this._id);
+        let tableContainer = document.createElement('div');
         let table = document.createElement('table');
         table.appendChild(this.makeCaption());
         table.appendChild(this.makeHeader());
         table.appendChild(this.makeBody(data));
-        container.appendChild(table);
+        tableContainer.setAttribute("id", "lvw-table-container");
+        tableContainer.appendChild(table);
+        container.appendChild(tableContainer);
         container.appendChild(this.makeMainBtn())
     }
 
@@ -156,3 +170,5 @@ export class Lvw {
         }
     }
 }
+
+export {config, Lvw}

@@ -47,9 +47,14 @@ class Persona
         return $this->apodo;
     }
 
+    public function getApellidoNombre(): string
+    {
+        return "{$this->apellido}, {$this->nombre}";
+    }
+
     public static function createFromArray(array $data): self
     {
-        $id = $data['id'] ?? 0;
+        $id = $data['idPersona'] ?? $data['id'] ?? 0;
         $nombre = $data['nombre'] ?? '';
         $apellido = $data['apellido'] ?? '';
         $apodo = $data['apodo'] ?? '';
