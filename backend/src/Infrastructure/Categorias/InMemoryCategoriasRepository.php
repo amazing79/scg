@@ -7,6 +7,12 @@ use App\Domain\Categorias\CategoriasRepository;
 class InMemoryCategoriasRepository implements CategoriasRepository
 {
 
+
+    public function __construct(protected array $memory = [])
+    {
+
+    }
+
     public function create($data)
     {
         $method = __METHOD__;
@@ -31,9 +37,8 @@ class InMemoryCategoriasRepository implements CategoriasRepository
         throw new \Exception("el metodo {$method} aún no ha sido implementado");
     }
 
-    public function getAll()
+    public function getAll(): array
     {
-        $method = __METHOD__;
-        throw new \Exception("el metodo {$method} aún no ha sido implementado");
+        return $this->memory;
     }
 }

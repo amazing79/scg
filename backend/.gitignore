@@ -4,3 +4,4 @@ vendor
 ../.idea/
 .htaccess
 public/.htaccess
+.phpunit.result.cache
