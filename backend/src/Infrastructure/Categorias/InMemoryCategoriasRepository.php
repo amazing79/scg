@@ -13,10 +13,11 @@ class InMemoryCategoriasRepository implements CategoriasRepository
 
     }
 
-    public function create($data)
+    public function create($data): int
     {
-        $method = __METHOD__;
-        throw new \Exception("el metodo {$method} aún no ha sido implementado");
+        $id = count($this->memory) + 1;
+        $this->memory[$id] = $data;
+        return $id;
     }
 
     public function update($data)

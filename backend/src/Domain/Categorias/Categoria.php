@@ -5,13 +5,13 @@ namespace App\Domain\Categorias;
 class Categoria
 {
     private $id;
-    private $descripcion;
+    private string $descripcion;
 
     /**
      * @param $id
-     * @param $descripcion
+     * @param string $descripcion
      */
-    public function __construct($id, $descripcion)
+    public function __construct($id, string $descripcion)
     {
         $this->assertValidDescription($descripcion);
         $this->id = $id;
@@ -27,9 +27,9 @@ class Categoria
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getDescripcion()
+    public function getDescripcion(): string
     {
         return $this->descripcion;
     }

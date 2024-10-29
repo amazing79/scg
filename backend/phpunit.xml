@@ -6,6 +6,7 @@
         processIsolation="false"
         stopOnFailure="false"
         bootstrap="tests/bootstrap.php"
+        testdox="true"
 >
     <testsuites>
         <testsuite name="Test SCG">
