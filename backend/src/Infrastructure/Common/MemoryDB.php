@@ -38,11 +38,11 @@ class MemoryDB
         $this->db = [];
     }
 
-    public function find($value, $field): array
+    public function find($value, $method): array
     {
         $matches = [];
         foreach ($this->db as $key => $data) {
-            if ($data[$field] === $value) {
+            if (str_contains($data->$method(), $value)) {
                 $matches[$key] = $data;
             }
         }

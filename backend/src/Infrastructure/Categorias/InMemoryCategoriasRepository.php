@@ -9,7 +9,6 @@ use App\Infrastructure\Common\MemoryDB;
 class InMemoryCategoriasRepository implements CategoriasRepository
 {
 
-
     public function __construct(protected ?MemoryDB $db =null)
     {
         $this->db = $this->db ?? new MemoryDB();
@@ -28,10 +27,9 @@ class InMemoryCategoriasRepository implements CategoriasRepository
        $this->db->set($data->getId(), $data);
     }
 
-    public function delete($id)
+    public function delete($id): void
     {
-        $method = __METHOD__;
-        throw new \Exception("el metodo {$method} aún no ha sido implementado");
+        $this->db->remove($id);
     }
 
     public function findById($id)
@@ -43,4 +41,5 @@ class InMemoryCategoriasRepository implements CategoriasRepository
     {
         return $this->db->getAll();
     }
+
 }
