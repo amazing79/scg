@@ -2,28 +2,30 @@
 
 namespace App\Infrastructure\Categorias;
 
+use App\Domain\Categorias\Categoria;
 use App\Domain\Categorias\CategoriasRepository;
+use App\Infrastructure\Common\MemoryDB;
 
 class InMemoryCategoriasRepository implements CategoriasRepository
 {
 
 
-    public function __construct(protected array $memory = [])
+    public function __construct(protected ?MemoryDB $db =null)
     {
-
+        $this->db = $this->db ?? new MemoryDB();
     }
 
     public function create($data): int
     {
-        $id = count($this->memory) + 1;
-        $this->memory[$id] = $data;
-        return $id;
+        return $this->db->add($data);
     }
 
-    public function update($data)
+    public function update($data): void
     {
-        $method = __METHOD__;
-        throw new \Exception("el metodo {$method} aún no ha sido implementado");
+        /**
+         * @var Categoria $data
+         */
+       $this->db->set($data->getId(), $data);
     }
 
     public function delete($id)
@@ -34,12 +36,11 @@ class InMemoryCategoriasRepository implements CategoriasRepository
 
     public function findById($id)
     {
-        $method = __METHOD__;
-        throw new \Exception("el metodo {$method} aún no ha sido implementado");
+       return $this->db->get($id);
     }
 
     public function getAll(): array
     {
-        return $this->memory;
+        return $this->db->getAll();
     }
 }
