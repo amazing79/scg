@@ -29,10 +29,15 @@ return [
         return new CreateGastoCommandHandler(
             $container->get(PdoGastosRepository::class),
             $container->get(PdoCategoriasRepository::class),
-            $container->get(PdoPersonasRepository::class));
+            $container->get(PdoPersonasRepository::class)
+        );
     },
     UpdateGastoCommandHandler::class => function (Container $container) {
-        return new UpdateGastoCommandHandler($container->get(PdoGastosRepository::class));
+        return new UpdateGastoCommandHandler(
+            $container->get(PdoGastosRepository::class),
+            $container->get(PdoCategoriasRepository::class),
+            $container->get(PdoPersonasRepository::class)
+        );
     },
     DeleteGastoCommandHandler::class => function (Container $container) {
         return new DeleteGastoCommandHandler($container->get(PdoGastosRepository::class));
