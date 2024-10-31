@@ -3,6 +3,7 @@
 namespace App\Domain\Gastos;
 
 use DateTimeImmutable;
+use PHPUnit\Event\InvalidArgumentException;
 
 class Gastos
 {
@@ -17,6 +18,8 @@ class Gastos
         private string $observaciones
     )
     {
+        $this->assertValidDescripcion($descripcion);
+        $this->assertValidMonto($monto);
     }
 
     public function getIdGasto(): int
@@ -74,5 +77,19 @@ class Gastos
             $persona,
             $observaciones
         );
+    }
+
+    private function assertValidDescripcion(string $descripcion): void
+    {
+        if(trim($descripcion) == '') {
+            throw new InvalidArgumentException('Debe indicar una descripcion');
+        }
+    }
+
+    private function assertValidMonto(float $monto): void
+    {
+        if($monto <= 0) {
+            throw new InvalidArgumentException('El monto ingresado no es correcto');
+        }
     }
 }

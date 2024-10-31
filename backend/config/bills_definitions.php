@@ -6,8 +6,10 @@ use App\Application\Gastos\GetGastoByIdQueryHandler;
 use App\Application\Gastos\GetGastosQueryHandler;
 use App\Application\Gastos\UpdateGastoCommandHandler;
 use App\Domain\Gastos\GastosPresenter;
+use App\Infrastructure\Categorias\PdoCategoriasRepository;
 use App\Infrastructure\Common\Database;
 use App\Infrastructure\Gastos\PdoGastosRepository;
+use App\Infrastructure\Personas\PdoPersonasRepository;
 use DI\Container;
 
 return [
@@ -24,7 +26,10 @@ return [
         return new GetGastoByIdQueryHandler($container->get(PdoGastosRepository::class));
     },
     CreateGastoCommandHandler::class => function (Container $container) {
-        return new CreateGastoCommandHandler($container->get(PdoGastosRepository::class));
+        return new CreateGastoCommandHandler(
+            $container->get(PdoGastosRepository::class),
+            $container->get(PdoCategoriasRepository::class),
+            $container->get(PdoPersonasRepository::class));
     },
     UpdateGastoCommandHandler::class => function (Container $container) {
         return new UpdateGastoCommandHandler($container->get(PdoGastosRepository::class));
