@@ -32,4 +32,19 @@ class DeleteCategoriaByIdCommandHandlerTest extends TestCase
         $this->assertCount(0, $this->repository->getAll());
     }
 
+    public function testMustFailWhenCategoriaDoesNotExist()
+    {
+        $values = [];
+        $values['descripcion'] = 'Categoria 1';
+        $add = new CreateCategoriaCommandHandler($this->repository);
+        $response = $add->handle($values);
+        $id =  $response['data'];
+        $delete = new DeleteCategoriaByIdCommandHandler($this->repository);
+        $result = $delete->handle(0);
+        $this->assertEquals(404, $result['code'], $result['message']);
+        $categoria = $this->repository->findById($id);
+        $this->assertNotNull($categoria);
+        $this->assertCount(1, $this->repository->getAll());
+    }
+
 }

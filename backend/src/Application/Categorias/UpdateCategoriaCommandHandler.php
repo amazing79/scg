@@ -5,10 +5,11 @@ namespace App\Application\Categorias;
 use App\Domain\Categorias\Categoria;
 use App\Domain\Categorias\CategoriasRepository;
 use App\Domain\Categorias\Exceptions\NotFoundCategoryException;
+use App\Domain\Common\Traits\EnsureObjectExists;
 
 class UpdateCategoriaCommandHandler
 {
-    use EnsureExistCategoria;
+    use EnsureObjectExists;
     private CategoriasRepository $repository;
 
     public function __construct(CategoriasRepository $repository)
@@ -20,12 +21,16 @@ class UpdateCategoriaCommandHandler
     {
         try {
             $response = [];
-            $this->assertExistCategoria($values['id'], $this->repository);
+            $id = (int) $values['id'] ?? 0;
+            $this->assertObjectExist(
+                $id,
+                $this->repository,
+                new NotFoundCategoryException());
             $categoria = Categoria::createFromArray($values);
             $this->repository->update($categoria);
             $response['code'] = 200;
             $response['message'] = "la categoría se ha actualizado correctamente";
-        } catch (NotFoundCategoryException $e) {
+        }  catch (NotFoundCategoryException $e) {
             $response['message'] = $e->getMessage();
             $response['code'] = $e->getCode();
         } catch (\Exception $e) {

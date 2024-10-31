@@ -23,7 +23,7 @@ class DeletePersonaCommandHandler
             $this->assertObjectExist(
                 $id,
                 $this->repository,
-                new PersonaNotFoundException('Persona no encontrada', 404));
+                new PersonaNotFoundException());
             $this->repository->delete($id);
             $response['code'] = 200;
             $response['message'] = "Persona borrada correctamente";

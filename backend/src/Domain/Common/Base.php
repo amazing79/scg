@@ -9,4 +9,5 @@ interface Base
     public function delete($id);
     public function findById($id);
     public function getAll();
+    public function find($filter);
 }

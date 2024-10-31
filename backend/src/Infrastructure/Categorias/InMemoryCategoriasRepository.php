@@ -42,4 +42,9 @@ class InMemoryCategoriasRepository implements CategoriasRepository
         return $this->db->getAll();
     }
 
+    public function find($filter)
+    {
+        $method = __METHOD__;
+        throw new \Exception("Metodo ${method} aún no ha sido implementado");
+    }
 }

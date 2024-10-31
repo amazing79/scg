@@ -5,10 +5,11 @@ namespace App\Application\Categorias;
 use App\Domain\Categorias\CategoriasRepository;
 use App\Domain\Categorias\Exceptions\NotFoundCategoryException;
 use App\Domain\Common\Presenter;
+use App\Domain\Common\Traits\EnsureObjectExists;
 
 class GetCategoriaById
 {
-    use EnsureExistCategoria;
+    use EnsureObjectExists;
     private CategoriasRepository $repository;
     private ?Presenter $presenter;
 
@@ -26,7 +27,10 @@ class GetCategoriaById
     public function handle(int $id): array
     {
         try {
-            $this->assertExistCategoria($id, $this->repository);
+            $this->assertObjectExist(
+                $id,
+                $this->repository,
+                new NotFoundCategoryException());
             $categoria = $this->repository->findById($id);
             if($this->hasPresenter()) {
                 $categoria = $this->presenter->convert($categoria);

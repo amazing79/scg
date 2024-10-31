@@ -23,7 +23,7 @@ class MemoryDB
 
     public function add($value): int
     {
-        $keys = count($this->db);
+        $keys = count($this->db) + 1;
         $this->db[$keys] = $value;
         return $keys;
     }

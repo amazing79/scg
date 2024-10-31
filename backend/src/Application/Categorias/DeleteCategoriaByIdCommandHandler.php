@@ -4,10 +4,11 @@ namespace App\Application\Categorias;
 
 use App\Domain\Categorias\CategoriasRepository;
 use App\Domain\Categorias\Exceptions\NotFoundCategoryException;
+use App\Domain\Common\Traits\EnsureObjectExists;
 
 class DeleteCategoriaByIdCommandHandler
 {
-    use EnsureExistCategoria;
+    use EnsureObjectExists;
     private CategoriasRepository $repository;
 
     public function __construct(CategoriasRepository $repository)
@@ -18,7 +19,11 @@ class DeleteCategoriaByIdCommandHandler
     public function handle(int $id): array
     {
         try {
-            $this->assertExistCategoria($id, $this->repository);
+            $this->assertObjectExist(
+                $id,
+                $this->repository,
+                new NotFoundCategoryException()
+            );
             $this->repository->delete($id);
             $response = [];
             $response['code'] = 200;

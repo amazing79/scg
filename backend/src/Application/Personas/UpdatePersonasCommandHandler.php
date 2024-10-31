@@ -25,7 +25,7 @@ class UpdatePersonasCommandHandler
             $this->assertObjectExist(
                 $id,
                 $this->repository,
-                new PersonaNotFoundException('Persona no encontrada', 404));
+                new PersonaNotFoundException());
             $persona = Persona::createFromArray($values);
             $this->repository->update($persona);
             $response['code'] = 200;

@@ -82,4 +82,10 @@ class PdoCategoriasRepository implements CategoriasRepository
         $stmt = $pdo->query('Select idCategoria, descripcion from categorias');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function find($filter)
+    {
+        $method = __METHOD__;
+        throw new \Exception("Metodo ${method} aún no ha sido implementado");
+    }
 }

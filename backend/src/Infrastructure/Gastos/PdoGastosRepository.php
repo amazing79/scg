@@ -126,4 +126,10 @@ class PdoGastosRepository implements GastosRepository
        }
        return $result;
     }
+
+    public function find($filter)
+    {
+        $method = __METHOD__;
+        throw new \Exception("Metodo ${method} aún no ha sido implementado");
+    }
 }

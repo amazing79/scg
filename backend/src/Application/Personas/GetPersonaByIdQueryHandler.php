@@ -31,7 +31,7 @@ class GetPersonaByIdQueryHandler
             $this->assertObjectExist(
                 $id,
                 $this->repository,
-                new PersonaNotFoundException('Persona no encontrada', 404));
+                new PersonaNotFoundException());
             $persona = $this->repository->findById($id);
             if($this->hasPresenter()) {
                 $persona = $this->presenter->convert($persona);

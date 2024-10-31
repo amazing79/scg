@@ -47,4 +47,19 @@ class UpdateCategoriaCommandHandlerTest extends TestCase
         $this->assertNotEquals($values['descripcion'], $categoria->getDescripcion());
     }
 
+    public function testMustFailWhenCategoriaDoesNotExist()
+    {
+        $values = [];
+        $values['descripcion'] = 'Categoria 1';
+        $add = new CreateCategoriaCommandHandler($this->repository);
+        $response = $add->handle($values);
+        $id =  $response['data'];
+        $values['id'] = 0;
+        $values['descripcion'] = 'Categoria 2';
+        $update = new UpdateCategoriaCommandHandler($this->repository);
+        $result = $update->handle($values);
+        $this->assertEquals(404, $result['code'], $result['message']);
+
+    }
+
 }
