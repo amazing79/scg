@@ -2,6 +2,8 @@
 
 namespace App\Application\Gastos;
 
+use App\Domain\Common\Conts\HttpStatusCode;
+use App\Domain\Common\Conts\HttpStatusMessages;
 use App\Domain\Common\Presenter;
 use App\Domain\Gastos\GastosRepository;
 class GetGastosQueryHandler
@@ -22,14 +24,14 @@ class GetGastosQueryHandler
     public function handle(): array
     {
         $response = [];
-        $response['code'] = 500;
-        $response['message'] = '';
+        $response['code'] = HttpStatusCode::INTERNAL_SERVER_ERROR;
+        $response['message'] = HttpStatusMessages::getMessage(HttpStatusCode::INTERNAL_SERVER_ERROR);
         try {
             $gastos = $this->repository->getAll();
             if ($this->hasPresenter()) {
                 $gastos = $this->convertDataWithPresenter($gastos);
             }
-            $response['code'] = 200;
+            $response['code'] = HttpStatusCode::OK;
             $response['data'] = $gastos;
             $response['message'] = 'Gastos obtenidos correctamente';
         } catch (\Exception $e) {

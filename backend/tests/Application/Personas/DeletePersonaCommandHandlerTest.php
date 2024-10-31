@@ -4,6 +4,7 @@ namespace Tests\Application\Personas;
 
 use App\Application\Personas\CreatePersonaCommandHandler;
 use App\Application\Personas\DeletePersonaCommandHandler;
+use App\Domain\Common\Conts\HttpStatusCode;
 use App\Domain\Personas\PersonasRepository;
 use App\Infrastructure\Personas\InMemoryPersonasRepository;
 use PHPUnit\Framework\TestCase;
@@ -28,9 +29,9 @@ class DeletePersonaCommandHandlerTest extends TestCase
         $result = $add->handle($values);
         $this->assertCount(1, $this->repository->getAll());
         $id = $result['data'];
-        $update = new DeletePersonaCommandHandler($this->repository);
-        $result = $update->handle($id);
-        $this->assertEquals(200, $result['code'], $result['message']);
+        $delete = new DeletePersonaCommandHandler($this->repository);
+        $result = $delete->handle($id);
+        $this->assertEquals(HttpStatusCode::OK, $result['code'], $result['message']);
         $persona = $this->repository->findById($id);
         $this->assertNull($persona);
         $this->assertCount(0, $this->repository->getAll());
@@ -46,9 +47,9 @@ class DeletePersonaCommandHandlerTest extends TestCase
         $result = $add->handle($values);
         $this->assertCount(1, $this->repository->getAll());
         $id = $result['data'];
-        $update = new DeletePersonaCommandHandler($this->repository);
-        $result = $update->handle(0);
-        $this->assertEquals(404, $result['code'], $result['message']);
+        $delete = new DeletePersonaCommandHandler($this->repository);
+        $result = $delete->handle(0);
+        $this->assertEquals(HttpStatusCode::NOT_FOUND, $result['code'], $result['message']);
         $persona = $this->repository->findById($id);
         $this->assertNotNull($persona);
         $this->assertCount(1, $this->repository->getAll());

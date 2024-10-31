@@ -6,6 +6,7 @@ use App\Application\Categorias\CreateCategoriaCommandHandler;
 use App\Application\Gastos\CreateGastoCommandHandler;
 use App\Application\Personas\CreatePersonaCommandHandler;
 use App\Domain\Categorias\CategoriasRepository;
+use App\Domain\Common\Conts\HttpStatusCode;
 use App\Domain\Gastos\Gastos;
 use App\Domain\Gastos\GastosRepository;
 use App\Domain\Personas\PersonasRepository;
@@ -43,7 +44,7 @@ class CreateGastoCommandHandlerTest extends TestCase
             $this->personasRepository
         );
         $result = $add->handle($values);
-        $this->assertEquals(201, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::CREATED, $result['code'], $result['message']);
         $this->assertCount(1, $this->repository->getAll());
         $gasto = $this->repository->findById($result['data']);
         $this->assertObjectValues($values, $gasto);
@@ -72,7 +73,7 @@ class CreateGastoCommandHandlerTest extends TestCase
             $this->personasRepository
         );
         $result = $add->handle($values);
-        $this->assertEquals(500, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::INTERNAL_SERVER_ERROR, $result['code'], $result['message']);
         $this->assertCount(0, $this->repository->getAll());
     }
 
@@ -90,7 +91,7 @@ class CreateGastoCommandHandlerTest extends TestCase
             $this->personasRepository
         );
         $result = $add->handle($values);
-        $this->assertEquals(500, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::INTERNAL_SERVER_ERROR, $result['code'], $result['message']);
         $this->assertCount(0, $this->repository->getAll());
     }
 
@@ -108,7 +109,7 @@ class CreateGastoCommandHandlerTest extends TestCase
             $this->personasRepository
         );
         $result = $add->handle($values);
-        $this->assertEquals(500, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::INTERNAL_SERVER_ERROR, $result['code'], $result['message']);
         $this->assertCount(0, $this->repository->getAll());
     }
 
@@ -126,7 +127,7 @@ class CreateGastoCommandHandlerTest extends TestCase
             $this->personasRepository
         );
         $result = $add->handle($values);
-        $this->assertEquals(500, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::INTERNAL_SERVER_ERROR, $result['code'], $result['message']);
         $this->assertCount(0, $this->repository->getAll());
     }
 

@@ -4,6 +4,8 @@ namespace App\Application\Gastos;
 
 use App\Domain\Categorias\CategoriasRepository;
 use App\Domain\Categorias\Exceptions\NotFoundCategoryException;
+use App\Domain\Common\Conts\HttpStatusCode;
+use App\Domain\Common\Conts\HttpStatusMessages;
 use App\Domain\Common\Traits\EnsureObjectExists;
 use App\Domain\Gastos\Gastos;
 use App\Domain\Gastos\GastosRepository;
@@ -25,8 +27,8 @@ class CreateGastoCommandHandler
     public function handle($values): array
     {
         $response = [];
-        $response['code'] = 500;
-        $response['message'] = 'Error inesperado, por favor intente de nuevo';
+        $response['code'] = HttpStatusCode::INTERNAL_SERVER_ERROR;
+        $response['message'] = HttpStatusMessages::getMessage(HttpStatusCode::INTERNAL_SERVER_ERROR);
         try{
             $this->assertObjectExist(
                 $values['categoria'],
@@ -41,7 +43,7 @@ class CreateGastoCommandHandler
             $gasto = Gastos::fromArray($values);
             $idGasto = $this->repository->create($gasto);
             $response['data'] = $idGasto;
-            $response['code'] = 201;
+            $response['code'] = HttpStatusCode::CREATED;
             $response['message'] = "Gasto registrado correctamente con el id {$idGasto}";
         } catch (NotFoundCategoryException $e) {
             $response['message'] = "No se encontro la categoria para la cual quiere registrar el gasto";

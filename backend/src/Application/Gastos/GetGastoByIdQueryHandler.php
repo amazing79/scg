@@ -2,6 +2,8 @@
 
 namespace App\Application\Gastos;
 
+use App\Domain\Common\Conts\HttpStatusCode;
+use App\Domain\Common\Conts\HttpStatusMessages;
 use App\Domain\Common\Presenter;
 use App\Domain\Common\Traits\EnsureObjectExists;
 use App\Domain\Gastos\Exceptions\GastoNotFoundExceptions;
@@ -26,6 +28,8 @@ class GetGastoByIdQueryHandler
     public function handle(int $id): array
     {
         $response = [];
+        $response['code'] = HttpStatusCode::INTERNAL_SERVER_ERROR;
+        $response['message'] = HttpStatusMessages::getMessage(HttpStatusCode::INTERNAL_SERVER_ERROR);
         try {
             $this->assertObjectExist(
                 $id,
@@ -36,14 +40,13 @@ class GetGastoByIdQueryHandler
             if ($this->hasPresenter()) {
                 $gasto = $this->presenter->convert($gasto);
             }
-            $response['code'] = 200;
+            $response['code'] = HttpStatusCode::OK;
             $response['data'] = $gasto;
             $response['message'] = 'Gasto obtenido correctamente';
         } catch (GastoNotFoundExceptions $e) {
             $response['code'] = $e->getCode();
             $response['message'] = $e->getMessage();
         } catch (\Exception $e) {
-            $response['code'] = 500;
             $response['message'] = "Code error: {$e->getCode()} - descripcion: {$e->getMessage()}";
         } finally {
             return $response;
