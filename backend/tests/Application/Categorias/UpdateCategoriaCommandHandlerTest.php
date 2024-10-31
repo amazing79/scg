@@ -4,6 +4,7 @@ namespace Tests\Application\Categorias;
 
 use App\Application\Categorias\CreateCategoriaCommandHandler;
 use App\Application\Categorias\UpdateCategoriaCommandHandler;
+use App\Domain\Common\Conts\HttpStatusCode;
 use App\Infrastructure\Categorias\InMemoryCategoriasRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -26,7 +27,7 @@ class UpdateCategoriaCommandHandlerTest extends TestCase
         $values['descripcion'] = 'Categoria 2';
         $update = new UpdateCategoriaCommandHandler($this->repository);
         $result = $update->handle($values);
-        $this->assertEquals(200, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::OK, $result['code'], $result['message']);
         $categoria = $this->repository->findById($id);
         $this->assertEquals($values['descripcion'], $categoria->getDescripcion());
     }
@@ -42,7 +43,7 @@ class UpdateCategoriaCommandHandlerTest extends TestCase
         $values['descripcion'] = '';
         $update = new UpdateCategoriaCommandHandler($this->repository);
         $result = $update->handle($values);
-        $this->assertEquals(500, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::INTERNAL_SERVER_ERROR, $result['code'], $result['message']);
         $categoria = $this->repository->findById($id);
         $this->assertNotEquals($values['descripcion'], $categoria->getDescripcion());
     }
@@ -58,7 +59,7 @@ class UpdateCategoriaCommandHandlerTest extends TestCase
         $values['descripcion'] = 'Categoria 2';
         $update = new UpdateCategoriaCommandHandler($this->repository);
         $result = $update->handle($values);
-        $this->assertEquals(404, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::NOT_FOUND, $result['code'], $result['message']);
 
     }
 

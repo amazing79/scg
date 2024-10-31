@@ -4,6 +4,7 @@ namespace Tests\Application\Categorias;
 
 use App\Application\Categorias\CreateCategoriaCommandHandler;
 use App\Application\Categorias\DeleteCategoriaByIdCommandHandler;
+use App\Domain\Common\Conts\HttpStatusCode;
 use App\Infrastructure\Categorias\InMemoryCategoriasRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -26,7 +27,7 @@ class DeleteCategoriaByIdCommandHandlerTest extends TestCase
         $this->assertCount(1, $this->repository->getAll());
         $delete = new DeleteCategoriaByIdCommandHandler($this->repository);
         $result = $delete->handle($id);
-        $this->assertEquals(200, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::OK, $result['code'], $result['message']);
         $categoria = $this->repository->findById($id);
         $this->assertNull($categoria);
         $this->assertCount(0, $this->repository->getAll());
@@ -41,7 +42,7 @@ class DeleteCategoriaByIdCommandHandlerTest extends TestCase
         $id =  $response['data'];
         $delete = new DeleteCategoriaByIdCommandHandler($this->repository);
         $result = $delete->handle(0);
-        $this->assertEquals(404, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::NOT_FOUND, $result['code'], $result['message']);
         $categoria = $this->repository->findById($id);
         $this->assertNotNull($categoria);
         $this->assertCount(1, $this->repository->getAll());

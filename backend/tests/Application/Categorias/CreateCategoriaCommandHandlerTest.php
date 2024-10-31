@@ -4,6 +4,7 @@ namespace Tests\Application\Categorias;
 
 use App\Application\Categorias\CreateCategoriaCommandHandler;
 use App\Domain\Categorias\CategoriasRepository;
+use App\Domain\Common\Conts\HttpStatusCode;
 use App\Infrastructure\Categorias\InMemoryCategoriasRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -22,7 +23,7 @@ class CreateCategoriaCommandHandlerTest extends TestCase
         $values['descripcion'] = 'Categoria 1';
         $command = new CreateCategoriaCommandHandler($this->repository);
         $result = $command->handle($values);
-        $this->assertEquals(201, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::CREATED, $result['code'], $result['message']);
         $this->assertCount(1, $this->repository->getAll());
     }
 
@@ -31,7 +32,7 @@ class CreateCategoriaCommandHandlerTest extends TestCase
         $values['descripcion'] = '';
         $command = new CreateCategoriaCommandHandler($this->repository);
         $result = $command->handle($values);
-        $this->assertEquals(500, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::INTERNAL_SERVER_ERROR, $result['code'], $result['message']);
         $this->assertCount(0, $this->repository->getAll());
     }
 }

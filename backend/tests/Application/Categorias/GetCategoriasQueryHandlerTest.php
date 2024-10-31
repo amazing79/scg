@@ -3,6 +3,7 @@
 namespace Tests\Application\Categorias;
 
 use App\Application\Categorias\GetCategoriasQueryHandler;
+use App\Domain\Common\Conts\HttpStatusCode;
 use App\Infrastructure\Categorias\InMemoryCategoriasRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -18,6 +19,6 @@ class GetCategoriasQueryHandlerTest extends TestCase
     {
         $query = new GetCategoriasQueryHandler($this->repository);
         $result = $query->handle();
-        $this->assertEquals(200, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::OK, $result['code'], $result['message']);
     }
 }
