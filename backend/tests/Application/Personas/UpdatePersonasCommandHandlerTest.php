@@ -4,6 +4,7 @@ namespace Tests\Application\Personas;
 
 use App\Application\Personas\CreatePersonaCommandHandler;
 use App\Application\Personas\UpdatePersonasCommandHandler;
+use App\Domain\Common\Conts\HttpStatusCode;
 use App\Domain\Personas\Persona;
 use App\Domain\Personas\PersonasRepository;
 use App\Infrastructure\Personas\InMemoryPersonasRepository;
@@ -34,7 +35,7 @@ class UpdatePersonasCommandHandlerTest extends TestCase
         $values['apodo'] = 'El Pankie';
         $update = new UpdatePersonasCommandHandler($this->repository);
         $result = $update->handle($values);
-        $this->assertEquals(200, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::OK, $result['code'], $result['message']);
         $persona = $this->repository->findById($id);
         $this->assertObjectValues($values, $persona);
     }
@@ -61,7 +62,7 @@ class UpdatePersonasCommandHandlerTest extends TestCase
         $values['apodo'] = 'El Pankie';
         $update = new UpdatePersonasCommandHandler($this->repository);
         $result = $update->handle($values);
-        $this->assertEquals(500, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::INTERNAL_SERVER_ERROR, $result['code'], $result['message']);
     }
 
     public function testMustFailWhenNombreIsEmpty(): void
@@ -79,7 +80,7 @@ class UpdatePersonasCommandHandlerTest extends TestCase
         $values['apodo'] = 'El Pankie';
         $update = new UpdatePersonasCommandHandler($this->repository);
         $result = $update->handle($values);
-        $this->assertEquals(500, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::INTERNAL_SERVER_ERROR, $result['code'], $result['message']);
     }
 
     public function testMustFailWhenPersonaDoesNotExist(): void
@@ -93,7 +94,7 @@ class UpdatePersonasCommandHandlerTest extends TestCase
         $values['id'] = 0;
         $update = new UpdatePersonasCommandHandler($this->repository);
         $result = $update->handle($values);
-        $this->assertEquals(404, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::NOT_FOUND, $result['code'], $result['message']);
     }
 
 }

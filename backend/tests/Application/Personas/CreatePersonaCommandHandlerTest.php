@@ -3,6 +3,7 @@
 namespace Tests\Application\Personas;
 
 use App\Application\Personas\CreatePersonaCommandHandler;
+use App\Domain\Common\Conts\HttpStatusCode;
 use App\Domain\Personas\Persona;
 use App\Domain\Personas\PersonasRepository;
 use App\Infrastructure\Personas\InMemoryPersonasRepository;
@@ -25,7 +26,7 @@ class CreatePersonaCommandHandlerTest extends TestCase
         $values['apodo'] = 'El Pankie';
         $add = new CreatePersonaCommandHandler($this->repository);
         $result = $add->handle($values);
-        $this->assertEquals(201, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::CREATED, $result['code'], $result['message']);
         $this->assertCount(1, $this->repository->getAll());
         $persona = $this->repository->findById($result['data']);
         $this->assertObjectValues($values, $persona);
@@ -46,7 +47,7 @@ class CreatePersonaCommandHandlerTest extends TestCase
         $values['apodo'] = 'El Pankie';
         $add = new CreatePersonaCommandHandler($this->repository);
         $result = $add->handle($values);
-        $this->assertEquals(500, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::INTERNAL_SERVER_ERROR, $result['code'], $result['message']);
         $this->assertCount(0, $this->repository->getAll());
     }
 
@@ -58,7 +59,7 @@ class CreatePersonaCommandHandlerTest extends TestCase
         $values['apodo'] = 'El Pankie';
         $add = new CreatePersonaCommandHandler($this->repository);
         $result = $add->handle($values);
-        $this->assertEquals(500, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::INTERNAL_SERVER_ERROR, $result['code'], $result['message']);
         $this->assertCount(0, $this->repository->getAll());
     }
 

@@ -3,6 +3,7 @@
 namespace Tests\Application\Personas;
 
 use App\Application\Personas\GetPersonasQueryHandler;
+use App\Domain\Common\Conts\HttpStatusCode;
 use App\Infrastructure\Personas\InMemoryPersonasRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -19,7 +20,7 @@ class GetPersonasQueryHandlerTest extends TestCase
     {
         $query = new GetPersonasQueryHandler($this->repository);
         $result = $query->handle();
-        $this->assertEquals(200, $result['code'], $result['message']);
+        $this->assertEquals(HttpStatusCode::OK, $result['code'], $result['message']);
     }
 
 }
