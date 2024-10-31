@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Personas;
+namespace Tests\Application\Personas;
 
 use App\Application\Personas\GetPersonasQueryHandler;
 use App\Infrastructure\Personas\InMemoryPersonasRepository;

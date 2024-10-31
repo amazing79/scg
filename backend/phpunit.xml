@@ -10,7 +10,22 @@
 >
     <testsuites>
         <testsuite name="Test SCG">
-            <directory>./tests/</directory>
+            <directory>tests/</directory>
         </testsuite>
     </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">src/Domain/</directory>
+            <directory suffix=".php">src/Infrastructure/</directory>
+            <file>*Presenter.php</file>
+        </exclude>
+    </source>
+    <coverage
+            includeUncoveredFiles="true"
+            pathCoverage="true"
+    >
+    </coverage>
 </phpunit>
