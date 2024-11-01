@@ -2,7 +2,7 @@ import {config, Lvw} from "../common/lvw.js";
 import {Loader} from "../common/loader.js";
 import {getPersons} from "../personas/personasRepository.js"
 import {getCategories} from "../categorias/categoriasRepository.js";
-import {gasto, getBills, showBill, storeBill, updateBill, deleteBill} from "./gastosRepository.js";
+import {gasto, getBills, showBill, storeBill, updateBill, deleteBill, showBillsByPerson} from "./gastosRepository.js";
 
 let visibleData = {
     idGasto: 0,
@@ -135,6 +135,20 @@ function loadBills()
         });
 }
 
+function loadBillsByPerson(personId)
+{
+    loader.showLoading();
+    showBillsByPerson(personId)
+        .then(result => {
+            loader.removeLoading();
+            let bills = result.data;
+            lvw.buildLvw(bills);
+        })
+        .catch( error => {
+            console.log(error.message)
+        });
+}
+
 function loadCategories()
 {
     getCategories()
@@ -234,6 +248,16 @@ function initEvents()
     document.getElementById('confirmDialog').addEventListener('close', evt => {
         document.getElementById('content').classList.remove('bg__blur');
     });
+
+    document.getElementById('availables').addEventListener('change', evt => {
+        let list = evt.target;
+        let idPerson = list[list.selectedIndex].value ; //fuerzo a que sea entero
+        if(Number.parseInt(idPerson) !== 0 ) {
+            loadBillsByPerson(idPerson);
+        } else {
+            loadBills();
+        }
+    })
 }
 
 function closeForm()

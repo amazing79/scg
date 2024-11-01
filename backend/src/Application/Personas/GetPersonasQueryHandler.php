@@ -36,6 +36,7 @@ class GetPersonasQueryHandler
             $response['code'] = HttpStatusCode::OK;
             $response['message'] = "Listado de personas obtenidos correctamente";
             $response['data'] = $personas;
+            $response['totalFound'] = count($personas);
         } catch (\Exception $e) {
             $response['message'] = "Code error: {$e->getCode()} - descripcion: {$e->getMessage()}";
         }

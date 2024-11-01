@@ -16,7 +16,7 @@ class GastosPresenter implements Presenter
             'idGasto' => $data->getGastos()->getIdGasto(),
             'fecha' => $data->getGastos()->getFecha(),
             'descripcion' => $data->getGastos()->getDescripcion(),
-            'monto' => number_format($data->getGastos()->getMonto(), 2),
+            'monto' => number_format($data->getGastos()->getMonto(), 2, '.', ''),
             'categoria' => $data->getCategoria()->getId(),
             'datosCategoria' => $data->getCategoria()->getDescripcion(),
             'persona' => $data->getPersona()->getId(),

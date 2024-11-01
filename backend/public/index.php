@@ -9,6 +9,7 @@ use App\Infrastructure\Slim\Actions\Categories\UpdateCategorieAction;
 use App\Infrastructure\Slim\Actions\Gastos\CreateBillAction;
 use App\Infrastructure\Slim\Actions\Gastos\DeleteBillAction;
 use App\Infrastructure\Slim\Actions\Gastos\GetBillsAction;
+use App\Infrastructure\Slim\Actions\Gastos\GetBillsByPersonAction;
 use App\Infrastructure\Slim\Actions\Gastos\ShowBillAction;
 use App\Infrastructure\Slim\Actions\Gastos\UpdateBillAction;
 use App\Infrastructure\Slim\Actions\Personas\CreatePersonAction;
@@ -83,6 +84,7 @@ $app->group('/v1', function (RouteCollectorProxy $group) {
     $group->delete('/gastos/{id:[0-9]+}', DeleteBillAction::class);
     $group->post('/gastos', CreateBillAction::class);
     $group->get('/gastos', GetBillsAction::class);
+    $group->get('/gastos-persona/{idPersona:[0-9]+}', GetBillsByPersonAction::class);
 });
 
 $app->run();

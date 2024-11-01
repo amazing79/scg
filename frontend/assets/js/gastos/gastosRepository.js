@@ -81,4 +81,14 @@ async function deleteBill(id)
     throw new Error('Ocurrio un error al intentar borrar el gasto');
 }
 
-export {gasto, getBills, showBill, storeBill, updateBill, deleteBill}
+async function showBillsByPerson(personId)
+{
+    let request = new URL(actions.PATH + `-persona/${personId}`,config.URL_API);
+    let response = await fetch(request);
+    if(response.ok) {
+        return await response.json();
+    }
+    throw new Error('Ocurrio un error al intentar obtener los gastos de la persona');
+}
+
+export {gasto, getBills, showBill, storeBill, updateBill, deleteBill, showBillsByPerson}

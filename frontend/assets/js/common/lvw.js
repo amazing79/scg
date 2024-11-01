@@ -17,6 +17,8 @@ class Lvw {
         this._handle_edit = handleEdit ?? function (){ console.log('handler edit no definido');}
         this._handle_delete = handleDelete ?? function (){ console.log('handler delete no definido');};
         this._formDialog = document.getElementById(formDialog);
+        this._id_lvw_table = 'lvw-table-container';
+        this._id_lvw_resume = 'lvw-table-total';
     }
 
     makeCaption()
@@ -55,6 +57,18 @@ class Lvw {
             _tbody.appendChild(this.insertItemRow(item));
         })
         return _tbody;
+    }
+
+    makeResume(total)
+    {
+        let _container = document.createElement('div')
+        let _totalItems = document.createElement('label');
+        _totalItems.setAttribute("id", this._id_lvw_resume);
+        _totalItems.setAttribute('data-total', total);
+        _totalItems.innerText = `Total Registros: ${total}`;
+        _container.appendChild(_totalItems);
+        return _container;
+
     }
 
     insertItemRow(obj)
@@ -106,12 +120,16 @@ class Lvw {
         let container = document.getElementById(this._id);
         let tableContainer = document.createElement('div');
         let table = document.createElement('table');
+        let total = data.length;
+        //primero, limpio el contenedor por eventuales llamados
+        container.innerHTML = '';
         table.appendChild(this.makeCaption());
         table.appendChild(this.makeHeader());
         table.appendChild(this.makeBody(data));
-        tableContainer.setAttribute("id", "lvw-table-container");
+        tableContainer.setAttribute("id", this._id_lvw_table);
         tableContainer.appendChild(table);
         container.appendChild(tableContainer);
+        container.appendChild(this.makeResume(total));
         container.appendChild(this.makeMainBtn())
     }
 
@@ -147,13 +165,16 @@ class Lvw {
         let lvw = document.getElementById(`${this._id}_body`);
         let row = this.insertItemRow(obj);
         lvw.appendChild(row);
+        this.updateTotal(1);
     }
 
     deleteRow(id)
     {
         let row = document.getElementById(`lvw_row_${id}`);
+
         if(row) {
             row.remove();
+            this.updateTotal(-1);
         } else {
             console.log(`No se encontro la fila ${id} que quiere eliminar`);
         }
@@ -168,6 +189,14 @@ class Lvw {
                 child.innerHTML = obj[child.dataset.column];
             }
         }
+    }
+
+    updateTotal(value){
+        let total = document.getElementById(this._id_lvw_resume);
+        let actual = total.dataset.total - 0;
+        actual += value;
+        total.setAttribute('data-total', actual.toString());
+        total.innerText = `Total Registros: ${actual}`;
     }
 }
 

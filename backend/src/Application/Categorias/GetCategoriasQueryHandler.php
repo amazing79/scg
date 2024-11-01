@@ -36,6 +36,7 @@ class GetCategoriasQueryHandler
             }
             $response['code'] = HttpStatusCode::OK;
             $response['data'] = $categorias;
+            $response['totalFound'] = count($categorias);
             $response['message'] = 'Categorias obtenidas con exito!';
         } catch (\Exception $e) {
             $response['message'] = "Code error: {$e->getCode()} - descripcion: {$e->getMessage()}";

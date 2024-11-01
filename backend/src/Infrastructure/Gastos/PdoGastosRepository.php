@@ -132,4 +132,36 @@ class PdoGastosRepository implements GastosRepository
         $method = __METHOD__;
         throw new \Exception("Metodo ${method} aún no ha sido implementado");
     }
+
+    public function getGastosByPersona(int $personaId): array
+    {
+        $result = [];
+        $pdo = $this->db->getConnection();
+        $sql = "
+                SELECT 
+                    idGasto as id, fecha_gasto as fecha, gt.descripcion, monto, categoria, persona, observaciones
+                    , per.idPersona, per.apellido, per.nombre, per.apodo
+                    , cat.idCategoria, cat.descripcion as descripcionCategoria
+                FROM 
+                gastos gt
+                INNER JOIN persona per ON per.idPersona = gt.persona
+                INNER JOIN categorias cat on cat.idCategoria = gt.categoria
+                where gt.persona = :idPersona
+                ORDER BY 
+                    fecha_gasto
+                ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':idPersona', $personaId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($data as $unGasto) {
+            $persona = Persona::createFromArray($unGasto);
+            $gasto = Gastos::fromArray($unGasto);
+            $categoria = Categoria::createFromArray($unGasto);
+            $gastoDetalle = new GastoDetalle($gasto, $persona, $categoria);
+            $result[] = $gastoDetalle;
+        }
+        return $result;
+    }
 }

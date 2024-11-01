@@ -6,5 +6,5 @@ use App\Domain\Common\Base;
 
 interface GastosRepository extends Base
 {
-
+    public function getGastosByPersona(int $personaId): array;
 }

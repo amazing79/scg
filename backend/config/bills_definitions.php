@@ -3,6 +3,7 @@
 use App\Application\Gastos\CreateGastoCommandHandler;
 use App\Application\Gastos\DeleteGastoCommandHandler;
 use App\Application\Gastos\GetGastoByIdQueryHandler;
+use App\Application\Gastos\GetGastosByPersonaQueryHandler;
 use App\Application\Gastos\GetGastosQueryHandler;
 use App\Application\Gastos\UpdateGastoCommandHandler;
 use App\Domain\Gastos\GastosPresenter;
@@ -41,5 +42,12 @@ return [
     },
     DeleteGastoCommandHandler::class => function (Container $container) {
         return new DeleteGastoCommandHandler($container->get(PdoGastosRepository::class));
+    },
+    GetGastosByPersonaQueryHandler::class => function (Container $container) {
+        return new GetGastosByPersonaQueryHandler(
+                $container->get(PdoGastosRepository::class),
+                $container->get(PdoPersonasRepository::class),
+                new GAstosPresenter()
+            );
     }
 ];
