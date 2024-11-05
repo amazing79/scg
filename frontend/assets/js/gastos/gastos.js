@@ -178,6 +178,7 @@ function loadPersons()
         .then(result => {
             let persons = result.data;
             let personasContainer = document.getElementById('persona');
+            let personasFilter = document.getElementById('personasFilter');
             let htmlResult = '';
             let idx = 0;
             htmlResult += `<option value="0">--Seleccione--</option>`;
@@ -187,6 +188,12 @@ function loadPersons()
                 personsIndex[person.idPersona] = idx;
             })
             personasContainer.innerHTML = htmlResult;
+            htmlResult = '';
+            htmlResult += '<option value="0">--Seleccione--</option>';
+            persons.forEach( person => {
+                htmlResult += `<option value="${person.idPersona}">${person.apellido}, ${person.nombre}</option>`;
+            });
+            personasFilter.innerHTML = htmlResult;
         })
         .catch( error => {
             console.log(error.message)
@@ -249,7 +256,7 @@ function initEvents()
         document.getElementById('content').classList.remove('bg__blur');
     });
 
-    document.getElementById('availables').addEventListener('change', evt => {
+    document.getElementById('personasFilter').addEventListener('change', evt => {
         let list = evt.target;
         let idPerson = list[list.selectedIndex].value ; //fuerzo a que sea entero
         if(Number.parseInt(idPerson) !== 0 ) {
