@@ -103,8 +103,14 @@ input, select{
     height: 30px;
     margin-top: 5px;
     margin-bottom: 10px;
-    padding-left: 5px;
+    padding: 0 5px;
     margin-left: 10px;
+}
+
+select {
+    border: 3px solid;
+    border-color: var(--btn-primary-bg);
+    border-radius: 5px;
 }
 
 label{
