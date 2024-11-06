@@ -33,11 +33,44 @@
                 <div class="loader"></div>
             </div>
         </template>
-        <section id="persona_filter">
-            <label for="personasFilter">Ver gastos de:</label>
-            <select id="personasFilter">
-                <!-- se carga las mismas personas que cargamos el gasto -->
-            </select>
+        <section id="bills-filters" class="bill__filters">
+            <div>
+                <label for="personasFilter">Ver gastos de:</label>
+                <select id="personasFilter">
+                    <option value="0"> --Seleccione--</option>
+                    <!-- se carga las mismas personas que cargamos el gasto -->
+                </select>
+            </div>
+           <div>
+               <label for="periodo-mes">Per&iacute;odo:</label>
+               <select id="periodo-mes">
+                   <option value="0" selected>-- Seleccione --</option>
+                   <option value="1">Enero</option>
+                   <option value="2">Febrero</option>
+                   <option value="3">Marzo</option>
+                   <option value="4">Abril</option>
+                   <option value="5">Mayo</option>
+                   <option value="6">Junio</option>
+                   <option value="6">Agosto</option>
+                   <option value="8">Agosto</option>
+                   <option value="9">Septiembre</option>
+                   <option value="10">Octubre</option>
+                   <option value="11">Noviembre</option>
+                   <option value="12">Diciembre</option>
+               </select>
+           </div>
+            <div>
+                <label for="periodo-anios">A&ntilde;o:</label>
+                <select id="periodo-anios">
+                    <option value="0" selected>-- Seleccione --</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                </select>
+            </div>
         </section>
         <section id="gastos">
             <h2>Gastos</h2>
