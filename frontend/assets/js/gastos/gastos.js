@@ -256,8 +256,8 @@ function initEvents()
         document.getElementById('content').classList.remove('bg__blur');
     });
 
-    document.getElementById('personasFilter').addEventListener('change', evt => {
-        let list = evt.target;
+    document.getElementById('btn_filter').addEventListener('click', evt => {
+        let list = document.getElementById('personasFilter');
         let idPerson = list[list.selectedIndex].value ;
         if(Number.parseInt(idPerson) !== 0 ) {
             //obtengo si lo indica, periodo y año
