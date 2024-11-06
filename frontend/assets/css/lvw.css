@@ -131,6 +131,11 @@ tbody > tr:nth-of-type(even) {
     color: #dc3545;
 }
 
+#lvw-table-total{
+    position: relative;
+    top: -20px;
+}
+
 @media screen and (max-width: 800px) {
 
     #lvw-table-container {

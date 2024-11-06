@@ -4,6 +4,7 @@ namespace App\Application\Gastos;
 
 use App\Domain\Common\Conts\HttpStatusCode;
 use App\Domain\Common\Conts\HttpStatusMessages;
+use App\Domain\Common\Conts\Periodos;
 use App\Domain\Common\Presenter;
 use App\Domain\Common\Traits\EnsureObjectExists;
 use App\Domain\Gastos\GastosRepository;
@@ -27,7 +28,7 @@ class GetGastosByPersonaQueryHandler
     {
     }
 
-    public function handle(int $persona): array
+    public function handle(int $persona, array $filter = []): array
     {
         $response = [];
         $response['code'] = HttpStatusCode::INTERNAL_SERVER_ERROR;
@@ -38,7 +39,16 @@ class GetGastosByPersonaQueryHandler
                 $this->personasRepository,
                 new PersonaNotFoundException()
             );
-            $gastos = $this->repository->getGastosByPersona($persona);
+
+            if(empty($filter)) {
+                $gastos = $this->repository->getGastosByPersona($persona);
+            } else {
+                //creo periodo para filtro
+                $periodo = $filter['periodo'];
+                $anio = $filter['anio'];
+                $filterPeriodo = Periodos::makePeriodoFilter($periodo, $anio);
+                $gastos = $this->repository->getGastosByPersona($persona, $filterPeriodo);
+            }
             if ($this->hasPresenter()) {
                 $gastos = $this->convertDataWithPresenter($gastos);
             }

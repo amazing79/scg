@@ -133,9 +133,12 @@ class PdoGastosRepository implements GastosRepository
         throw new \Exception("Metodo ${method} aún no ha sido implementado");
     }
 
-    public function getGastosByPersona(int $personaId): array
+    public function getGastosByPersona(int $personaId, $periodo = null): array
     {
         $result = [];
+
+        $condition = !is_null($periodo) ? " and fecha_gasto ${periodo} " : "";
+
         $pdo = $this->db->getConnection();
         $sql = "
                 SELECT 
@@ -147,6 +150,7 @@ class PdoGastosRepository implements GastosRepository
                 INNER JOIN persona per ON per.idPersona = gt.persona
                 INNER JOIN categorias cat on cat.idCategoria = gt.categoria
                 where gt.persona = :idPersona
+                ${condition}
                 ORDER BY 
                     fecha_gasto
                 ";

@@ -81,10 +81,19 @@ async function deleteBill(id)
     throw new Error('Ocurrio un error al intentar borrar el gasto');
 }
 
-async function showBillsByPerson(personId)
+async function showBillsByPerson(personId, periodo = null)
 {
     let request = new URL(actions.PATH + `-persona/${personId}`,config.URL_API);
-    let response = await fetch(request);
+    let options = {};
+    let data = periodo === null ? {} : periodo;
+    options = {
+            method: actions.CREATE, // *GET, POST, PUT, DELETE, etc.
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify(data),
+        };
+    let response = await fetch(request, options);
     if(response.ok) {
         return await response.json();
     }

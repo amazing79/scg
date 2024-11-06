@@ -135,10 +135,10 @@ function loadBills()
         });
 }
 
-function loadBillsByPerson(personId)
+function loadBillsByPerson(personId, periodo = null)
 {
     loader.showLoading();
-    showBillsByPerson(personId)
+    showBillsByPerson(personId, periodo)
         .then(result => {
             loader.removeLoading();
             let bills = result.data;
@@ -258,9 +258,24 @@ function initEvents()
 
     document.getElementById('personasFilter').addEventListener('change', evt => {
         let list = evt.target;
-        let idPerson = list[list.selectedIndex].value ; //fuerzo a que sea entero
+        let idPerson = list[list.selectedIndex].value ;
         if(Number.parseInt(idPerson) !== 0 ) {
-            loadBillsByPerson(idPerson);
+            //obtengo si lo indica, periodo y año
+            let cboPeriodo = document.getElementById('periodo-mes');
+            let cboAnio = document.getElementById('periodo-anio');
+
+            let periodo = cboPeriodo[cboPeriodo.selectedIndex].value - 0 //fuerzo a que sea entero;
+            let anio = cboAnio[cboAnio.selectedIndex].value - 0 //fuerzo a que sea entero;
+            let filtro_periodo = periodo !== 0 && anio !== 0;
+            if(!filtro_periodo) {
+                loadBillsByPerson(idPerson);
+            } else {
+                let filter = {};
+                filter.periodo = periodo;
+                filter.anio = anio;
+                loadBillsByPerson(idPerson, filter);
+            }
+
         } else {
             loadBills();
         }
