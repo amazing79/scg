@@ -10,7 +10,7 @@
 >
     <testsuites>
         <testsuite name="Test SCG">
-            <directory>tests/</directory>
+            <directory>tests/Application</directory>
         </testsuite>
     </testsuites>
     <source>

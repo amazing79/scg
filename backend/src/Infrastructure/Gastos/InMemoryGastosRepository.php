@@ -50,5 +50,13 @@ class InMemoryGastosRepository implements GastosRepository
     public function getGastosByPersona(int $personaId): array
     {
         return $this->db->find($personaId, 'getPersona');
+        /*
+        $matches = [];
+        foreach ($this->db->getAll() as $gasto) {
+            if ($gasto->getPersona() === $personaId) {
+                $matches[] = $gasto;
+            }
+        }
+        return $matches;*/
     }
 }
