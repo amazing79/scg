@@ -83,15 +83,14 @@ async function deleteBill(id)
 
 async function showBillsByPerson(personId, periodo = null)
 {
-    let request = new URL(actions.PATH + `-persona/${personId}`,config.URL_API);
+    let uri = actions.PATH + `-persona/${personId}`;
+    if(periodo !== null) {
+        uri += `/${periodo.anio}/${periodo.periodo}`;
+    }
+    let request = new URL(uri,config.URL_API);
     let options = {};
-    let data = periodo === null ? {} : periodo;
     options = {
-            method: actions.CREATE, // *GET, POST, PUT, DELETE, etc.
-            headers:{
-                "Content-Type": "application/json",
-            },
-            body:JSON.stringify(data),
+            method: actions.LIST, // *GET, POST, PUT, DELETE, etc.
         };
     let response = await fetch(request, options);
     if(response.ok) {

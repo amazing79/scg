@@ -16,7 +16,11 @@ class GetBillsByPersonAction
     public function __invoke(Request $request, Response $response, array $args): Response
     {
         $persona = (int) $args['idPersona'];
-        $filter = $request->getParsedBody();
+        $filter = [];
+        if(isset($args['periodo']) && isset($args['anio'])){
+            $filter['periodo'] = (int) $args['periodo'] ?? 0;
+            $filter['anio'] = (int) $args['anio'] ?? 0;
+        }
         $result = $this->query->handle($persona, $filter);
         $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
         $response->getBody()->write($dataAsJson);

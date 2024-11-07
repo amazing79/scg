@@ -84,7 +84,7 @@ $app->group('/v1', function (RouteCollectorProxy $group) {
     $group->delete('/gastos/{id:[0-9]+}', DeleteBillAction::class);
     $group->post('/gastos', CreateBillAction::class);
     $group->get('/gastos', GetBillsAction::class);
-    $group->post('/gastos-persona/{idPersona:[0-9]+}', GetBillsByPersonAction::class);
+    $group->get('/gastos-persona/{idPersona:[0-9]+}[/{anio:[0-9]+}[/{periodo:[0-9]+}]]', GetBillsByPersonAction::class);
 });
 
 $app->run();
