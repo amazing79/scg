@@ -33,8 +33,7 @@ async function showBill(id)
 async function storeBill(gasto)
 {
     let request = new URL(actions.PATH,config.URL_API);
-    let options = {};
-    options = {
+    let options = {
         method: actions.CREATE, // *GET, POST, PUT, DELETE, etc.
         headers:{
             "Content-Type": "application/json",
@@ -51,8 +50,7 @@ async function storeBill(gasto)
 async function updateBill(gasto)
 {
     let request = new URL(actions.PATH + `/${gasto.idGasto}` ,config.URL_API);
-    let options = {};
-    options = {
+    let options = {
         method: actions.EDIT, // *GET, POST, PUT, DELETE, etc.
         headers:{
             "Content-Type": "application/json",
@@ -69,8 +67,7 @@ async function updateBill(gasto)
 async function deleteBill(id)
 {
     let request = new URL(actions.PATH + `/${id}` ,config.URL_API);
-    let options = {};
-    options = {
+    let options = {
         method: actions.DELETE, // *GET, POST, PUT, DELETE, etc.
         //body:{},
     }
@@ -88,8 +85,7 @@ async function showBillsByPerson(personId, periodo = null)
         uri += `/${periodo.anio}/${periodo.periodo}`;
     }
     let request = new URL(uri,config.URL_API);
-    let options = {};
-    options = {
+    let options = {
             method: actions.LIST, // *GET, POST, PUT, DELETE, etc.
         };
     let response = await fetch(request, options);
