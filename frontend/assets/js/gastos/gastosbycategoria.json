@@ -1,0 +1,30 @@
+[
+  {
+    "idPersona": 1,
+    "persona": "Vidal, Amanda",
+    "idCategoria": 3,
+    "descripcion": "Compras divisas",
+    "total": 130000.00
+  },
+  {
+    "idPersona": 1,
+    "persona": "Vidal, Amanda",
+    "idCategoria": 4,
+    "descripcion": "Impuestos y servicios",
+    "total": 78000.00
+  },
+  {
+    "idPersona": 2,
+    "persona": "Montalva, Diana",
+    "idCategoria": 1,
+    "descripcion": "Farmacia y perfumeria",
+    "total": 252000.00
+  },
+  {
+    "idPersona": 2,
+    "persona": "Montalva, Diana",
+    "idCategoria": 4,
+    "descripcion": "Impuestos y servicios",
+    "total": 110000.00
+  }
+]

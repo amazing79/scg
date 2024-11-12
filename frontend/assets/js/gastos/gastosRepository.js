@@ -99,4 +99,15 @@ async function showBillsByPerson(personId, periodo = null)
     throw new Error('Ocurrio un error al intentar obtener los gastos de la persona');
 }
 
-export {gasto, getBills, showBill, storeBill, updateBill, deleteBill, showBillsByPerson}
+async function showReportByCategoria(periodo = null)
+{
+    let uri = 'assets/js/gastos/gastosbycategoria.json';
+    let filter = periodo === null ? {} : JSON.stringify(periodo);
+    let response = await fetch(uri);
+    if(response.ok) {
+        return await response.json();
+    }
+    throw new Error('Ocurrio un error al intentar obtener los gastos de la persona');
+}
+
+export {gasto, getBills, showBill, storeBill, updateBill, deleteBill, showBillsByPerson, showReportByCategoria}
