@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Gastos;
 
 use App\Domain\Categorias\Categoria;
+use App\Domain\Gastos\GastoCategoria;
 use App\Domain\Gastos\GastoDetalle;
 use App\Domain\Gastos\Gastos;
 use App\Domain\Gastos\GastosRepository;
@@ -165,6 +166,31 @@ class PdoGastosRepository implements GastosRepository
             $categoria = Categoria::createFromArray($unGasto);
             $gastoDetalle = new GastoDetalle($gasto, $persona, $categoria);
             $result[] = $gastoDetalle;
+        }
+        return $result;
+    }
+
+    public function getGastosByCategoriaPersonaPeriodo($periodo = null): array
+    {
+        $result = [];
+        $condition = !is_null($periodo) ? " where fecha_gasto ${periodo} " : "";
+
+        $pdo = $this->db->getConnection();
+        $sql = "
+            select per.idPersona, concat(per.apellido, ', ', per.nombre)  as persona, cat.idCategoria, cat.descripcion, sum(monto) as 'total'
+            from gastos gt
+            inner join persona per on per.idPersona = gt.persona
+            inner join categorias cat on (cat.idCategoria = gt.categoria)
+            ${condition}
+            group by idPersona, idCategoria
+            order by idPersona, idCategoria
+            ;
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($data as $unGasto) {
+            $result[] = GastoCategoria::fromArray($unGasto);;
         }
         return $result;
     }

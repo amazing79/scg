@@ -3,9 +3,11 @@
 use App\Application\Gastos\CreateGastoCommandHandler;
 use App\Application\Gastos\DeleteGastoCommandHandler;
 use App\Application\Gastos\GetGastoByIdQueryHandler;
+use App\Application\Gastos\GetGastosByCategoriaPersonaPeriodoQueryHandler;
 use App\Application\Gastos\GetGastosByPersonaQueryHandler;
 use App\Application\Gastos\GetGastosQueryHandler;
 use App\Application\Gastos\UpdateGastoCommandHandler;
+use App\Domain\Gastos\GastoCategoriaPresenter;
 use App\Domain\Gastos\GastosPresenter;
 use App\Infrastructure\Categorias\PdoCategoriasRepository;
 use App\Infrastructure\Common\Database;
@@ -49,5 +51,11 @@ return [
                 $container->get(PdoPersonasRepository::class),
                 new GAstosPresenter()
             );
+    },
+    GetGastosByCategoriaPersonaPeriodoQueryHandler::class => function (Container $container) {
+        return new GetGastosByCategoriaPersonaPeriodoQueryHandler(
+            $container->get(PdoGastosRepository::class),
+            new GastoCategoriaPresenter()
+        );
     }
 ];
