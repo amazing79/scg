@@ -65,7 +65,7 @@ function processData(result) {
 function showChartWithData() {
     showReportByCategoria()
         .then( result => {
-            let data = processData(result);
+            let data = processData(result.data);
             drawChart(data);
         })
         .catch(error => {

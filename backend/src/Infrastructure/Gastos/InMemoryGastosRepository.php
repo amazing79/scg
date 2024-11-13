@@ -51,4 +51,9 @@ class InMemoryGastosRepository implements GastosRepository
     {
         return $this->db->find($personaId, 'getPersona');
     }
+
+    public function getGastosByCategoriaPersonaPeriodo($periodo = null)
+    {
+        // TODO: Implement getGastosByCategoriaPersonaPeriodo() method.
+    }
 }

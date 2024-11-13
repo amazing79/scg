@@ -17,7 +17,7 @@ class GastoCategoriaPresenter implements Presenter
             'persona' => $data->getPersona(),
             'idCategoria' => $data->getIdCategoria(),
             'descripcion' => $data->getDescripcion(),
-            'total' => number_format($data->getTotal(), 2, '.', '')
+            'total' => $data->getTotal(),
         ];
     }
 }

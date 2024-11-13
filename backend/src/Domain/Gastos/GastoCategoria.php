@@ -2,8 +2,6 @@
 
 namespace App\Domain\Gastos;
 
-use App\Domain\Personas\Persona;
-
 class GastoCategoria
 {
     public function __construct(
@@ -38,7 +36,7 @@ class GastoCategoria
 
     public function getTotal(): string
     {
-        return $this->total;
+        return number_format($this->total, 2, '.', '');
     }
 
     public static function fromArray(array $data): self
