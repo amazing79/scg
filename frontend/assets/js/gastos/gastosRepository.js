@@ -95,15 +95,4 @@ async function showBillsByPerson(personId, periodo = null)
     throw new Error('Ocurrio un error al intentar obtener los gastos de la persona');
 }
 
-async function showReportByCategoria()
-{
-    let uri = 'reportes/gastos-categoria'
-    let request = new URL(uri,config.URL_API);
-    let response = await fetch(request);
-    if(response.ok) {
-        return await response.json();
-    }
-    throw new Error('Ocurrio un error al intentar obtener los gastos por categoria persona');
-}
-
-export {gasto, getBills, showBill, storeBill, updateBill, deleteBill, showBillsByPerson, showReportByCategoria}
+export {gasto, getBills, showBill, storeBill, updateBill, deleteBill, showBillsByPerson}

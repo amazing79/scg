@@ -1,10 +1,14 @@
-import {showReportByCategoria} from './gastosRepository.js';
+import {showReportByCategoria, showTotalsBillsByPerson} from "./reportesRepository.js";
 import {months} from "../common/months.js";
 
-let chart = null;
+let categoriesChart, totalChart = null;
 function resizeDraw() {
-    if(chart !== null) {
-        chart.resize();
+    if(categoriesChart !== null) {
+        categoriesChart.resize();
+    }
+
+    if(totalChart !== null) {
+        totalChart.resize();
     }
 }
 function getLabels(result) {
@@ -59,7 +63,7 @@ function getDataSets(result, lblArr) {
     return ds;
 }
 
-function processData(result) {
+function processCategoriesData(result) {
     let obj = {labels:[], dataSet:[]};
     let lblArr = getLabels(result);
     let ds = getDataSets(result, lblArr);
@@ -69,11 +73,32 @@ function processData(result) {
     return obj;
 }
 
-function showChartWithData() {
+function drawChartBillsByCategories() {
     showReportByCategoria()
         .then( result => {
-            let data = processData(result.data);
-            drawChart(data);
+            let data = processCategoriesData(result.data);
+            drawChartCategoriesReport(data);
+        })
+        .catch(error => {
+            console.log(error)
+        });
+}
+
+function processTotalsData(data) {
+    let report = {labels:[], values:[]};
+
+    data.forEach( item => {
+        report.labels.push(item.persona);
+        report.values.push(item.total);
+    })
+    return report;
+}
+
+function drawChartTotalBills() {
+    showTotalsBillsByPerson()
+        .then( result => {
+            let data = processTotalsData(result.data);
+            drawChartTotalByPersonReport(data);
         })
         .catch(error => {
             console.log(error)
@@ -85,10 +110,10 @@ function getPeriodoActualNombre() {
     return months[fecha.getMonth()];
 }
 
-function drawChart(data){
+function drawChartCategoriesReport(data){
     const ctx = document.getElementById('gastos-categoria');
     let periodo = getPeriodoActualNombre();
-    chart = new Chart(ctx, {
+    categoriesChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: data.labels,
@@ -115,6 +140,41 @@ function drawChart(data){
     });
 }
 
-window.addEventListener('load', evt => showChartWithData());
+function drawChartTotalByPersonReport(data){
+    const ctx = document.getElementById('total-gastos-persona');
+    let periodo = getPeriodoActualNombre();
+    totalChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                label: 'Total de gastos por persona',
+                data: data.values
+            }
+            ]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: `Gastos por Persona mes de ${periodo}`
+                },
+            },
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                }
+            }
+        }
+    });
+}
+
+function drawCharts() {
+    drawChartBillsByCategories();
+    drawChartTotalBills()
+}
+
+window.addEventListener('load', evt => drawCharts());
 window.addEventListener('resize', evt => resizeDraw());
 
