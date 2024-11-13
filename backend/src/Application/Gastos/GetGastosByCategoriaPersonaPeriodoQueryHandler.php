@@ -21,15 +21,15 @@ class GetGastosByCategoriaPersonaPeriodoQueryHandler
     {
     }
 
-    public function handle(array $filter): array
+    public function handle(): array
     {
         $response = [];
         $response['code'] = HttpStatusCode::INTERNAL_SERVER_ERROR;
         $response['message'] = HttpStatusMessages::getMessage(HttpStatusCode::INTERNAL_SERVER_ERROR);
         try {
             //creo periodo para filtro
-            $periodo = $filter['periodo'];
-            $anio = $filter['anio'];
+            $periodo = Periodos::getPeriodoActual();
+            $anio = Periodos::getAnioActual();
             $filterPeriodo = Periodos::makePeriodoFilter($periodo, $anio);
             $gastos = $this->repository->getGastosByCategoriaPersonaPeriodo($filterPeriodo);
 

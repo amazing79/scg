@@ -1,5 +1,11 @@
 import {showReportByCategoria} from './gastosRepository.js';
 
+let chart = null;
+function resizeDraw() {
+    if(chart !== null) {
+        chart.resize();
+    }
+}
 function getLabels(result) {
     let tempArr = [];
     result.forEach(obj => {
@@ -73,9 +79,9 @@ function showChartWithData() {
         });
 }
 function drawChart(data){
-    const ctx = document.getElementById('myChart');
+    const ctx = document.getElementById('gastos-categoria');
     let periodo = 'noviembre';
-    new Chart(ctx, {
+    chart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: data.labels,
@@ -103,3 +109,5 @@ function drawChart(data){
 }
 
 window.addEventListener('load', evt => showChartWithData());
+window.addEventListener('resize', evt => resizeDraw());
+

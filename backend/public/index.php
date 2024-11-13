@@ -87,7 +87,7 @@ $app->group('/v1', function (RouteCollectorProxy $group) {
     $group->get('/gastos', GetBillsAction::class);
     $group->get('/gastos-persona/{idPersona:[0-9]+}[/{anio:[0-9]+}[/{periodo:[0-9]+}]]', GetBillsByPersonAction::class);
     //reportes
-    $group->post('/reportes/gastos-categoria', GetBillsByCategoryPersonAction::class);
+    $group->get('/reportes/gastos-categoria', GetBillsByCategoryPersonAction::class);
 });
 
 $app->run();

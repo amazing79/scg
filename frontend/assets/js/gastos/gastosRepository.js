@@ -95,20 +95,11 @@ async function showBillsByPerson(personId, periodo = null)
     throw new Error('Ocurrio un error al intentar obtener los gastos de la persona');
 }
 
-async function showReportByCategoria(periodo = null)
+async function showReportByCategoria()
 {
     let uri = 'reportes/gastos-categoria'
-    let filter = periodo === null ? {} : JSON.stringify(periodo);
     let request = new URL(uri,config.URL_API);
-    let options = {
-        method: actions.CREATE,
-        headers:{
-            "Content-Type": "application/json",
-        },
-        body:JSON.stringify(filter),
-
-    };
-    let response = await fetch(request, options);
+    let response = await fetch(request);
     if(response.ok) {
         return await response.json();
     }

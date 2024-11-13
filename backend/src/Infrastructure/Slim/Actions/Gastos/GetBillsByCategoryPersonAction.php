@@ -14,11 +14,7 @@ class GetBillsByCategoryPersonAction
 
     public function __invoke(Request $request, Response $response, $args): Response
     {
-        $values = $request->getParsedBody();
-        $filter = [];
-        $filter['periodo'] = 11;
-        $filter['anio'] = 2024;
-        $result = $this->command->handle($filter);
+        $result = $this->command->handle();
         $dataAsJson = json_encode($result, JSON_PRETTY_PRINT);
 
         $response->getBody()->write($dataAsJson);

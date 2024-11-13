@@ -28,4 +28,14 @@ class Periodos
         return " between '${inicio}' and '${fin}' ";
     }
 
+    public static function getPeriodoActual()
+    {
+        return date("m");
+    }
+
+    public static function getAnioActual()
+    {
+        return date("Y");
+    }
+
 }
