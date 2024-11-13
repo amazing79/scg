@@ -2,7 +2,7 @@
 
 namespace App\Domain\Gastos;
 
-class GastoCategoria
+class GastoReporte
 {
     public function __construct(
         private int $idPersona,

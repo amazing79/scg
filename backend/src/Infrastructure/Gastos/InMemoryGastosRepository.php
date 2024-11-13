@@ -56,4 +56,9 @@ class InMemoryGastosRepository implements GastosRepository
     {
         // TODO: Implement getGastosByCategoriaPersonaPeriodo() method.
     }
+
+    public function getTotalGastosPersonaInPeriodo($periodo)
+    {
+        // TODO: Implement getTotalGastosPersonaInPeriodo() method.
+    }
 }

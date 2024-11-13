@@ -7,8 +7,10 @@ use App\Application\Gastos\GetGastosByCategoriaPersonaPeriodoQueryHandler;
 use App\Application\Gastos\GetGastosByPersonaQueryHandler;
 use App\Application\Gastos\GetGastosQueryHandler;
 use App\Application\Gastos\UpdateGastoCommandHandler;
+use App\Application\Reportes\GetTotalGastosByPersonaInPeriodoQueryHandler;
 use App\Domain\Gastos\GastoCategoriaPresenter;
 use App\Domain\Gastos\GastosPresenter;
+use App\Domain\Gastos\GastosTotalPresenter;
 use App\Infrastructure\Categorias\PdoCategoriasRepository;
 use App\Infrastructure\Common\Database;
 use App\Infrastructure\Gastos\PdoGastosRepository;
@@ -57,5 +59,12 @@ return [
             $container->get(PdoGastosRepository::class),
             new GastoCategoriaPresenter()
         );
+    },
+    GetTotalGastosByPersonaInPeriodoQueryHandler::class => function (Container $container) {
+        return new GetTotalGastosByPersonaInPeriodoQueryHandler(
+            $container->get(PdoGastosRepository::class),
+            new GastosTotalPresenter()
+        );
     }
+
 ];

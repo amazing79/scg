@@ -18,6 +18,7 @@ use App\Infrastructure\Slim\Actions\Personas\DeletePersonAction;
 use App\Infrastructure\Slim\Actions\Personas\GetPersonsAction;
 use App\Infrastructure\Slim\Actions\Personas\ShowPersonAction;
 use App\Infrastructure\Slim\Actions\Personas\UpdatePersonAction;
+use App\Infrastructure\Slim\Actions\Reportes\ShowTotalBillsByPersonInPeriodAction;
 use App\Infrastructure\Slim\Middleware\AddJsonResponseHeader;
 use App\Infrastructure\Slim\Middleware\EnableCorsSupport;
 use Slim\Factory\AppFactory;
@@ -88,6 +89,7 @@ $app->group('/v1', function (RouteCollectorProxy $group) {
     $group->get('/gastos-persona/{idPersona:[0-9]+}[/{anio:[0-9]+}[/{periodo:[0-9]+}]]', GetBillsByPersonAction::class);
     //reportes
     $group->get('/reportes/gastos-categoria', GetBillsByCategoryPersonAction::class);
+    $group->get('/reportes/total-gastos-persona', ShowTotalBillsByPersonInPeriodAction::class);
 });
 
 $app->run();

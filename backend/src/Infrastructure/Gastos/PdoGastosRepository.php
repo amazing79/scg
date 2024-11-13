@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Gastos;
 
 use App\Domain\Categorias\Categoria;
-use App\Domain\Gastos\GastoCategoria;
+use App\Domain\Gastos\GastoReporte;
 use App\Domain\Gastos\GastoDetalle;
 use App\Domain\Gastos\Gastos;
 use App\Domain\Gastos\GastosRepository;
@@ -190,7 +190,35 @@ class PdoGastosRepository implements GastosRepository
         $stmt->execute();
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach ($data as $unGasto) {
-            $result[] = GastoCategoria::fromArray($unGasto);;
+            $result[] = GastoReporte::fromArray($unGasto);;
+        }
+        return $result;
+    }
+
+    public function getTotalGastosPersonaInPeriodo($periodo): array
+    {
+        $result = [];
+
+        $pdo = $this->db->getConnection();
+        $sql = "
+           select persona as idPersona, concat(per.apellido, ', ', per.nombre) as apellidoNombre  ,sum(monto) as 'total'
+            from gastos gt
+            inner join persona per on per.idPersona = gt.persona
+            where fecha_gasto ${periodo}
+            group by persona
+            order by 2
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($data as $unGasto) {
+            $values = [];
+            $values['idPersona'] = $unGasto['idPersona'];
+            $values['persona'] = $unGasto['apellidoNombre'] ;
+            $values['idCategoria'] = 0;
+            $values['descripcion'] = '';
+            $values['total'] = $unGasto['total'];
+            $result[] = GastoReporte::fromArray($values);;
         }
         return $result;
     }

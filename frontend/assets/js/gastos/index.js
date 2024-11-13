@@ -1,4 +1,5 @@
 import {showReportByCategoria} from './gastosRepository.js';
+import {months} from "../common/months.js";
 
 let chart = null;
 function resizeDraw() {
@@ -78,9 +79,15 @@ function showChartWithData() {
             console.log(error)
         });
 }
+
+function getPeriodoActualNombre() {
+    let fecha = new Date();
+    return months[fecha.getMonth()];
+}
+
 function drawChart(data){
     const ctx = document.getElementById('gastos-categoria');
-    let periodo = 'noviembre';
+    let periodo = getPeriodoActualNombre();
     chart = new Chart(ctx, {
         type: 'bar',
         data: {
