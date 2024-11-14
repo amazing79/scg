@@ -85,13 +85,16 @@ function drawChartBillsByCategories() {
 }
 
 function processTotalsData(data) {
-    let report = {labels:[], values:[]};
+    let report = {label:'', data:''};
+    let ds = [];
 
     data.forEach( item => {
-        report.labels.push(item.persona);
-        report.values.push(item.total);
+        let dt = Object.assign({}, report);
+        dt.label = item.persona;
+        dt.data = [item.total];
+        ds.push(dt);
     })
-    return report;
+    return ds;
 }
 
 function drawChartTotalBills() {
@@ -140,18 +143,14 @@ function drawChartCategoriesReport(data){
     });
 }
 
-function drawChartTotalByPersonReport(data){
+function drawChartTotalByPersonReport(ds){
     const ctx = document.getElementById('total-gastos-persona');
     let periodo = getPeriodoActualNombre();
     totalChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: data.labels,
-            datasets: [{
-                label: 'Total de gastos por persona',
-                data: data.values
-            }
-            ]
+            labels: ['Total'],
+            datasets: ds
         },
         options: {
             plugins: {
