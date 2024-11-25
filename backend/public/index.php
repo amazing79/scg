@@ -19,6 +19,7 @@ use App\Infrastructure\Slim\Actions\Personas\GetPersonsAction;
 use App\Infrastructure\Slim\Actions\Personas\ShowPersonAction;
 use App\Infrastructure\Slim\Actions\Personas\UpdatePersonAction;
 use App\Infrastructure\Slim\Actions\Reportes\ShowTotalBillsByPersonInPeriodAction;
+use App\Infrastructure\Slim\Actions\Users\LoginUserAction;
 use App\Infrastructure\Slim\Middleware\AddJsonResponseHeader;
 use App\Infrastructure\Slim\Middleware\EnableCorsSupport;
 use Slim\Factory\AppFactory;
@@ -39,6 +40,7 @@ $container = $builder
             ->addDefinitions(APP_ROOT . '/config/definitions.php')
             ->addDefinitions(APP_ROOT . '/config/persons_definitions.php')
             ->addDefinitions(APP_ROOT . '/config/bills_definitions.php')
+            ->addDefinitions(APP_ROOT . '/config/users_definitions.php')
             ->build();
 
 AppFactory::setContainer($container);
@@ -90,6 +92,8 @@ $app->group('/v1', function (RouteCollectorProxy $group) {
     //reportes
     $group->get('/reportes/gastos-categoria', GetBillsByCategoryPersonAction::class);
     $group->get('/reportes/total-gastos-persona', ShowTotalBillsByPersonInPeriodAction::class);
+    //login
+    $group->post('/login', LoginUserAction::class);
 });
 
 $app->run();
