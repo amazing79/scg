@@ -71,27 +71,29 @@ $app->add(new AddJsonResponseHeader());
 $app->setBasePath($_ENV['APP_PATH']);
 
 $app->group('/v1', function (RouteCollectorProxy $group) {
-    $group->get('/categorias/{id:[0-9]+}', ShowCategoryAction::class);
-    $group->patch('/categorias/{id:[0-9]+}', UpdateCategorieAction::class);
-    $group->delete('/categorias/{id:[0-9]+}', DeleteCategoryAction::class);
-    $group->post('/categorias', CreateCategoryAction::class);
-    $group->get('/categorias', GetCategoriesAction::class);
-    //ABM Personas
-    $group->get('/personas/{id:[0-9]+}', ShowPersonAction::class);
-    $group->patch('/personas/{id:[0-9]+}', UpdatePersonAction::class);
-    $group->delete('/personas/{id:[0-9]+}', DeletePersonAction::class);
-    $group->post('/personas', CreatePersonAction::class);
-    $group->get('/personas', GetPersonsAction::class);
-    //AMB Gastos
-    $group->get('/gastos/{id:[0-9]+}', ShowBillAction::class);
-    $group->patch('/gastos/{id:[0-9]+}', UpdateBillAction::class);
-    $group->delete('/gastos/{id:[0-9]+}', DeleteBillAction::class);
-    $group->post('/gastos', CreateBillAction::class);
-    $group->get('/gastos', GetBillsAction::class);
-    $group->get('/gastos-persona/{idPersona:[0-9]+}[/{anio:[0-9]+}[/{periodo:[0-9]+}]]', GetBillsByPersonAction::class);
-    //reportes
-    $group->get('/reportes/gastos-categoria', GetBillsByCategoryPersonAction::class);
-    $group->get('/reportes/total-gastos-persona', ShowTotalBillsByPersonInPeriodAction::class);
+    $group->group('/{sessionId}', function (RouteCollectorProxy $group) {
+        $group->get('/categorias/{id:[0-9]+}', ShowCategoryAction::class);
+        $group->patch('/categorias/{id:[0-9]+}', UpdateCategorieAction::class);
+        $group->delete('/categorias/{id:[0-9]+}', DeleteCategoryAction::class);
+        $group->post('/categorias', CreateCategoryAction::class);
+        $group->get('/categorias', GetCategoriesAction::class);
+        //ABM Personas
+        $group->get('/personas/{id:[0-9]+}', ShowPersonAction::class);
+        $group->patch('/personas/{id:[0-9]+}', UpdatePersonAction::class);
+        $group->delete('/personas/{id:[0-9]+}', DeletePersonAction::class);
+        $group->post('/personas', CreatePersonAction::class);
+        $group->get('/personas', GetPersonsAction::class);
+        //AMB Gastos
+        $group->get('/gastos/{id:[0-9]+}', ShowBillAction::class);
+        $group->patch('/gastos/{id:[0-9]+}', UpdateBillAction::class);
+        $group->delete('/gastos/{id:[0-9]+}', DeleteBillAction::class);
+        $group->post('/gastos', CreateBillAction::class);
+        $group->get('/gastos', GetBillsAction::class);
+        $group->get('/gastos-persona/{idPersona:[0-9]+}[/{anio:[0-9]+}[/{periodo:[0-9]+}]]', GetBillsByPersonAction::class);
+        //reportes
+        $group->get('/reportes/gastos-categoria', GetBillsByCategoryPersonAction::class);
+        $group->get('/reportes/total-gastos-persona', ShowTotalBillsByPersonInPeriodAction::class);
+    })->add(\App\Infrastructure\Slim\Middleware\SessionValid::class);
     //login
     $group->post('/login', LoginUserAction::class);
 });

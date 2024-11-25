@@ -1,5 +1,6 @@
 import {actions} from "./actions.js";
 import {config} from "../config.js";
+import {SessionManager} from "../common/sessionManager.js";
 
 let gasto = {
     idGasto:0,
@@ -10,9 +11,11 @@ let gasto = {
     persona:0,
     observaciones:''
 }
+
+let uri = `${SessionManager.getAuthToken()}/${actions.PATH}`;
 async function getBills()
 {
-    let request = new URL(actions.PATH ,config.URL_API);
+    let request = new URL(uri ,config.URL_API);
     let response = await fetch(request);
     if(response.ok) {
         return await response.json();
@@ -22,7 +25,7 @@ async function getBills()
 
 async function showBill(id)
 {
-    let request = new URL(actions.PATH + `/${id}`,config.URL_API);
+    let request = new URL(uri + `/${id}`,config.URL_API);
     let response = await fetch(request);
     if(response.ok) {
         return await response.json();
@@ -32,7 +35,7 @@ async function showBill(id)
 
 async function storeBill(gasto)
 {
-    let request = new URL(actions.PATH,config.URL_API);
+    let request = new URL(uri,config.URL_API);
     let options = {
         method: actions.CREATE, // *GET, POST, PUT, DELETE, etc.
         headers:{
@@ -49,7 +52,7 @@ async function storeBill(gasto)
 
 async function updateBill(gasto)
 {
-    let request = new URL(actions.PATH + `/${gasto.idGasto}` ,config.URL_API);
+    let request = new URL(uri + `/${gasto.idGasto}` ,config.URL_API);
     let options = {
         method: actions.EDIT, // *GET, POST, PUT, DELETE, etc.
         headers:{
@@ -66,7 +69,7 @@ async function updateBill(gasto)
 
 async function deleteBill(id)
 {
-    let request = new URL(actions.PATH + `/${id}` ,config.URL_API);
+    let request = new URL(uri + `/${id}` ,config.URL_API);
     let options = {
         method: actions.DELETE, // *GET, POST, PUT, DELETE, etc.
         //body:{},
@@ -80,11 +83,11 @@ async function deleteBill(id)
 
 async function showBillsByPerson(personId, periodo = null)
 {
-    let uri = actions.PATH + `-persona/${personId}`;
+    let ref = uri + `-persona/${personId}`;
     if(periodo !== null) {
-        uri += `/${periodo.anio}/${periodo.periodo}`;
+        ref += `/${periodo.anio}/${periodo.periodo}`;
     }
-    let request = new URL(uri,config.URL_API);
+    let request = new URL(ref,config.URL_API);
     let options = {
             method: actions.LIST, // *GET, POST, PUT, DELETE, etc.
         };

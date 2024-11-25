@@ -1,13 +1,16 @@
 import {actions} from "./actions.js";
 import {config} from "../config.js";
+import {SessionManager} from "../common/sessionManager.js";
 
 let categoria = {
     idCategoria:0,
     descripcion:''
 }
+
+let uri = `${SessionManager.getAuthToken()}/${actions.PATH}`;
 async function getCategories()
 {
-    let request = new URL(actions.PATH ,config.URL_API);
+    let request = new URL(uri ,config.URL_API);
     let response = await fetch(request);
     if(response.ok) {
         return await response.json();
@@ -19,7 +22,7 @@ async function getCategories()
 
 async function showCategory(id)
 {
-    let request = new URL(actions.PATH + `/${id}`,config.URL_API);
+    let request = new URL(uri + `/${id}`,config.URL_API);
     let response = await fetch(request);
     if(response.ok) {
         return await response.json();
@@ -29,7 +32,7 @@ async function showCategory(id)
 
 async function storeCategory(category)
 {
-    let request = new URL(actions.PATH,config.URL_API);
+    let request = new URL(uri,config.URL_API);
     let options = {};
     options = {
         method: actions.CREATE, // *GET, POST, PUT, DELETE, etc.
@@ -47,7 +50,7 @@ async function storeCategory(category)
 
 async function updateCategory(category)
 {
-    let request = new URL(actions.PATH + `/${category.idCategoria}` ,config.URL_API);
+    let request = new URL(uri + `/${category.idCategoria}` ,config.URL_API);
     let options = {};
     options = {
         method: actions.EDIT, // *GET, POST, PUT, DELETE, etc.
@@ -65,7 +68,7 @@ async function updateCategory(category)
 
 async function deleteCategory(id)
 {
-    let request = new URL(actions.PATH + `/${id}` ,config.URL_API);
+    let request = new URL(uri + `/${id}` ,config.URL_API);
     let options = {};
     options = {
         method: actions.DELETE, // *GET, POST, PUT, DELETE, etc.

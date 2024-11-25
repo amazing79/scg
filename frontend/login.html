@@ -13,12 +13,16 @@
     <div class="login-card">
       <h2>Login - SCG</h2>
       <h3>Pro favor, ingresa tus datos de acceso</h3>
-      <form class="login-form" action="index.html">
-        <input type="text" placeholder="Usuario" />
-        <input type="password" placeholder="Password" />
+      <div id="display_error" class="display display__hide">
+          <h3>El usuario o contrase&ntilde;a son incorrectos!</h3>
+      </div>
+      <form class="login-form">
+        <input type="text" placeholder="Usuario" id="user"/>
+        <input type="password" placeholder="Password" id="password"/>
         <a href="reset.html">Olvide mi password</a>
-        <button type="submit">Ingresar</button>
+        <button type="submit" id="login">Ingresar</button>
       </form>
     </div>
   </body>
+  <script src="assets/js/users/index.js" type="module"></script>
 </html>

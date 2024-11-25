@@ -112,3 +112,21 @@ body {
   text-decoration: none;
   margin-bottom: 6px;
 }
+
+.display
+{
+  margin-bottom: 10px;
+}
+
+.display__hide {
+  display: none;
+}
+
+.display__show {
+  display: block;
+}
+
+.display__show > h3 {
+  color: #9f3712;
+  font-size: 12px;
+}

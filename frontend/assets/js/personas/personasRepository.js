@@ -1,5 +1,6 @@
 import {actions} from "./actions.js";
 import {config} from "../config.js";
+import {SessionManager} from "../common/sessionManager.js";
 
 let persona = {
     idPersona:0,
@@ -7,9 +8,11 @@ let persona = {
     nombre:'',
     apodo:''
 }
+
+let uri = `${SessionManager.getAuthToken()}/${actions.PATH}`;
 async function getPersons()
 {
-    let request = new URL(actions.PATH ,config.URL_API);
+    let request = new URL(uri ,config.URL_API);
     let response = await fetch(request);
     if(response.ok) {
         return await response.json();
@@ -19,7 +22,7 @@ async function getPersons()
 
 async function showPerson(id)
 {
-    let request = new URL(actions.PATH + `/${id}`,config.URL_API);
+    let request = new URL(uri + `/${id}`,config.URL_API);
     let response = await fetch(request);
     if(response.ok) {
         return await response.json();
@@ -29,7 +32,7 @@ async function showPerson(id)
 
 async function storePerson(person)
 {
-    let request = new URL(actions.PATH,config.URL_API);
+    let request = new URL(uri,config.URL_API);
     let options = {};
     options = {
         method: actions.CREATE, // *GET, POST, PUT, DELETE, etc.
@@ -47,7 +50,7 @@ async function storePerson(person)
 
 async function updatePerson(person)
 {
-    let request = new URL(actions.PATH + `/${person.idPersona}` ,config.URL_API);
+    let request = new URL(uri + `/${person.idPersona}` ,config.URL_API);
     let options = {};
     options = {
         method: actions.EDIT, // *GET, POST, PUT, DELETE, etc.
@@ -65,7 +68,7 @@ async function updatePerson(person)
 
 async function deletePerson(id)
 {
-    let request = new URL(actions.PATH + `/${id}` ,config.URL_API);
+    let request = new URL(uri + `/${id}` ,config.URL_API);
     let options = {};
     options = {
         method: actions.DELETE, // *GET, POST, PUT, DELETE, etc.

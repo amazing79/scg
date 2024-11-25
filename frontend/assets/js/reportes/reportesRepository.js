@@ -1,4 +1,5 @@
 import {config} from "../config.js";
+import {SessionManager} from "../common/sessionManager.js";
 
 let actions  = {
     path: 'reportes',
@@ -8,7 +9,8 @@ let actions  = {
 
 async function showReportByCategoria()
 {
-    let request = new URL(actions.path + actions.gastos_categoria,config.URL_API);
+    let uri = `${SessionManager.getAuthToken()}/${actions.path}`;
+    let request = new URL(uri + actions.gastos_categoria,config.URL_API);
     let response = await fetch(request);
     if(response.ok) {
         return await response.json();
@@ -17,7 +19,8 @@ async function showReportByCategoria()
 }
 async function showTotalsBillsByPerson()
 {
-    let request = new URL(actions.path + actions.total_gastos_persona ,config.URL_API);
+    let uri = `${SessionManager.getAuthToken()}/${actions.path}`;
+    let request = new URL(uri + actions.total_gastos_persona ,config.URL_API);
     let response = await fetch(request);
     if(response.ok) {
         return await response.json();

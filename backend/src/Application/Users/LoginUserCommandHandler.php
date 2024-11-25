@@ -6,6 +6,7 @@ use App\Domain\Common\Conts\HttpStatusCode;
 use App\Domain\Common\Conts\HttpStatusMessages;
 use App\Domain\Common\Presenter;
 use App\Domain\Common\Traits\VerifyPresenter;
+use App\Domain\Users\Exceptions\InvalidCredentialsException;
 use App\Domain\Users\Exceptions\UserNotFoundException;
 use App\Domain\Users\User;
 use App\Domain\Users\UsersRepository;
@@ -33,14 +34,14 @@ class LoginUserCommandHandler
             }
             $password = $this->addPeeperToPassword($credentials);
             if(!password_verify($password, $user->getPassword())){
-                throw new UserNotFoundException();
+                throw new InvalidCredentialsException();
             }
             $token = $this->generateUserToken($user);
             $response['token'] = $token;
             $response['code'] = HttpStatusCode::OK;
             $response['message'] = HttpStatusMessages::getMessage(HttpStatusCode::OK);
 
-        } catch (UserNotFoundException $e) {
+        } catch (UserNotFoundException|InvalidCredentialsException $e) {
             $response['message'] = "Code error: {$e->getCode()} - descripcion: {$e->getMessage()}";
             $response['code'] = $e->getCode();
         } catch (\Exception $e) {
