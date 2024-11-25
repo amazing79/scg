@@ -27,6 +27,7 @@
 
     "scripts": {
         "start": "php -S localhost:8080 -t public",
-        "test": "phpunit"
+        "test": "phpunit",
+        "addUser": "php -f createUser.php"
     }
 }

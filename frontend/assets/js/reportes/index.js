@@ -174,6 +174,6 @@ function drawCharts() {
     drawChartTotalBills()
 }
 
-window.addEventListener('load', evt => drawCharts());
-window.addEventListener('resize', evt => resizeDraw());
+window.addEventListener('load', () => drawCharts());
+window.addEventListener('resize', () => resizeDraw());
 

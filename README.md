@@ -46,3 +46,18 @@ Para probar el correcto funcionamiento del BE, se puede utilizar postman u otra 
 Si bien cuenta con middleware para evitar el problema de CORS, en caso de contar con un servidor web como apache, se puede 
 colocar todo mismo en un subdirectorio. Tener en cuenta también de editar la variable ***APP_PATH*** del archivo .env del BE.
 
+### Creación de Usuarios de sistema
+
+Para facilitar la creación de usuarios, se creó comando de terminal para tal fin. Se puede usar desde consola de 2 formas:
+
+- Usando php: php -f createUser.php [ usuario  clave email ]
+- Usando composer: composer addUser [ usuario  clave email ]
+
+Se debe tener en cuenta lo siguiente: 
+- Se debe especificar el secret en el archivo .env, ya que este usa para agregar una capa más a la hora de encriptar el password
+- En caso de no indicar los valores para usuario clave y email, se les asigna por default los siguientes:
+  - usuario = user
+  - clave = password
+  - email = email@example.com
+
+Este usuario es el que más adelante se podrá loguear en el sistema.

@@ -38,4 +38,22 @@ class PdoUsersRepository implements UsersRepository
         return null;
     }
 
+    public function addUser(User $user): int
+    {
+        $sql = "
+                INSERT INTO users (userName, email, password) 
+                values (:userName, :email, :password) 
+                ;
+                ";
+
+        $pdo = $this->db->getConnection();
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':userName', $user->getName());
+        $stmt->bindValue(':email', $user->getEmail());
+        $stmt->bindValue(':password', $user->getPassword());
+
+        $stmt->execute();
+
+        return $pdo->lastInsertId();
+    }
 }
