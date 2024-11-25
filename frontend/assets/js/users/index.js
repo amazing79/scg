@@ -1,5 +1,6 @@
 import {login, credentials} from "./userRepository.js";
 import {SessionManager} from "../common/sessionManager.js";
+import {routes} from "../common/routes.js";
 
 function displayErrors(error) {
     let display = document.getElementById('display_error');
@@ -19,7 +20,7 @@ function loginAction(evt)
         .then(response => {
             if(response.code === 200) {
                 SessionManager.setAuthToken(response.token);
-                window.location = "index.html";
+                window.location = routes.MAIN;
             }
         })
         .catch(error => {

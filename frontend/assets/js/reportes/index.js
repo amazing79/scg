@@ -1,5 +1,7 @@
 import {showReportByCategoria, showTotalsBillsByPerson} from "./reportesRepository.js";
 import {months} from "../common/months.js";
+import {SessionManager} from "../common/sessionManager.js";
+import {routes} from "../common/routes.js";
 
 let categoriesChart, totalChart = null;
 function resizeDraw() {
@@ -170,8 +172,12 @@ function drawChartTotalByPersonReport(ds){
 }
 
 function drawCharts() {
-    drawChartBillsByCategories();
-    drawChartTotalBills()
+    if(SessionManager.isActive()) {
+        drawChartBillsByCategories();
+        drawChartTotalBills()
+    } else {
+        window.location = routes.LOGIN;
+    }
 }
 
 window.addEventListener('load', () => drawCharts());

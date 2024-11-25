@@ -2,7 +2,7 @@ export class SessionManager {
     static isActive()
     {
         let token = sessionStorage.getItem('token') ?? '';
-        return token.length === 60 ?? false;
+        return token.length === 36 ?? false;
     }
 
     static clearSession(){
