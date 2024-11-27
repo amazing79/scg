@@ -23,3 +23,5 @@ function closeSession() {
 }
 
 document.getElementById('btnClose').addEventListener('click', closeSession);
+document.getElementById('btn_menu').addEventListener('click', toggleMenu);
+
