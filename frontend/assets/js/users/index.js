@@ -24,19 +24,20 @@ function loginAction(evt)
             }
         })
         .catch(error => {
-           console.log(error.code);
+           console.error('Ocurrio el error', error.status, error.statusText);
+           console.error('Detalles', error.details);
            displayErrors(error);
 
         })
 }
 function setListeners()
 {
-    if(!SessionManager.isActive()) {
-        let btnLogin = document.getElementById('login');
-        btnLogin.addEventListener('click', loginAction);
-    } else {
-        window.location = routes.MAIN;
-    }
+    let btnLogin = document.getElementById('login');
+    btnLogin.addEventListener('click', loginAction);
+}
+
+if (SessionManager.isActive()) {
+    window.location = routes.MAIN;
 }
 
 window.addEventListener('load' , setListeners);

@@ -1,8 +1,11 @@
 import {config} from "../config.js";
+import {SessionManager} from "../common/sessionManager.js";
+
 
 let actions  = {
     PATH: "login",
-    login: "POST"
+    login: "POST",
+    logout:"POST"
 };
 
 let credentials =
@@ -26,16 +29,30 @@ async function login(credentials)
     if(response.ok) {
         return await response.json();
     }
-    throw new Error('Ocurrio un error al intentar ingresar al sistema');
+    const errorsDetails = await response.json();
+    throw {
+        status: response.status,
+        statusText : response.statusText,
+        details: errorsDetails
+    }
 }
 async function logout()
 {
-    let request = new URL(actions.PATH,config.URL_API);
-    let response = await fetch(request);
+    let uri = SessionManager.getAuthToken() + '/logout';
+    let request = new URL(uri,config.URL_API);
+    let options = {
+        method: actions.logout, // *GET, POST, PUT, DELETE, etc.
+    }
+    let response = await fetch(request, options);
     if(response.ok) {
         return await response.json();
     }
-    throw new Error('Ocurrio un error al intentar obtener el total de gastos realizados por persona');
+    const errorsDetails = await response.json();
+    throw {
+        status: response.status,
+        statusText : response.statusText,
+        details: errorsDetails
+    }
 }
 
 export {login,  logout, credentials}

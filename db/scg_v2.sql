@@ -111,7 +111,7 @@ DROP TABLE IF EXISTS `users_sessions`;
 CREATE TABLE `users_sessions` (
   `idSession` int(11) NOT NULL AUTO_INCREMENT,
   `uuid` varchar(60) NOT NULL,
-  `expiration` timestamp NOT NULL DEFAULT current_timestamp(),
+  `expiration` timestamp NOT NULL,
   `idUser` int(11) NOT NULL,
   `auth_token` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idSession`),

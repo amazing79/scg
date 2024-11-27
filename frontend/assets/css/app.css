@@ -72,13 +72,23 @@ aside nav ul li {
     margin: 15px 0;
 }
 
-aside nav ul li a {
+.btn_link {
+    all:unset;
+}
+
+.btn_link:hover {
+    cursor: pointer;
+}
+
+aside nav ul li a,
+.btn_link {
     color: white;
     text-decoration: none;
     font-size: 18px;
 }
 
-aside nav ul li a i {
+aside nav ul li a i,
+.btn_link {
     margin-right: 10px;
 }
 

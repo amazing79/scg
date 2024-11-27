@@ -35,7 +35,7 @@ class LoginUserCommandHandler
             if(!password_verify($password, $user->getPassword())){
                 throw new InvalidCredentialsException();
             }
-            if($this->hasPresenter($this->presenter)) {
+            if($this->hasPresenter($this)) {
                 $user = $this->presenter->convert($user);
             }
             $token = $this->repository->createUserSession($user);
