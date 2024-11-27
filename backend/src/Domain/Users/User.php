@@ -52,7 +52,7 @@ class User
         $name = $data['userName'] ?? '';
         $email = isset($data['email']) ? new Email($data['email']) : null;
         $password = $data['password'] ?? '';
-        $sessionExpiration = $data['sessionExpiration'] ?? '';
+        $sessionExpiration = $data['expiration'] ?? '';
         return new self($idUser, $name, $email, $password, $sessionExpiration);
     }
 
