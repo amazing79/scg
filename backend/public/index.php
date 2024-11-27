@@ -20,8 +20,10 @@ use App\Infrastructure\Slim\Actions\Personas\ShowPersonAction;
 use App\Infrastructure\Slim\Actions\Personas\UpdatePersonAction;
 use App\Infrastructure\Slim\Actions\Reportes\ShowTotalBillsByPersonInPeriodAction;
 use App\Infrastructure\Slim\Actions\Users\LoginUserAction;
+use App\Infrastructure\Slim\Actions\Users\LogoutUserAction;
 use App\Infrastructure\Slim\Middleware\AddJsonResponseHeader;
 use App\Infrastructure\Slim\Middleware\EnableCorsSupport;
+use App\Infrastructure\Slim\Middleware\SessionValid;
 use Slim\Factory\AppFactory;
 use DI\ContainerBuilder;
 use Slim\Routing\RouteCollectorProxy;
@@ -93,7 +95,8 @@ $app->group('/v1', function (RouteCollectorProxy $group) {
         //reportes
         $group->get('/reportes/gastos-categoria', GetBillsByCategoryPersonAction::class);
         $group->get('/reportes/total-gastos-persona', ShowTotalBillsByPersonInPeriodAction::class);
-    })->add(\App\Infrastructure\Slim\Middleware\SessionValid::class);
+        $group->post('/logout', LogoutUserAction::class);
+    })->add(SessionValid::class);
     //login
     $group->post('/login', LoginUserAction::class);
 });

@@ -8,7 +8,6 @@ use App\Domain\Common\Presenter;
 use App\Domain\Common\Traits\VerifyPresenter;
 use App\Domain\Users\Exceptions\InvalidCredentialsException;
 use App\Domain\Users\Exceptions\UserNotFoundException;
-use App\Domain\Users\User;
 use App\Domain\Users\UsersRepository;
 
 class LoginUserCommandHandler
@@ -28,7 +27,7 @@ class LoginUserCommandHandler
         $response['message'] = HttpStatusMessages::getMessage(HttpStatusCode::INTERNAL_SERVER_ERROR);
         try {
             $credentials = $values;
-            $user = $this->repository->login($credentials);
+            $user = $this->repository->getUserByCredentials($credentials);
             if(is_null($user)) {
                 throw new UserNotFoundException();
             }
@@ -36,7 +35,10 @@ class LoginUserCommandHandler
             if(!password_verify($password, $user->getPassword())){
                 throw new InvalidCredentialsException();
             }
-            $token = $this->generateUserToken($user);
+            if($this->hasPresenter($this->presenter)) {
+                $user = $this->presenter->convert($user);
+            }
+            $token = $this->repository->createUserSession($user);
             $response['token'] = $token;
             $response['code'] = HttpStatusCode::OK;
             $response['message'] = HttpStatusMessages::getMessage(HttpStatusCode::OK);
@@ -48,11 +50,6 @@ class LoginUserCommandHandler
             $response['message'] = "Code error: {$e->getCode()} - descripcion: {$e->getMessage()}";
         }
         return $response;
-    }
-
-    private function generateUserToken(User $user): string
-    {
-        return 'ae0a0209-aaca-11ef-a6fb-54e1ad9390b4';
     }
 
     private function addPeeperToPassword($credentials): string

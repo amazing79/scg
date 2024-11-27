@@ -31,9 +31,12 @@ function loginAction(evt)
 }
 function setListeners()
 {
-    let btnLogin = document.getElementById('login');
-
-    btnLogin.addEventListener('click', loginAction);
+    if(!SessionManager.isActive()) {
+        let btnLogin = document.getElementById('login');
+        btnLogin.addEventListener('click', loginAction);
+    } else {
+        window.location = routes.MAIN;
+    }
 }
 
 window.addEventListener('load' , setListeners);

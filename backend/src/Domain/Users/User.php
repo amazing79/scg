@@ -11,6 +11,7 @@ class User
         private string $name,
         private ?Email $email,
         private string $password,
+        private string $session_expiration
     )
     {
         $this->assertValidUserName($this->name);
@@ -38,13 +39,21 @@ class User
         return $this->password;
     }
 
+    public function getSessionExpiration(): string
+    {
+        return $this->session_expiration;
+    }
+
+
+
     public static function fromArray(array $data): User
     {
-        $idUser = $data['id'] ?? 0;
+        $idUser = $data['idUser'] ?? 0;
         $name = $data['userName'] ?? '';
         $email = isset($data['email']) ? new Email($data['email']) : null;
         $password = $data['password'] ?? '';
-        return new self($idUser, $name, $email, $password);
+        $sessionExpiration = $data['sessionExpiration'] ?? '';
+        return new self($idUser, $name, $email, $password, $sessionExpiration);
     }
 
     private function assertValidUserName(string $name)
