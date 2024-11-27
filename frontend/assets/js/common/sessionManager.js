@@ -1,3 +1,6 @@
+import {routes} from "./routes.js";
+import {config} from "../config.js";
+
 export class SessionManager {
     static isActive()
     {
@@ -7,6 +10,9 @@ export class SessionManager {
 
     static clearSession(){
         sessionStorage.clear();
+        //redirijo a login.html
+        let url = config.APP_PATH + routes.LOGIN;
+        window.location.replace(url);
     }
 
     static getAuthToken()
@@ -27,5 +33,12 @@ export class SessionManager {
     static setAuthUser(user)
     {
         sessionStorage.setItem('user', user);
+    }
+
+    static redirectToLoginIsNotActiveSession()
+    {
+        if (!this.isActive()) {
+           this.clearSession();
+        }
     }
 }

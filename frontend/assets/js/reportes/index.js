@@ -172,12 +172,8 @@ function drawChartTotalByPersonReport(ds){
 }
 
 function drawCharts() {
-    if(SessionManager.isActive()) {
-        drawChartBillsByCategories();
-        drawChartTotalBills()
-    } else {
-        window.location = routes.LOGIN;
-    }
+    drawChartBillsByCategories();
+    drawChartTotalBills();
 }
 
 window.addEventListener('load', () => drawCharts());

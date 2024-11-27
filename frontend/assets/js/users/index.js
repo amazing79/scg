@@ -36,8 +36,5 @@ function setListeners()
     btnLogin.addEventListener('click', loginAction);
 }
 
-if (SessionManager.isActive()) {
-    window.location = routes.MAIN;
-}
-
+SessionManager.redirectToLoginIsNotActiveSession();
 window.addEventListener('load' , setListeners);

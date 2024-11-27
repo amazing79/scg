@@ -1,2 +1,4 @@
 const URL_API = "http://localhost:8080";
-export const config = { URL_API};
+const APP_PATH = "http://localhost/";
+
+export const config = { URL_API, APP_PATH };
