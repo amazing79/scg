@@ -79,7 +79,7 @@ class PdoUsersRepository implements UsersRepository
         return $uuid;
     }
 
-    public function getUserbySessionId(string $sessionId): ?User
+    public function getUserBySessionId(string $sessionId): ?User
     {
         $sql = "
                 SELECT us.idSession, us.uuid, us.expiration, u.idUser, us.auth_token,
@@ -123,5 +123,26 @@ class PdoUsersRepository implements UsersRepository
         $stmt->execute();
 
         return $stmt->rowCount() > 0;
+    }
+
+    public function getActiveUserSession(int $idUser): string
+    {
+        $sql = "
+                SELECT us.idSession, us.uuid, us.expiration, us.idUser, us.auth_token
+                FROM users_sessions us
+                WHERE 
+                    us.idUser = :idUser
+                ;
+                ";
+        $pdo = $this->db->getConnection();
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':idUser', $idUser,PDO::PARAM_INT );
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(!empty($result)){
+            return $result['uuid'];
+        }
+        return '';
     }
 }

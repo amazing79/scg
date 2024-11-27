@@ -18,7 +18,7 @@ class GetActiveSessionUserQueryHandler
         $response['code'] = HttpStatusCode::INTERNAL_SERVER_ERROR;
         $response['message'] = HttpStatusMessages::getMessage(HttpStatusCode::INTERNAL_SERVER_ERROR);
         try {
-            $user = $this->repository->getUserbySessionId($sessionId);
+            $user = $this->repository->getUserBySessionId($sessionId);
             $response['code'] = HttpStatusCode::OK;
             $response['data'] = $user;
             $response['message'] = 'Usuario de la sesion obtenido correctamente';

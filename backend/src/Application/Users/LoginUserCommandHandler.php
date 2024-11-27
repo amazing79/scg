@@ -8,6 +8,7 @@ use App\Domain\Common\Presenter;
 use App\Domain\Common\Traits\VerifyPresenter;
 use App\Domain\Users\Exceptions\InvalidCredentialsException;
 use App\Domain\Users\Exceptions\UserNotFoundException;
+use App\Domain\Users\User;
 use App\Domain\Users\UsersRepository;
 
 class LoginUserCommandHandler
@@ -35,10 +36,10 @@ class LoginUserCommandHandler
             if(!password_verify($password, $user->getPassword())){
                 throw new InvalidCredentialsException();
             }
+            $token = $this->getToken($user);
             if($this->hasPresenter($this)) {
                 $user = $this->presenter->convert($user);
             }
-            $token = $this->repository->createUserSession($user);
             $response['token'] = $token;
             $response['code'] = HttpStatusCode::OK;
             $response['message'] = HttpStatusMessages::getMessage(HttpStatusCode::OK);
@@ -55,5 +56,14 @@ class LoginUserCommandHandler
     private function addPeeperToPassword($credentials): string
     {
         return hash_hmac("sha256", $credentials['password'], $credentials['pepper']);
+    }
+
+    private function getToken(?User $user): string
+    {
+        $token = $this->repository->getActiveUserSession($user->getIdUser());
+        if(empty($token)) {
+            $token = $this->repository->createUserSession($user);
+        }
+        return $token;
     }
 }

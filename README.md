@@ -36,8 +36,9 @@ credenciales de acceso.
     - 5.5 - En caso de ejecutarlo en un servidor web Apache, renombrar y editar los archivos .httaccess_example de las carpetas backend y backend/public
 - 3 - Configurar FrontEnd (FE)
   - 3.1 - Renombrar el archivo frontend/assets/js/config_example.js a config.js
-  - 3.2 - Editar el archivo config.js con la dirección de la url del BE.
-  - 3.3 - Ejecutar el plugin live-server y disfrutar
+  - 3.2 - Editar el valor de API_URL en el archivo config.js con la dirección de la url del BE.
+  - 3.3 - Editar el valor de APP_PATH en el archivo config.js con la dirección de la App.
+  - 3.4 - Ejecutar el plugin live-server y disfrutar
 
 ### Nota
 
