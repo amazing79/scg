@@ -3,6 +3,7 @@ import {Loader} from "../common/loader.js";
 import {getPersons} from "../personas/personasRepository.js"
 import {getCategories} from "../categorias/categoriasRepository.js";
 import {gasto, getBills, showBill, storeBill, updateBill, deleteBill, showBillsByPerson} from "./gastosRepository.js";
+import {SessionManager} from "../common/sessionManager.js";
 
 let visibleData = {
     idGasto: 0,
@@ -131,7 +132,7 @@ function loadBills()
             lvw.buildLvw(bills);
         })
         .catch( error => {
-            console.log(error.message)
+            console.log(error)
         });
 }
 
@@ -198,6 +199,10 @@ function loadPersons()
         .catch( error => {
             console.log(error.message)
         });
+}
+
+function handleSessionExpired() {
+    SessionManager.clearSession();
 }
 
 function initEvents()
@@ -280,6 +285,7 @@ function initEvents()
             loadBills();
         }
     })
+    document.addEventListener('sessionExpired', handleSessionExpired)
 }
 
 function closeForm()

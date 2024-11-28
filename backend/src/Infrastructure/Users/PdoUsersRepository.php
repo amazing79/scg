@@ -113,7 +113,7 @@ class PdoUsersRepository implements UsersRepository
         return $result['sessionId'];
     }
 
-    public function deleteUserSession(string $sessionId): bool
+    public function deleteSession(string $sessionId): bool
     {
         $sql = 'DELETE FROM users_sessions WHERE uuid = :uuid';
 
@@ -131,7 +131,7 @@ class PdoUsersRepository implements UsersRepository
                 SELECT us.idSession, us.uuid, us.expiration, us.idUser, us.auth_token
                 FROM users_sessions us
                 WHERE 
-                    us.idUser = :idUser
+                    us.idUser = :idUser and us.expiration >= now()
                 ;
                 ";
         $pdo = $this->db->getConnection();
@@ -144,5 +144,17 @@ class PdoUsersRepository implements UsersRepository
             return $result['uuid'];
         }
         return '';
+    }
+
+    public function deleteUserSession(int $idUser): bool
+    {
+        $sql = 'DELETE FROM users_sessions WHERE idUser = :idUser';
+
+        $pdo = $this->db->getConnection();
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':idUser', $idUser);
+        $stmt->execute();
+
+        return $stmt->rowCount() > 0;
     }
 }

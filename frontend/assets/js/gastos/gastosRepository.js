@@ -20,7 +20,17 @@ async function getBills()
     if(response.ok) {
         return await response.json();
     }
-    throw new Error('Ocurrio un error al intentar obtener las gastos realizados');
+    const errorsDetails = await response.json();
+    if(response.status === 401) {
+            const event = new CustomEvent('sessionExpired', {});
+            document.dispatchEvent(event);
+    } else {
+        throw {
+            status: response.status,
+            statusText : response.statusText,
+            details: errorsDetails
+        }
+    }
 }
 
 async function showBill(id)

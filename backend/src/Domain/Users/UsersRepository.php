@@ -8,6 +8,7 @@ interface UsersRepository
     public function addUser(User $user):int;
     public function createUserSession(User $user):string;
     public function getUserBySessionId(string $sessionId):?User;
-    public function deleteUserSession(string $sessionId):bool;
+    public function deleteSession(string $sessionId):bool;
     public function getActiveUserSession(int $idUser): string;
+    public function deleteUserSession(int $idUser): bool;
 }

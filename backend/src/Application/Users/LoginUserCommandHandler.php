@@ -62,6 +62,9 @@ class LoginUserCommandHandler
     {
         $token = $this->repository->getActiveUserSession($user->getIdUser());
         if(empty($token)) {
+            //borro sesiones previas si las hubiera
+            $this->repository->deleteUserSession($user->getIdUser());
+            //genero una nueva sesion
             $token = $this->repository->createUserSession($user);
         }
         return $token;
