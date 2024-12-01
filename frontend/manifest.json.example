@@ -1,0 +1,22 @@
+{
+    "short_name": "Nombre Programa",
+    "name": "Nombre mas largo",
+    "theme_color": "#00518C",
+    "display": "standalone",
+    "background_color": "#00518C",
+    "start_url": "/",
+    "scope": "/",
+    "description": "Descripcion amena del programa",
+    "icons": [
+        {
+            "src": "assets/images/logo_512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/images/logo_1024.png",
+            "sizes": "1024x1024",
+            "type": "image/png"
+        }
+    ]
+}
