@@ -30,12 +30,12 @@ class Periodos
 
     public static function getPeriodoActual()
     {
-        return date("m");
+        return (int) date("m");
     }
 
     public static function getAnioActual()
     {
-        return date("Y");
+        return (int) date("Y");
     }
 
 }
