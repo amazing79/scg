@@ -100,10 +100,13 @@ class PdoGastosRepository implements GastosRepository
         return $data;
     }
 
-    public function getAll(): bool|array
+    public function getAll($filter = null): bool|array
     {
         $result = [];
         $pdo = $this->db->getConnection();
+
+        $condition = !is_null($filter) ?  " WHERE fecha_gasto ${filter} " : "";
+
         $stmt = $pdo->query("
                 SELECT 
                     idGasto as id, fecha_gasto as fecha, gt.descripcion, monto, categoria, persona, observaciones
@@ -113,6 +116,7 @@ class PdoGastosRepository implements GastosRepository
                 gastos gt
                 INNER JOIN persona per ON per.idPersona = gt.persona
                 INNER JOIN categorias cat on cat.idCategoria = gt.categoria
+                ${condition}
                 ORDER BY 
                     per.apellido, per.nombre, fecha_gasto
                 "

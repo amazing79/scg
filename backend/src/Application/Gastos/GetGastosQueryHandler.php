@@ -4,6 +4,7 @@ namespace App\Application\Gastos;
 
 use App\Domain\Common\Conts\HttpStatusCode;
 use App\Domain\Common\Conts\HttpStatusMessages;
+use App\Domain\Common\Conts\Periodos;
 use App\Domain\Common\Presenter;
 use App\Domain\Gastos\GastosRepository;
 class GetGastosQueryHandler
@@ -27,7 +28,11 @@ class GetGastosQueryHandler
         $response['code'] = HttpStatusCode::INTERNAL_SERVER_ERROR;
         $response['message'] = HttpStatusMessages::getMessage(HttpStatusCode::INTERNAL_SERVER_ERROR);
         try {
-            $gastos = $this->repository->getAll();
+            //creo periodo para filtro
+            $periodo = Periodos::getPeriodoActual();
+            $anio = Periodos::getAnioActual();
+            $filterPeriodo = Periodos::makePeriodoFilter($periodo, $anio);
+            $gastos = $this->repository->getAll($filterPeriodo);
             if ($this->hasPresenter()) {
                 $gastos = $this->convertDataWithPresenter($gastos);
             }
