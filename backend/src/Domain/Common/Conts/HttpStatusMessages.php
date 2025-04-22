@@ -18,6 +18,6 @@ class HttpStatusMessages
 
     public static function getMessage(int $statusCode): string
     {
-        return self::$messages[$statusCode] ?? "Unknown status code - Codigo obtenido: ${statusCode}";
+        return self::$messages[$statusCode] ?? "Unknown status code - Codigo obtenido: {$statusCode}";
     }
 }
