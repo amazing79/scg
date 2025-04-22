@@ -6,6 +6,11 @@ use App\Domain\Users\ValueObjects\Email;
 
 class User
 {
+    /**
+     * When creating a new user, if the email is not provided or a password is not provided, an exception is thrown.
+     *
+     * @throws \Exception
+     */
     public function __construct(
         private int $idUser,
         private string $name,
@@ -56,21 +61,21 @@ class User
         return new self($idUser, $name, $email, $password, $sessionExpiration);
     }
 
-    private function assertValidUserName(string $name)
+    private function assertValidUserName(string $name): void
     {
         if(empty(trim($name))){
             throw new \Exception("Name can't be empty");
         }
     }
 
-    private function assertValidPassword(string $password)
+    private function assertValidPassword(string $password): void
     {
         if(empty(trim($password))){
             throw new \Exception("Password can't be empty");
         }
     }
 
-    private function assertValidEmail(?Email $email)
+    private function assertValidEmail(?Email $email): void
     {
         if(empty($email)){
             throw new \Exception("Email can't be empty");
