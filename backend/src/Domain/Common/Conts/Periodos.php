@@ -22,10 +22,10 @@ class Periodos
     public static function makePeriodoFilter($periodo, $anio): string
     {
         $rango = self::VALUES[$periodo];
-        $inicio = "${anio}-${rango['inicio']}";
-        $fin = "${anio}-${rango['fin']}";
+        $inicio = "{$anio}-{$rango['inicio']}";
+        $fin = "{$anio}-{$rango['fin']}";
 
-        return " between '${inicio}' and '${fin}' ";
+        return " between '{$inicio}' and '{$fin}' ";
     }
 
     public static function getPeriodoActual()
