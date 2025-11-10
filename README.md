@@ -61,4 +61,7 @@ Se debe tener en cuenta lo siguiente:
   - clave = password
   - email = email@example.com
 
-Este usuario es el que más adelante se podrá loguear en el sistema.
+Este usuario es el que más adelante se podrá loguear en el sistema. NOTA: El usuario del sistema no forma parte de las personas a las cuales
+les registramos gastos. Esto es porque en mi caso, los gastos que queria llevar el control son los de mi vieja. Por lo cual si queremos llevar 
+tambien nuestros gastos, debemos agregarnos como personas
+

@@ -14,7 +14,16 @@ function closeSession() {
     SessionManager.clearSession();
 }
 
-SessionManager.redirectToLoginIsNotActiveSession();
+document.addEventListener('DOMContentLoaded', function() {
+    SessionManager.redirectToLoginIsNotActiveSession();
+    const preloader = document.querySelector('#preloader');
+    if (preloader) {
+        window.addEventListener('load', () => {
+            preloader.remove();
+        });
+    }
+});
+
 document.getElementById('btnClose').addEventListener('click', closeSession);
 document.getElementById('btn_menu').addEventListener('click', toggleMenu);
 
