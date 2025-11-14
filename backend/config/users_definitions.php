@@ -3,6 +3,7 @@
 use App\Application\Users\GetActiveSessionUserQueryHandler;
 use App\Application\Users\LoginUserCommandHandler;
 use App\Application\Users\logoutUserCommandHandler;
+use App\Application\Users\ResetUserPasswordCommandHandler;
 use App\Infrastructure\Common\Database;
 use App\Infrastructure\Users\PdoUsersRepository;
 use DI\Container;
@@ -23,4 +24,7 @@ return [
     GetActiveSessionUserQueryHandler::class => function (Container $container) {
         return new GetActiveSessionUserQueryHandler($container->get(PdoUsersRepository::class));
     },
+    ResetUserPasswordCommandHandler::class => function (Container $container) {
+        return new ResetUserPasswordCommandHandler($container->get(PdoUsersRepository::class));
+    }
 ];

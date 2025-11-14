@@ -157,4 +157,19 @@ class PdoUsersRepository implements UsersRepository
 
         return $stmt->rowCount() > 0;
     }
+
+    public function updateUserPassword(User $user, string $newPassword): bool
+    {
+
+        $sql = 'UPDATE users SET password = :newPassword WHERE idUser = :id';
+
+        $pdo = $this->db->getConnection();
+        $stmt = $pdo->prepare($sql);
+        //al ser string se omite el type de parametro, ya que es el valor por defecto PDO::PARAM_STR
+        $stmt->bindValue(':newPassword', $newPassword );
+        $stmt->bindValue(':id', $user->getIdUser(), PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->rowCount() == 1;
+    }
 }

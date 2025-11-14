@@ -21,6 +21,7 @@ use App\Infrastructure\Slim\Actions\Personas\UpdatePersonAction;
 use App\Infrastructure\Slim\Actions\Reportes\ShowTotalBillsByPersonInPeriodAction;
 use App\Infrastructure\Slim\Actions\Users\LoginUserAction;
 use App\Infrastructure\Slim\Actions\Users\LogoutUserAction;
+use App\Infrastructure\Slim\Actions\Users\ResetUserPasswordAction;
 use App\Infrastructure\Slim\Middleware\AddJsonResponseHeader;
 use App\Infrastructure\Slim\Middleware\EnableCorsSupport;
 use App\Infrastructure\Slim\Middleware\SessionValid;
@@ -99,6 +100,7 @@ $app->group('/v1', function (RouteCollectorProxy $group) {
     })->add(SessionValid::class);
     //login
     $group->post('/login', LoginUserAction::class);
+    $group->post('/reset', ResetUserPasswordAction::class);
 });
 
 $app->run();

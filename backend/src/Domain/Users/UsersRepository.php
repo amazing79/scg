@@ -11,4 +11,5 @@ interface UsersRepository
     public function deleteSession(string $sessionId):bool;
     public function getActiveUserSession(int $idUser): string;
     public function deleteUserSession(int $idUser): bool;
+    public function updateUserPassword(User $user, string $newPassword):bool;
 }
