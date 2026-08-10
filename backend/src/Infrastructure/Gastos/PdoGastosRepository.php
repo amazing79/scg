@@ -105,7 +105,7 @@ class PdoGastosRepository implements GastosRepository
         $result = [];
         $pdo = $this->db->getConnection();
 
-        $condition = !is_null($filter) ?  " WHERE fecha_gasto ${filter} " : "";
+        $condition = !is_null($filter) ?  " WHERE fecha_gasto {$filter} " : "";
 
         $stmt = $pdo->query("
                 SELECT 
@@ -116,7 +116,7 @@ class PdoGastosRepository implements GastosRepository
                 gastos gt
                 INNER JOIN persona per ON per.idPersona = gt.persona
                 INNER JOIN categorias cat on cat.idCategoria = gt.categoria
-                ${condition}
+                {$condition}
                 ORDER BY 
                     per.apellido, per.nombre, fecha_gasto
                 "
@@ -135,14 +135,14 @@ class PdoGastosRepository implements GastosRepository
     public function find($filter)
     {
         $method = __METHOD__;
-        throw new \Exception("Metodo ${method} aún no ha sido implementado");
+        throw new \Exception("Metodo {$method} aún no ha sido implementado");
     }
 
     public function getGastosByPersona(int $personaId, $periodo = null): array
     {
         $result = [];
 
-        $condition = !is_null($periodo) ? " and fecha_gasto ${periodo} " : "";
+        $condition = !is_null($periodo) ? " and fecha_gasto {$periodo} " : "";
 
         $pdo = $this->db->getConnection();
         $sql = "
@@ -155,7 +155,7 @@ class PdoGastosRepository implements GastosRepository
                 INNER JOIN persona per ON per.idPersona = gt.persona
                 INNER JOIN categorias cat on cat.idCategoria = gt.categoria
                 where gt.persona = :idPersona
-                ${condition}
+                {$condition}
                 ORDER BY 
                     fecha_gasto
                 ";
@@ -177,7 +177,7 @@ class PdoGastosRepository implements GastosRepository
     public function getGastosByCategoriaPersonaPeriodo($periodo = null): array
     {
         $result = [];
-        $condition = !is_null($periodo) ? " where fecha_gasto ${periodo} " : "";
+        $condition = !is_null($periodo) ? " where fecha_gasto {$periodo} " : "";
 
         $pdo = $this->db->getConnection();
         $sql = "
@@ -185,7 +185,7 @@ class PdoGastosRepository implements GastosRepository
             from gastos gt
             inner join persona per on per.idPersona = gt.persona
             inner join categorias cat on (cat.idCategoria = gt.categoria)
-            ${condition}
+            {$condition}
             group by idPersona, idCategoria
             order by idPersona, idCategoria
             ;
@@ -208,7 +208,7 @@ class PdoGastosRepository implements GastosRepository
            select persona as idPersona, concat(per.apellido, ', ', per.nombre) as apellidoNombre  ,sum(monto) as 'total'
             from gastos gt
             inner join persona per on per.idPersona = gt.persona
-            where fecha_gasto ${periodo}
+            where fecha_gasto {$periodo}
             group by persona
             order by 2
         ";

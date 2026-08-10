@@ -89,6 +89,6 @@ class PdoPersonasRepository implements PersonasRepository
     public function find($filter)
     {
         $method = __METHOD__;
-        throw new \Exception("Metodo ${method} aún no ha sido implementado");
+        throw new \Exception("Metodo {$method} aún no ha sido implementado");
     }
 }
